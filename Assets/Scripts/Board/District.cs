@@ -1,18 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-
-public class District : MonoBehaviour
+public class District
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string Name { get; set; }
+    public BuyableSpace[] Spaces { get; set; }
+    public int StockPrice { get; set; }
+    public Dictionary<Player, int> stocksBought = new Dictionary<Player, int>();
 }
