@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public string Name;
-
     //an enum to keep track of what the player is doing
     public enum TurnState 
     { 
@@ -18,6 +17,7 @@ public class Player : MonoBehaviour
 
     int id;
     int level;
+    
     PlayerMovement movement;
     // Start is called before the first frame update
     void Start()
@@ -35,4 +35,5 @@ public class Player : MonoBehaviour
     {
         movement.currentSpace = space;
     }
+
 }

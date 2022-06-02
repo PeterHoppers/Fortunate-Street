@@ -5,7 +5,7 @@ using UnityEngine;
 public class SuiteManager : MonoBehaviour
 {
     public static Dictionary<Player, List<Suite>> suites = new Dictionary<Player, List<Suite>>();
-    public const double moneyGainedIfAlreadyHasSuite = 100;
+    public const int suitMoneyValue = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,10 @@ public class SuiteManager : MonoBehaviour
         }
         else 
         {
-            //the player gain value found at moneyGainedIfAlreadyHasSuite
+            //the player gains money according to suitMoneyValue
+            //Called this way due to this method being static
+            MoneyManager moneyManager = new MoneyManager();
+            moneyManager.GainMoney(GameManager.GetGameManager().activePlayer, suitMoneyValue);
         }
     }
 }

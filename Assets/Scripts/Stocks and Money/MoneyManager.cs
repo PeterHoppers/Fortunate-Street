@@ -14,7 +14,7 @@ public class MoneyManager : MonoBehaviour
         {
             if (player != null)
             {
-                wallet.Add(player, gameManager.startingAmt);
+                wallet.Add(player, gameManager.startingMoney);
             }
         }
     }
