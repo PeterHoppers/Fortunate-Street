@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     }
 
     public Player[] players;
-    public double startingAmt;
-    Player activePlayer;
+    public double startingMoney;
+    public Player activePlayer;
     double totalValueToWin;
 
     // Start is called before the first frame update
