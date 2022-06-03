@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c37efc323efd64bb50712956279189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suite: 3
+  suite: 1
 --- !u!65 &70972081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -543,10 +543,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 200
   investmentAmt: 1000
-  shopValue: 100
 --- !u!65 &173016136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -764,10 +764,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 200
   investmentAmt: 1000
-  shopValue: 100
 --- !u!65 &288095840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -880,10 +880,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 250
   investmentAmt: 750
-  shopValue: 75
 --- !u!65 &290481714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1124,6 +1124,7 @@ GameObject:
   - component: {fileID: 722611120}
   - component: {fileID: 722611119}
   - component: {fileID: 722611118}
+  - component: {fileID: 722611123}
   m_Layer: 0
   m_Name: Tailor
   m_TagString: Untagged
@@ -1145,10 +1146,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 221899907}
+  shopValue: 0
   isOpen: 1
   shopPrice: 100
   investmentAmt: 500
-  shopValue: 50
 --- !u!65 &722611119
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1227,6 +1228,20 @@ Transform:
   m_Father: {fileID: 221899908}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &722611123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722611117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1122474018}
 --- !u!1 &766863662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,10 +1276,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 200
   investmentAmt: 1000
-  shopValue: 100
 --- !u!65 &766863664
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1377,10 +1392,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 250
   investmentAmt: 750
-  shopValue: 75
 --- !u!65 &942229300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1557,8 +1572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
-  startingMoney: 0
   activePlayer: {fileID: 0}
+  startingMoney: 100
+  totalValueToWin: 1000
 --- !u!1 &974662860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,10 +1687,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 200
   investmentAmt: 1000
-  shopValue: 100
 --- !u!1 &1036180629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,10 +1803,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 120
   investmentAmt: 600
-  shopValue: 60
 --- !u!1 &1043280388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,6 +1820,7 @@ GameObject:
   - component: {fileID: 1043280391}
   - component: {fileID: 1043280390}
   - component: {fileID: 1043280389}
+  - component: {fileID: 1043280394}
   m_Layer: 0
   m_Name: Tailor
   m_TagString: Untagged
@@ -1825,10 +1842,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 1508960555}
+  shopValue: 0
   isOpen: 1
   shopPrice: 100
   investmentAmt: 500
-  shopValue: 50
 --- !u!65 &1043280390
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1907,6 +1924,20 @@ Transform:
   m_Father: {fileID: 1508960556}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1043280394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043280388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1659084050}
 --- !u!1 &1122474013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1920,6 +1951,7 @@ GameObject:
   - component: {fileID: 1122474016}
   - component: {fileID: 1122474015}
   - component: {fileID: 1122474018}
+  - component: {fileID: 1122474019}
   m_Layer: 0
   m_Name: Tailor
   m_TagString: Untagged
@@ -2019,10 +2051,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 97238281}
+  shopValue: 0
   isOpen: 1
   shopPrice: 100
   investmentAmt: 500
-  shopValue: 50
+--- !u!114 &1122474019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122474013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1610739290}
+  - {fileID: 722611118}
+  - {fileID: 1036180634}
 --- !u!1 &1124818993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,6 +2084,7 @@ GameObject:
   - component: {fileID: 1124818996}
   - component: {fileID: 1124818995}
   - component: {fileID: 1124818994}
+  - component: {fileID: 1124818999}
   m_Layer: 0
   m_Name: Tailor
   m_TagString: Untagged
@@ -2057,10 +2106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 1741667931}
+  shopValue: 0
   isOpen: 1
   shopPrice: 100
   investmentAmt: 500
-  shopValue: 50
 --- !u!65 &1124818995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2139,6 +2188,20 @@ Transform:
   m_Father: {fileID: 1741667932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1124818999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124818993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1659084050}
 --- !u!1 &1149172732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2516,10 +2579,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 120
   investmentAmt: 600
-  shopValue: 60
 --- !u!65 &1496070178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2687,10 +2750,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 200
   investmentAmt: 1000
-  shopValue: 100
 --- !u!65 &1513957673
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2949,10 +3012,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 250
   investmentAmt: 750
-  shopValue: 75
 --- !u!65 &1594496805
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3044,6 +3107,7 @@ GameObject:
   - component: {fileID: 1610739292}
   - component: {fileID: 1610739291}
   - component: {fileID: 1610739290}
+  - component: {fileID: 1610739295}
   m_Layer: 0
   m_Name: Tailor
   m_TagString: Untagged
@@ -3065,10 +3129,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 578177936}
+  shopValue: 0
   isOpen: 1
   shopPrice: 100
   investmentAmt: 500
-  shopValue: 50
 --- !u!65 &1610739291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3147,6 +3211,20 @@ Transform:
   m_Father: {fileID: 578177937}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610739295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610739289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1122474018}
 --- !u!1 &1611093886
 GameObject:
   m_ObjectHideFlags: 0
@@ -3195,9 +3273,11 @@ MonoBehaviour:
   - {fileID: 1043280389}
   - {fileID: 1623735951}
   - {fileID: 1513957672}
+  - {fileID: 1714436477}
   - {fileID: 1594496804}
   - {fileID: 1468295146}
   - {fileID: 942229299}
+  - {fileID: 1526984686}
   - {fileID: 766863663}
   - {fileID: 1762494451}
   - {fileID: 722611118}
@@ -3235,10 +3315,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 120
   investmentAmt: 600
-  shopValue: 60
 --- !u!65 &1623735952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3365,11 +3445,13 @@ MonoBehaviour:
   - {fileID: 1610739290}
   - {fileID: 1891363315}
   - {fileID: 288095839}
+  - {fileID: 1897012351}
   - {fileID: 1709446729}
   - {fileID: 14989174}
   - {fileID: 290481713}
-  - {fileID: 1496070177}
+  - {fileID: 70972080}
   - {fileID: 173016135}
+  - {fileID: 1496070177}
   - {fileID: 1124818994}
 --- !u!1 &1659084045
 GameObject:
@@ -3384,6 +3466,7 @@ GameObject:
   - component: {fileID: 1659084048}
   - component: {fileID: 1659084047}
   - component: {fileID: 1659084050}
+  - component: {fileID: 1659084051}
   m_Layer: 0
   m_Name: Bakery
   m_TagString: Untagged
@@ -3483,10 +3566,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 250
   investmentAmt: 750
-  shopValue: 75
+--- !u!114 &1659084051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659084045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedSpaces:
+  - {fileID: 1124818994}
+  - {fileID: 1043280389}
+  - {fileID: 974662865}
 --- !u!1 &1709446728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3521,10 +3620,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 250
   investmentAmt: 750
-  shopValue: 75
 --- !u!65 &1709446730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3803,10 +3902,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 120
   investmentAmt: 600
-  shopValue: 60
 --- !u!65 &1762494452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3919,10 +4018,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   district: {fileID: 0}
+  shopValue: 0
   isOpen: 1
   shopPrice: 120
   investmentAmt: 600
-  shopValue: 60
 --- !u!65 &1891363316
 BoxCollider:
   m_ObjectHideFlags: 0

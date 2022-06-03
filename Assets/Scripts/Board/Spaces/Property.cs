@@ -6,7 +6,6 @@ public class Property : BuyableSpace
 {
     public double shopPrice;
     public double investmentAmt;
-    public int shopValue;
 
     public void ChangePrice(double percentage)
     {

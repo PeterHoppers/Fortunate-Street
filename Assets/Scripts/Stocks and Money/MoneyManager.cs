@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneyManager : MonoBehaviour
+/// <summary>
+/// Keeps track of all the logic needed to calucate money and monitary transactions
+/// </summary>
+public class MoneyManager
 {
-    public static Dictionary<Player, double> wallet = new Dictionary<Player, double>();
-    
+    public static Dictionary<Player, int> wallet = new Dictionary<Player, int>();
+
     // Start is called before the first frame update
-    void Start()
+
+    public static void SetupMoney(Player[] players, int startingMoney)
     {
-        GameManager gameManager = GameManager.GetGameManager();
-        foreach (Player player in gameManager.players)
+        foreach (Player player in players)
         {
             if (player != null)
             {
-                wallet.Add(player, gameManager.startingMoney);
+                wallet.Add(player, startingMoney);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public static void GainMoney(Player player, int amount)
@@ -34,5 +31,10 @@ public class MoneyManager : MonoBehaviour
     {
         wallet[payer] -= amount;
         wallet[getter] += amount;
+    }
+
+    public static int GetPlayerMoneyValue(Player player)
+    {
+        return wallet[player];
     }
 }

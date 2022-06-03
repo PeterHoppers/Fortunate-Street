@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StockManager : MonoBehaviour
+/// <summary>
+/// Controls the logic for anything related to stocks.
+/// </summary>
+public class StockManager
 {
     static District[] districts;
-    // Start is called before the first frame update
-    void Start()
+
+    public static void SetupStocks()
     {
         districts = BoardManager.districts.ToArray();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public static void BuyStock(Player player, District district, int amount) 
@@ -34,9 +31,9 @@ public class StockManager : MonoBehaviour
         district.StockPrice += (int) ((percentChange + 1) * district.StockPrice);
     }
 
-    public static double GetPlayerStockWorth(Player player)
+    public static int GetPlayerStockWorth(Player player)
     {
-        double stockWorth = 0;
+        int stockWorth = 0;
 
         foreach (District district in districts)
         {

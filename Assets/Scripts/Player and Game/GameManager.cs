@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Pulls in information from outside the scene, plus info set by developers to set up and run the game
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     private GameManager()
@@ -14,16 +17,22 @@ public class GameManager : MonoBehaviour
     }
 
     public Player[] players;
-    public double startingMoney;
     public Player activePlayer;
-    double totalValueToWin;
+    public int startingMoney;
+    public int totalValueToWin;
 
-    int baseSalary;
+    int baseSalary = 100;
 
     // Start is called before the first frame update
     void Awake()
     {
+        players = FindObjectsOfType<Player>();
+        Debug.Log($"Found {players.Length} players");
+
         BoardManager.SetupBoard();
+        MoneyManager.SetupMoney(players, startingMoney);
+        SuiteManager.SetupSuites(players);
+        StockManager.SetupStocks();        
     }
 
     // Update is called once per frame
@@ -34,15 +43,21 @@ public class GameManager : MonoBehaviour
 
     public void LevelUpPlayer(Player player)
     {
+        //the following logic is pulled from the game, although unsure what base salary is
         int moneyGained = baseSalary + (100 * player.level) + (BoardManager.GetPlayerShops(player).Count / 10);
         MoneyManager.GainMoney(player, moneyGained);
         player.level++;
     }
 
-    public bool HasPlayerWon(Player player)
+    public void CheckPlayerWon(Player player)
     {
-        int playerTotalValue = 0;
+        int playerTotalValue = MoneyManager.GetPlayerMoneyValue(player)
+            + StockManager.GetPlayerStockWorth(player)
+            + BoardManager.GetPlayerBoardValue(player);
         //calcuate the total value of the player
-        return (playerTotalValue > totalValueToWin);
+        if (playerTotalValue > totalValueToWin)
+        {
+            Debug.Log("Player has won!");
+        }
     }
 }

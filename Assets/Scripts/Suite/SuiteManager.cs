@@ -2,27 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuiteManager : MonoBehaviour
+/// <summary>
+/// Controls the logic for anything related to suites (or suit, or whatever we rename this to)
+/// </summary>
+public class SuiteManager
 {
     public static Dictionary<Player, List<Suite>> suites = new Dictionary<Player, List<Suite>>();
     public const int suitMoneyValue = 100;
     // Start is called before the first frame update
-    void Start()
+
+    public static void SetupSuites(Player[] players)
     {
         //foreach Player, add them to the suites dictionary
-        foreach (Player player in GameManager.GetGameManager().players) 
+        foreach (Player player in players)
         {
             if (player != null)
             {
                 suites.Add(player, new List<Suite>());
             }
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public static void GetSuite(Player player, Suite suite)
@@ -30,6 +29,7 @@ public class SuiteManager : MonoBehaviour
         if (!suites[player].Contains(suite))
         {
             suites[player].Add(suite);
+            Debug.Log($"{player.name} got {suite}");
         }
         else 
         {

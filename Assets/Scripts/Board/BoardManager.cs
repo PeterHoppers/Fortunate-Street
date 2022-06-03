@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// Keeps track of the logic needed to understand how the board is connected and who owns pieces of the board
+/// </summary>
 public class BoardManager : MonoBehaviour
 {
     public static Space[] board;
@@ -43,5 +46,17 @@ public class BoardManager : MonoBehaviour
     public static BoardSection GetBoardSectionOfSpace(Space space)
     {
         return sections.Where(section => section.spaces.Contains(space)).First();
+    }
+
+    /// <summary>
+    /// Convert the properties that player owns into a number of its total value
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static int GetPlayerBoardValue(Player player)
+    {
+        List<BuyableSpace> ownedProperties = GetPlayerShops(player);
+
+        return ownedProperties.Sum(p => p.shopValue);
     }
 }

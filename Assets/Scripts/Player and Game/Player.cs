@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public string Name;
-    //an enum to keep track of what the player is doing
+    //an enum to keep track of what the player is doing. Would like to use it to control when the player is in menus and when the player can move
     public enum TurnState 
     { 
         BeforeRoll,
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     TurnState turnState;
 
     public int id;
-    public int level;
+    public int level = 1;
     
     PlayerMovement movement;
     // Start is called before the first frame update
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     public void GetMoved(Space space)
     {
-        movement.currentSpace = space;
+        movement.TeleportToSpace(space);
     }
 
 }

@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
 
     int indexInSection;
     int spacesToMove;
-    int spaceInSection;
 
     Player player;
     // Start is called before the first frame update
     void Start()
     {
+        //player should start at the bank
         Space bankSpace = GameObject.FindGameObjectWithTag("Bank").GetComponent<Space>();
         TeleportToSpace(bankSpace);
     }
@@ -36,10 +36,13 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                //we might need to restructe this part of the code so that it returns a list of options to move to
+                //then the user selects which one to go to
+                //since while the player is normally walking around the board they have the option to go backwards?
                 Intersection intersection = currentSpace.GetComponent<Intersection>();
                 if (intersection != null)
                 {
-                    MoveToNewSection(intersection); //possibly make this a courintine until the user selects where to go
+                    MoveToNewSection(intersection); 
                 }
                 else 
                 {
@@ -71,15 +74,44 @@ public class PlayerMovement : MonoBehaviour
         return UnityEngine.Random.Range(1, 7);
     }
 
-    public void TeleportToSpace(Space space)
+
+    /// <summary>
+    /// Needs a new name. Called when the player teleports or makes a decision at an intersection. Contains logic for moving and detecting if the 
+    /// player has switched board sections. Whenever the player might have switched sections, it is better to call this than MoveToSpace()
+    /// </summary>
+    /// <param name="space"></param>
+    /// <param name="hasTeleported"></param>
+    public void TeleportToSpace(Space space, bool hasTeleported = false)
     {
         MoveToSpace(space);
-        currentBoardSection = BoardManager.GetBoardSectionOfSpace(space); //only need to figure this out when we drastically move across the board
+        currentBoardSection = BoardManager.GetBoardSectionOfSpace(space);
         indexInSection = Array.IndexOf(currentBoardSection.spaces, space); //figure out where in the array we are for the board section
+
+        //we might need a better system here to figure out if the player is now moving forwards or backwards through a section
+        Debug.Log($"Index in new section: {indexInSection}");
+        isForward = (indexInSection < currentBoardSection.spaces.Length / 2);
+
+        /* Old way of doing this. Issue popped up when an intersection was the last or first element of board section
+            * and then moved the player onto the 2nd to last or 2nd element of the board section to move them along that section
+        if (indexInSection == 0)
+        {
+            isForward = true;
+        }
+        else if (indexInSection == currentBoardSection.spaces.Length - 1)
+        {
+            isForward = false;
+        }
+        */
     }
 
     public void MoveToSpace(Space space)
-    { 
+    {
+        //save the previous space as the space entered from
+        if (space.GetComponent<Intersection>())
+        {
+            space.GetComponent<Intersection>().EnterIntersection(player, currentSpace);
+        }
+
         player.transform.position = new Vector3(space.transform.position.x, 1, space.transform.position.z);
         currentSpace = space;        
     }
@@ -96,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
             indexInSection--;
         }
 
+        //we should probably throw an error that mentions the board has been set up improperly if we get an OutOfRange error here
         Space targetSpace = currentBoardSection.spaces[indexInSection];
 
         MoveToSpace(targetSpace);
@@ -103,48 +136,32 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveToNewSection(Intersection intersection)
     {
-        //TODO: we need to remove the space we just came from as an option to move to
-        List<BoardSection> possibleSections = intersection.connectingSections.ToList();
-        List<Space> possibleTargetSpaces = intersection.connectedSpaces.ToList();
-        /*
-         * 
-        int currentIndexOfSection = possibleSections.IndexOf(currentBoardSection);
+        List<Space> possibleTargetSpaces = intersection.GetPossibleSpaces(player);
 
-        if (currentIndexOfSection > -1)
+        Debug.Log("Possible options:");
+        foreach (Space possibleSpace in possibleTargetSpaces)
         {
-            possibleSections.RemoveAt(currentIndexOfSection);
-            possibleTargetSpaces.RemoveAt(currentIndexOfSection);
+            Debug.Log($"Space: {possibleSpace}");
         }
 
-        if (possibleTargetSpaces.Contains(currentSpace))
+        //if removing the previous space removes all possible target spaces, treat this like a normal space
+        if (possibleTargetSpaces.Count == 0)
         {
-            possibleTargetSpaces.Remove(currentSpace);
-        }*/
-
+            MoveNextSpace();
+                     
+        }
         //if there's only one possible section, move to it
-        if (possibleSections.Count == 1)
+        else if (possibleTargetSpaces.Count == 1)
         {
-            currentBoardSection = possibleSections[0];
-            MoveToSpace(possibleTargetSpaces[0]);
+            TeleportToSpace(possibleTargetSpaces[0]);
         }
-        else  //have the user choose which direction to go
+        else  
         {
-            int targetDirection = UnityEngine.Random.Range(0, possibleSections.Count);
-            currentBoardSection = possibleSections[targetDirection];
+            int targetDirection = UnityEngine.Random.Range(0, possibleTargetSpaces.Count); //have the user choose which direction to go, rather than random
             Space targetSpace = possibleTargetSpaces[targetDirection];
-            indexInSection = Array.IndexOf(currentBoardSection.spaces, targetSpace);
-
-            //say the interaction is at 0 for section, we need to keep moving forward in the section
-            if (indexInSection == 0)
-            {
-                isForward = true;
-            }
-            else if (indexInSection == currentBoardSection.spaces.Length - 1)
-            {
-                isForward = false;
-            }
-
-            MoveToSpace(targetSpace);
+            TeleportToSpace(targetSpace);            
         }
+
+        intersection.LeaveIntersection(player);
     }
 }
