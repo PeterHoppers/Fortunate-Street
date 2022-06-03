@@ -15,14 +15,15 @@ public class Player : MonoBehaviour
     }
     TurnState turnState;
 
-    int id;
-    int level;
+    public int id;
+    public int level;
     
     PlayerMovement movement;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        movement = GetComponent<PlayerMovement>();
+        movement.SetPlayer(this);
     }
 
     // Update is called once per frame

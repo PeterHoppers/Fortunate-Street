@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
-    public Dictionary<Player, double> wallet = new Dictionary<Player, double>();
+    public static Dictionary<Player, double> wallet = new Dictionary<Player, double>();
     
     // Start is called before the first frame update
     void Start()
@@ -25,12 +25,12 @@ public class MoneyManager : MonoBehaviour
         
     }
 
-    public void GainMoney(Player player, int amount)
+    public static void GainMoney(Player player, int amount)
     {
         wallet[player] += amount;
     }
 
-    public void PlayerTransaction(Player payer, Player getter, int amount)
+    public static void PlayerTransaction(Player payer, Player getter, int amount)
     {
         wallet[payer] -= amount;
         wallet[getter] += amount;

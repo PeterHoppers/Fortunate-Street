@@ -34,9 +34,12 @@ public class SuiteManager : MonoBehaviour
         else 
         {
             //the player gains money according to suitMoneyValue
-            //Called this way due to this method being static
-            MoneyManager moneyManager = new MoneyManager();
-            moneyManager.GainMoney(GameManager.GetGameManager().activePlayer, suitMoneyValue);
+            MoneyManager.GainMoney(player, suitMoneyValue);
         }
+    }
+
+    public static void ClearSuites(Player player)
+    {
+        suites[player] = new List<Suite>();
     }
 }

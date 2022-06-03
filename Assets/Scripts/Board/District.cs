@@ -1,8 +1,15 @@
 using System.Collections.Generic;
-public class District
+using UnityEngine;
+public class District: MonoBehaviour
 {
-    public string Name { get; set; }
-    public BuyableSpace[] Spaces { get; set; }
-    public int StockPrice { get; set; }
+    public string Name;
+    public BuyableSpace[] Spaces;
+    public int StockPrice;
+
     public Dictionary<Player, int> stocksBought = new Dictionary<Player, int>();
+
+    public int PlayerValueForDistrict(Player player)
+    {
+        return stocksBought[player] * StockPrice;
+    }
 }

@@ -8,6 +8,7 @@ public class SuiteSpace : Space
     public override void OnPlayerLand(Player player)
     {
         SuiteManager.GetSuite(player, suite);
+        //run chance time
     }
 
     public override void OnPlayerPass(Player player)

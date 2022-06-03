@@ -6,7 +6,7 @@ public class Property : BuyableSpace
 {
     public double shopPrice;
     public double investmentAmt;
-    public double shopValue;
+    public int shopValue;
 
     public void ChangePrice(double percentage)
     {
@@ -15,16 +15,28 @@ public class Property : BuyableSpace
 
     public override void OnPlayerLand(Player player)
     {
-        throw new System.NotImplementedException();
+        //offer to the player if they want to buy this space
+        if (owner == null)
+        {
+            Debug.Log("Do you want to buy this space?");
+            Debug.Log("Hey, yay, you do!");
+            OnSpaceBought(player);
+        }
+        else if (owner != player)
+        {
+            Debug.Log("Pay up!");
+            MoneyManager.PlayerTransaction(player, owner, shopValue);
+        }
+        
     }
 
     public override void OnPlayerPass(Player player)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnSpaceBought(Player player)
     {
-        throw new System.NotImplementedException();
+        this.owner = player;
     }
 }

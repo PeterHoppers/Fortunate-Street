@@ -5,13 +5,17 @@ using System.Linq;
 
 public class BoardManager : MonoBehaviour
 {
-    public static List<Space> board = new List<Space>();
-    public static List<District> districts = new List<District>();
-    static List<BuyableSpace> shops = new List<BuyableSpace>();
+    public static Space[] board;
+    static BuyableSpace[] shops;
+    public static District[] districts;
+    static BoardSection[] sections;
 
-    void Start()
+    public static void SetupBoard()
     {
-        //foreach space in board, if it is a buyable space, add it to shops
+        board = FindObjectsOfType<Space>();
+        shops = FindObjectsOfType<BuyableSpace>();
+        sections = FindObjectsOfType<BoardSection>();
+        districts = FindObjectsOfType<District>();
     }
 
     public static void MovePlayerToSpace(Player player, Space space) 
@@ -32,5 +36,12 @@ public class BoardManager : MonoBehaviour
         }
 
         //note, at the start of a player's turn, their shops reopen
+        //need logic to keep track of that
+    }
+
+    //return the boardsection that is holding the target space
+    public static BoardSection GetBoardSectionOfSpace(Space space)
+    {
+        return sections.Where(section => section.spaces.Contains(space)).First();
     }
 }

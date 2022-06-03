@@ -5,7 +5,7 @@ using System.Linq;
 
 public class StockManager : MonoBehaviour
 {
-    District[] districts;
+    static District[] districts;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,23 +18,23 @@ public class StockManager : MonoBehaviour
         
     }
 
-    public void BuyStock(Player player, District district, int amount) 
+    public static void BuyStock(Player player, District district, int amount) 
     {
         district.stocksBought[player] += amount;
     }
 
-    public void ChangeStockValue(District district, int amtChange) 
+    public static void ChangeStockValue(District district, int amtChange) 
     {
         district.StockPrice += amtChange;
     }
 
-    public void ChangeStockValue(District district, double percentChange)
+    public static void ChangeStockValue(District district, double percentChange)
     {
         //percent change to the stockPrice
         district.StockPrice += (int) ((percentChange + 1) * district.StockPrice);
     }
 
-    public double GetPlayerStockWorth(Player player)
+    public static double GetPlayerStockWorth(Player player)
     {
         double stockWorth = 0;
 

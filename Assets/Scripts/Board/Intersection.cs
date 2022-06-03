@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Intersection : MonoBehaviour
 {
+    [Tooltip("For now, the first index of connected Space needs to be included in the first section of connecting sections")]
     public BoardSection[] connectingSections;
-    Space space;
+    public Space[] connectedSpaces;
 
-    private void Start()
-    {
-        space = GetComponent<Space>();
-    }
+    //public Dictionary<BoardSection, Space> connectingSections;
 }
