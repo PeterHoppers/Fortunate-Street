@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     {
         //the following logic is pulled from the game, although unsure what base salary is
         int moneyGained = baseSalary + (100 * player.level) + (BoardManager.GetPlayerShops(player).Count / 10);
-        MoneyManager.GainMoney(player, moneyGained);
+        MoneyManager.MoneyChanged(player, moneyGained);
         player.level++;
     }
 

@@ -53,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
 
                 if (spacesToMove == 0)
                 {
-                    currentSpace.OnPlayerLand(player);
+                    currentSpace.PlayerLanded(player);
                 }
                 else
                 {
-                    currentSpace.OnPlayerPass(player);
+                    currentSpace.PlayerPassed(player);
                 }                                  
             }
             

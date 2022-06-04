@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class RollAgain : Space
 {
-    public override void OnPlayerLand(Player player)
+    public override void PlayerLanded(Player player)
     {
+        base.PlayerLanded(player);
         //roll again
     }
 
-    public override void OnPlayerPass(Player player)
+    public override void PlayerPassed(Player player)
     {
+        base.PlayerPassed(player);
         //do nothing
     }
 }

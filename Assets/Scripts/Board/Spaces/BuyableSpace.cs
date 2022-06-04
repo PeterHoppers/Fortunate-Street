@@ -7,5 +7,14 @@ public abstract class BuyableSpace : Space
 
     public bool isOpen;
 
-    public abstract void OnSpaceBought(Player player);
+    public delegate void PlayerBuySpace(Player player, Space space);
+    public event PlayerBuySpace OnSpaceBought;
+
+    public virtual void SpaceBought(Player player)
+    {
+        if (OnSpaceBought != null)
+        {
+            OnSpaceBought(player, this);
+        }         
+    }
 }

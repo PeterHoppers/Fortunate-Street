@@ -34,7 +34,7 @@ public class SuiteManager
         else 
         {
             //the player gains money according to suitMoneyValue
-            MoneyManager.GainMoney(player, suitMoneyValue);
+            MoneyManager.MoneyChanged(player, suitMoneyValue);
         }
     }
 

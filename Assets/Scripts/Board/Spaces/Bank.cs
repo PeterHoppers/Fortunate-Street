@@ -10,14 +10,16 @@ public class Bank : Space
     {
         gameManager = GameManager.GetGameManager();
     }
-    public override void OnPlayerPass(Player player)
+    public override void PlayerPassed(Player player)
     {
+        base.PlayerPassed(player);
         BankVisit(player);
         gameManager.CheckPlayerWon(player);
     }
 
-    public override void OnPlayerLand(Player player)
+    public override void PlayerLanded(Player player)
     {
+        base.PlayerLanded(player);
         BankVisit(player);
         gameManager.CheckPlayerWon(player);
         //clear movement choice for the player
