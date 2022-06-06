@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public string Name;
+    public string playerName;
+    public Color32 color;
     //an enum to keep track of what the player is doing. Would like to use it to control when the player is in menus and when the player can move
     public enum TurnState 
     { 
@@ -35,6 +36,16 @@ public class Player : MonoBehaviour
     public void GetMoved(Space space)
     {
         movement.TeleportToSpace(space);
+    }
+
+    public void MakePlayerActive()
+    {
+        movement.enabled = true;
+    }
+
+    public void StopPlayerActive()
+    {
+        movement.enabled = false;
     }
 
 }

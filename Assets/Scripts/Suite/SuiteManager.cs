@@ -9,9 +9,11 @@ public class SuiteManager
 {
     public static Dictionary<Player, List<Suite>> suites = new Dictionary<Player, List<Suite>>();
     public const int suitMoneyValue = 100;
-    // Start is called before the first frame update
 
-    public static void SetupSuites(Player[] players)
+    public delegate void PlayerGotSuite(Player player, Suite suite);
+    public static event PlayerGotSuite OnPlayerGotSuite;
+
+    public static void SetupSuites(List<Player> players)
     {
         //foreach Player, add them to the suites dictionary
         foreach (Player player in players)
@@ -30,6 +32,7 @@ public class SuiteManager
         {
             suites[player].Add(suite);
             Debug.Log($"{player.name} got {suite}");
+            OnPlayerGotSuite?.Invoke(player, suite);
         }
         else 
         {

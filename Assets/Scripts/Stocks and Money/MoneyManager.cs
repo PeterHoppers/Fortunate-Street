@@ -14,7 +14,7 @@ public class MoneyManager
 
     // Start is called before the first frame update
 
-    public static void SetupMoney(Player[] players, int startingMoney)
+    public static void SetupMoney(List<Player> players, int startingMoney)
     {
         foreach (Player player in players)
         {
@@ -24,7 +24,11 @@ public class MoneyManager
             }
         }
     }
-
+    /// <summary>
+    /// The change in money for a user. Enter amount as a negative for if they spend the money
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="amount"></param>
     public static void MoneyChanged(Player player, int amount)
     {
         int previousAmt = wallet[player];

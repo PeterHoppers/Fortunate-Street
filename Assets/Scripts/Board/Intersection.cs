@@ -36,7 +36,6 @@ public class Intersection : MonoBehaviour
 
     public void LeaveIntersection(Player player)
     {
-        Debug.Log($"Player has left {this.GetInstanceID()}");
         spaceEnteredFrom.Remove(player);
     }    
 }

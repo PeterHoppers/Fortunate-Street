@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject allPlayerStatsPanel;
+    public GameObject statsPanel;
+
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -15,6 +18,26 @@ public class UIManager : MonoBehaviour
     {
         Space.OnPlayerPass -= ReportMovement;
         MoneyManager.OnPlayerMoneyChanged -= UpdateMoneyUI;
+    }
+
+    public void SetupUI(List<Player> players)
+    {
+        foreach (Player player in players)
+        {
+            if (player != null)
+            {
+                GameObject statPanel = Instantiate(statsPanel, allPlayerStatsPanel.transform);
+                PlayerOverviewUI overview = statPanel.GetComponent<PlayerOverviewUI>();
+
+                if (overview == null)
+                {
+                    Debug.LogError("Game object provided for player overview does not have the right script attached");
+                    return;
+                }
+
+                overview.SetPlayer(player);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -37,12 +60,12 @@ public class UIManager : MonoBehaviour
             name = space.name;
         }
 
-        Debug.Log($"{player.name} has passed {name}");
+        Debug.Log($"{player.playerName} has passed {name}");
     }
 
     void UpdateMoneyUI(Player player, int oldAmount, int newAmount)
     {
-        Debug.Log($"{player.name}'s money has gone from {oldAmount} to {newAmount}");
+        Debug.Log($"{player.playerName}'s money has gone from {oldAmount} to {newAmount}");
     }
 
 }

@@ -14,12 +14,14 @@ public class PlayerMovement : MonoBehaviour
     int spacesToMove;
 
     Player player;
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         //player should start at the bank
         Space bankSpace = GameObject.FindGameObjectWithTag("Bank").GetComponent<Space>();
         TeleportToSpace(bankSpace);
+        gameManager = Camera.main.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
                 if (spacesToMove == 0)
                 {
                     currentSpace.PlayerLanded(player);
+                    gameManager.AdvanceTurn();
                 }
                 else
                 {
