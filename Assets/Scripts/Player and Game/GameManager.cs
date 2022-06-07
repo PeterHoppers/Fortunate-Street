@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerLevelUp(Player player);
     public static event PlayerLevelUp OnPlayerLevelUp;
 
+    public delegate void PlayerActiveChange(Player player);
+    public static event PlayerActiveChange OnPlayerActiveChange;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -134,5 +138,6 @@ public class GameManager : MonoBehaviour
     {
         player.MakePlayerActive();
         activePlayer = player;
+        OnPlayerActiveChange?.Invoke(player);
     }
 }

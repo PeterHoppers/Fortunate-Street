@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
 
     Player player;
     GameManager gameManager;
+
+    public delegate void PlayerRolled(Player player, int spaces);
+    public static event PlayerRolled OnPlayerRolled;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,40 +34,36 @@ public class PlayerMovement : MonoBehaviour
         //mocking up some controls
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //if we aren't moving anywhere, roll
+            //if we aren't moving anywhere, don't allow the player to move
             if (spacesToMove == 0)
             {
-                spacesToMove = RollDice();
-                Debug.Log($"How many spaces we're moving {spacesToMove}");
+                return;
+            }
+
+            //we might need to restructe this part of the code so that it returns a list of options to move to
+            //then the user selects which one to go to
+            //since while the player is normally walking around the board they have the option to go backwards?
+            Intersection intersection = currentSpace.GetComponent<Intersection>();
+            if (intersection != null)
+            {
+                MoveToNewSection(intersection); 
+            }
+            else 
+            {
+                MoveNextSpace();
+            }                
+                    
+            spacesToMove--;
+
+            if (spacesToMove == 0)
+            {
+                currentSpace.PlayerLanded(player);
+                gameManager.AdvanceTurn();
             }
             else
             {
-                //we might need to restructe this part of the code so that it returns a list of options to move to
-                //then the user selects which one to go to
-                //since while the player is normally walking around the board they have the option to go backwards?
-                Intersection intersection = currentSpace.GetComponent<Intersection>();
-                if (intersection != null)
-                {
-                    MoveToNewSection(intersection); 
-                }
-                else 
-                {
-                    MoveNextSpace();
-                }                
-                    
-                spacesToMove--;
-
-                if (spacesToMove == 0)
-                {
-                    currentSpace.PlayerLanded(player);
-                    gameManager.AdvanceTurn();
-                }
-                else
-                {
-                    currentSpace.PlayerPassed(player);
-                }                                  
+                currentSpace.PlayerPassed(player);
             }
-            
         }
     }
 
@@ -72,9 +72,17 @@ public class PlayerMovement : MonoBehaviour
         this.player = player;
     }
 
-    public int RollDice()
+    public void PlayerRollDice(int maxNumber = 6)
     {
-        return UnityEngine.Random.Range(1, 7);
+        spacesToMove = RollDice(maxNumber);
+        Debug.Log($"How many spaces we're moving {spacesToMove}");
+    }
+
+    int RollDice(int maxNumber = 6)
+    {
+        int rolled = UnityEngine.Random.Range(1, maxNumber + 1);
+        OnPlayerRolled?.Invoke(player, rolled);
+        return rolled;
     }
 
 
@@ -115,6 +123,8 @@ public class PlayerMovement : MonoBehaviour
             space.GetComponent<Intersection>().EnterIntersection(player, currentSpace);
         }
 
+        //this should probably be redone to lerp the player to the position to create a smoother transition
+        //or use an animation that takes in a destination Vector 3
         player.transform.position = new Vector3(space.transform.position.x, 1, space.transform.position.z);
         currentSpace = space;        
     }

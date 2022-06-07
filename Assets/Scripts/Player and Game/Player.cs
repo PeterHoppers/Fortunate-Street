@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
         movement.TeleportToSpace(space);
     }
 
+    public void RollDice(int maxNumber = 6)
+    {
+        movement.PlayerRollDice(maxNumber);
+    }
+
     public void MakePlayerActive()
     {
         movement.enabled = true;
