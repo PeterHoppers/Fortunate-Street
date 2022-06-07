@@ -22,7 +22,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFollowingPlayer)
+        if (isFollowingPlayer && followingPlayer != null)
         {
             //this should probably be redone to lerp to the player's position to create a smoother camera
             transform.position = followingPlayer.transform.position + distanceAway;

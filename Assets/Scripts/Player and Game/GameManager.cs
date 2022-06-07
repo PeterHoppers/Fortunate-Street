@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         //players = FindObjectsOfType<Player>();
         //Debug.Log($"Found {players.Length} players");

@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     int indexInSection;
     int spacesToMove;
+    float heightOffset = .6f; //half the player's height + the height of the spaces
 
     Player player;
     GameManager gameManager;
@@ -125,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
         //this should probably be redone to lerp the player to the position to create a smoother transition
         //or use an animation that takes in a destination Vector 3
-        player.transform.position = new Vector3(space.transform.position.x, 1, space.transform.position.z);
+        player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
         currentSpace = space;        
     }
 
