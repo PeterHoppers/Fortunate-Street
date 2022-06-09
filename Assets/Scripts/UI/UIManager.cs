@@ -11,13 +11,11 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         Space.OnPlayerPass += ReportMovement;
-        MoneyManager.OnPlayerMoneyChanged += UpdateMoneyUI;
     }
 
     void OnDisable()
     {
         Space.OnPlayerPass -= ReportMovement;
-        MoneyManager.OnPlayerMoneyChanged -= UpdateMoneyUI;
     }
 
     public void SetupUI(List<Player> players)
@@ -62,10 +60,4 @@ public class UIManager : MonoBehaviour
 
         Debug.Log($"{player.playerName} has passed {name}");
     }
-
-    void UpdateMoneyUI(Player player, int oldAmount, int newAmount)
-    {
-        Debug.Log($"{player.playerName}'s money has gone from {oldAmount} to {newAmount}");
-    }
-
 }

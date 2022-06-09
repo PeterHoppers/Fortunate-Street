@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.5
+  m_fontSize: 55.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1253,6 +1253,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 97238280}
     m_Modifications:
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: shopValue
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Bakery
@@ -1383,7 +1387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.20082916, y: -0.677988, z: 0.20082916, w: 0.677988}
-  m_LocalPosition: {x: 8, y: 4, z: 0}
+  m_LocalPosition: {x: 5, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1446,7 +1450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFollowingPlayer: 1
-  distanceAway: {x: 8, y: 4, z: 0}
+  distanceAway: {x: 5, y: 3, z: 0}
 --- !u!1001 &973267725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1454,6 +1458,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1508960556}
     m_Modifications:
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: shopValue
+      value: 189
+      objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Property (3)
@@ -2633,7 +2641,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: shopValue
-      value: 150
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: spaceName
@@ -2892,7 +2900,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: shopValue
-      value: 150
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: spaceName
@@ -3935,7 +3943,7 @@ PrefabInstance:
       objectReference: {fileID: 97238281}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: shopValue
-      value: 150
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: spaceName

@@ -15,7 +15,7 @@ public class District: MonoBehaviour
         //this loops through each space, then sets the color for each of space's renderers
         foreach (Space space in Spaces)
         {
-            Renderer[] spaceRenderers = space.transform.GetChild(0).GetComponentsInChildren<Renderer>();
+            Renderer[] spaceRenderers = space.transform.Find("Outline").GetComponentsInChildren<Renderer>();
 
             foreach (Renderer renderer in spaceRenderers)
             {

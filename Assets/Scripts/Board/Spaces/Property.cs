@@ -29,6 +29,11 @@ public class Property : BuyableSpace
         return (int) (shopValue / 5.25);
     }
 
+    public int GetShopPrice()
+    {
+        return shopPrice;
+    }
+
     /// <summary>
     /// Do some math to figure out what the price of each store should be based upon their shop value
     /// Do I know the formula that fortune street uses? Yeah, it's just double it

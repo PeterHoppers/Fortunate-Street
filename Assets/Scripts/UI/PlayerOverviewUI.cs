@@ -11,8 +11,13 @@ public class PlayerOverviewUI : MonoBehaviour
     public SuiteUI[] playerSuites;
 
     Player referredPlayer;
+    Animator animator;
 
     // Start is called before the first frame update
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     void OnEnable()
     {
         MoneyManager.OnPlayerMoneyChanged += UpdatePlayerMoney;
@@ -31,19 +36,38 @@ public class PlayerOverviewUI : MonoBehaviour
     {
         referredPlayer = player;
         playerName.text = player.playerName;
-        playerMoney.text = MoneyManager.GetPlayerMoneyValue(player).ToString();
+        SetPlayerMoney(MoneyManager.GetPlayerMoneyValue(player));
 
         GetComponent<Image>().color = player.color;
     }
 
-    public void UpdatePlayerMoney(Player player, int oldAmount, int newAmount)
+    void SetPlayerMoney(int amount)
     {
+        playerMoney.text = $"$ {amount}";
+    }
+
+
+    public void UpdatePlayerMoney(Player player, int oldAmount, int newAmount)
+    {        
         if (player != referredPlayer)
         {
             return;
         }
 
-        playerMoney.text = newAmount.ToString();
+        Debug.Log($"{player.playerName}'s money has gone from {oldAmount} to {newAmount}");
+
+        if (oldAmount < newAmount)
+        {
+            Debug.Log("Go up!");
+            animator.Play("gainmoney");
+        } 
+        else if (oldAmount > newAmount)
+        {
+            Debug.Log("Go down!");
+            animator.Play("losemoney");
+        }
+
+        SetPlayerMoney(newAmount);
     }
 
     public void UpdateSuiteUI(Player player, Suite suite)
