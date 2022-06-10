@@ -28,6 +28,15 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerActiveChange(Player player);
     public static event PlayerActiveChange OnPlayerActiveChange;
 
+    void OnEnable()
+    {
+        Space.OnPlayerLand += AdvanceTurn;
+    }
+
+    void OnDisable()
+    {
+        Space.OnPlayerLand -= AdvanceTurn;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -114,9 +123,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AdvanceTurn()
+    public void AdvanceTurn(Player player, Space space)
     {
-        DisablePlayer(activePlayer);
+        DisablePlayer(player);
 
         int activePlayerId = activePlayer.id;
         activePlayerId++;

@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Bank : Space
 {
-    GameManager gameManager;
+    GameManager gameManagerforBank;
 
     void Start()
     {
-        gameManager = Camera.main.GetComponent<GameManager>();
+        gameManagerforBank = Camera.main.GetComponent<GameManager>();
     }
     public override void PlayerPassed(Player player)
     {
         base.PlayerPassed(player);
-        gameManager.CheckPlayerLevelUp(player);
-        gameManager.CheckPlayerWon(player);
+        gameManagerforBank.CheckPlayerLevelUp(player);
+        gameManagerforBank.CheckPlayerWon(player);
     }
 
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
-        gameManager.CheckPlayerLevelUp(player);
-        gameManager.CheckPlayerWon(player);
+        gameManagerforBank.CheckPlayerLevelUp(player);
+        gameManagerforBank.CheckPlayerWon(player);
         //clear movement choice for the player
     }
 }

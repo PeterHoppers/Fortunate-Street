@@ -6,20 +6,17 @@ public class Player : MonoBehaviour
 {
     public string playerName;
     public Color32 color;
-    //an enum to keep track of what the player is doing. Would like to use it to control when the player is in menus and when the player can move
-    public enum TurnState 
-    { 
-        BeforeRoll,
-        Rolling,
-        Moving,
-        Landed
-    }
+    
     TurnState turnState;
 
     public int id;
     public int level = 1;
     
     PlayerMovement movement;
+
+    public delegate void PlayerTurnStateChanged(Player player, TurnState turnState);
+    public event PlayerTurnStateChanged OnPlayerTurnStateChanged;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,25 +24,10 @@ public class Player : MonoBehaviour
         movement.SetPlayer(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void GetMoved(Space space)
-    {
-        movement.TeleportToSpace(space);
-    }
-
-    public void RollDice(int maxNumber = 6)
-    {
-        movement.PlayerRollDice(maxNumber);
-    }
-
     public void MakePlayerActive()
     {
         movement.enabled = true;
+        SetTurnState(TurnState.BeforeRoll);
     }
 
     public void StopPlayerActive()
@@ -53,4 +35,23 @@ public class Player : MonoBehaviour
         movement.enabled = false;
     }
 
+    public void StartRolling()
+    {
+        SetTurnState(TurnState.Rolling);
+    }
+    public void GetMoved(Space space)
+    {
+        movement.TeleportToSpace(space);
+    }
+
+    public TurnState GetTurnState()
+    {
+        return turnState;
+    }
+
+    public void SetTurnState(TurnState turnState)
+    {
+        this.turnState = turnState;
+        OnPlayerTurnStateChanged?.Invoke(this, turnState);
+    }
 }

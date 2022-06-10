@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     float heightOffset = .6f; //half the player's height + the height of the spaces
 
     Player player;
-    GameManager gameManager;
 
     public delegate void PlayerRolled(Player player, int spaces);
     public static event PlayerRolled OnPlayerRolled;
@@ -26,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         //player should start at the bank
         Space bankSpace = GameObject.FindGameObjectWithTag("Bank").GetComponent<Space>();
         TeleportToSpace(bankSpace);
-        gameManager = Camera.main.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -35,6 +33,14 @@ public class PlayerMovement : MonoBehaviour
         //mocking up some controls
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (player.GetTurnState() == TurnState.Rolling)
+            {
+                PlayerRollDice();
+                return;
+            }
+
+            Debug.Log($"{player.playerName} wants to move {spacesToMove} spaces.");
+
             //if we aren't moving anywhere, don't allow the player to move
             if (spacesToMove == 0)
             {
@@ -58,8 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (spacesToMove == 0)
             {
+                player.SetTurnState(TurnState.Landed);
                 currentSpace.PlayerLanded(player);
-                gameManager.AdvanceTurn();
             }
             else
             {
@@ -76,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     public void PlayerRollDice(int maxNumber = 6)
     {
         spacesToMove = RollDice(maxNumber);
+        player.SetTurnState(TurnState.Moving);
         Debug.Log($"How many spaces we're moving {spacesToMove}");
     }
 

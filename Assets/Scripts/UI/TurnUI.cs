@@ -12,6 +12,7 @@ public class TurnUI : MonoBehaviour
 {
     public TMP_Text playerName;
     public TMP_Text diceText;
+    GameObject diceTextHolder;
     public Button rollButton;
 
     Player playerTurn;
@@ -38,28 +39,48 @@ public class TurnUI : MonoBehaviour
     /// <param name="player"></param>
     void PlayerChanged(Player player)
     {
+        //remove the reference to previous player first
+        if (playerTurn)
+        {
+            playerTurn.OnPlayerTurnStateChanged -= DisplayRollingUI;
+        }
+
         playerName.gameObject.SetActive(true);
         rollButton.gameObject.SetActive(true);
-        diceText.gameObject.SetActive(false);
+        diceTextHolder = diceText.transform.parent.gameObject;
+        diceTextHolder.SetActive(false);
         playerName.text = $"{player.playerName}'s turn";
+
         playerTurn = player;
+        playerTurn.OnPlayerTurnStateChanged += DisplayRollingUI;
     }
 
     /// <summary>
     /// Called currently through the "Roll Dice" button, although the logic to roll the dice might be better served being called somewhere else
     /// And the UI elements being hidden whenever the dice gets rolled, i.e. 'OnPlayerRolled'
+    /// This is a call here, since there are other places that might allow the player to start rolling, like chance spaces or the roll again space
     /// </summary>
     public void RollDice()
     {
-        playerTurn.RollDice();
-        playerName.gameObject.SetActive(false);
-        rollButton.gameObject.SetActive(false);
+        playerTurn.StartRolling();
+    }
+
+    void DisplayRollingUI(Player player, TurnState turnState) 
+    {
+        if (turnState == TurnState.Rolling)
+        {            
+            playerName.gameObject.SetActive(false);
+            rollButton.gameObject.SetActive(false);
+            diceTextHolder.SetActive(true);
+
+            //start the rolling animation
+            diceText.text = "Rolling"; //yes, this is really lame for now
+        }
     }
 
     void DisplayDiceResults(Player player, int amount)
     {
         diceText.text = amount.ToString();
-        diceText.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -67,7 +88,7 @@ public class TurnUI : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="space"></param>
-    void ChangeDiceDisplay(Player player, Space space)
+    void ChangeDiceDisplay(Player player, Space space = null)
     {
         int diceAmount = int.Parse(diceText.text);
         diceAmount--;
@@ -81,6 +102,6 @@ public class TurnUI : MonoBehaviour
     /// <param name="space"></param>
     void HideDiceDisplay(Player player, Space space)
     {
-        diceText.gameObject.SetActive(false);
+        diceTextHolder.SetActive(false);
     }
 }

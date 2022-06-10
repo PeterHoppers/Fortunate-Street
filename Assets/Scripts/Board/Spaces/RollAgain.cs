@@ -6,8 +6,8 @@ public class RollAgain : Space
 {
     public override void PlayerLanded(Player player)
     {
-        base.PlayerLanded(player);
         //roll again
+        player.StartRolling();
     }
 
     public override void PlayerPassed(Player player)

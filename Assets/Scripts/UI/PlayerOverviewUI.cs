@@ -58,12 +58,10 @@ public class PlayerOverviewUI : MonoBehaviour
 
         if (oldAmount < newAmount)
         {
-            Debug.Log("Go up!");
             animator.Play("gainmoney");
         } 
         else if (oldAmount > newAmount)
         {
-            Debug.Log("Go down!");
             animator.Play("losemoney");
         }
 

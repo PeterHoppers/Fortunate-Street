@@ -49,9 +49,6 @@ public class Property : BuyableSpace
         //offer to the player if they want to buy this space
         if (owner == null)
         {
-            Debug.Log("Do you want to buy this space?");
-            Debug.Log("Hell yeah you do!");
-
             //temporary logic to prevent players from buying with money they don't have
             if (MoneyManager.GetPlayerMoneyValue(player) < shopValue)
             {
@@ -64,7 +61,6 @@ public class Property : BuyableSpace
         }
         else if (owner != player)
         {
-            Debug.Log("Pay up!");
             MoneyManager.PlayerTransaction(player, owner, shopPrice);
         }
     }
