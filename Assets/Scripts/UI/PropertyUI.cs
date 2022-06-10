@@ -30,19 +30,30 @@ public class PropertyUI : MonoBehaviour
     void OnEnable()
     {
         property.OnSpaceBought += PropertyBought;
+        property.OnSpaceValueChanged += ValueChanged;
     }
 
     void OnDisable()
     {
         property.OnSpaceBought -= PropertyBought;
+        property.OnSpaceValueChanged -= ValueChanged;
     }
 
+    /// <summary>
+    /// Update UI to reflect the owner of the space
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="space"></param>
     void PropertyBought(Player player, Space space)
     {
         buyHolder.SetActive(false);
         shopPriceHolder.SetActive(true);
 
         shopPrice.text = property.GetShopPrice().ToString();
-        Debug.Log("Bought space: " + space);
+    }
+
+    void ValueChanged(BuyableSpace space)
+    {
+        shopPrice.text = property.GetShopPrice().ToString();
     }
 }

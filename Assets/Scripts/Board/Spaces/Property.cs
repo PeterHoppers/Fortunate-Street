@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Property : BuyableSpace
 {
+    int originalValue;
     int shopPrice;
     int maxInvestment;
 
     void Start()
     {
+        originalValue = shopValue;
         shopPrice = CalcShopPrice(shopValue);
         maxInvestment = CalcMaxInvestiment(shopValue);
-    }
-
-    public void ChangePrice(double percentage)
-    {
-        //when called, change the shop price, shop value, and investiment amount, if applicatable
     }
 
     /// <summary>
@@ -79,11 +76,22 @@ public class Property : BuyableSpace
 
     public override void SpaceBought(Player player)
     {
-        base.SpaceBought(player);
-        this.owner = player;
+        base.SpaceBought(player);        
 
         //test way of showing who owns what space
         Renderer spaceRenderer = GetComponent<Renderer>();
         spaceRenderer.material.SetColor("_Color", player.color);
+    }
+
+    /// <summary>
+    /// Updates the value of the shop and adjusts the max investiment and shop price accordingly
+    /// </summary>
+    /// <param name="amountChange"></param>
+    public override void ChangeShopValue(double amountChange)
+    {
+        shopValue = (int)(originalValue * amountChange);
+        shopPrice = CalcShopPrice(shopValue);
+        maxInvestment = CalcMaxInvestiment(shopValue);
+        ValueChanged();
     }
 }

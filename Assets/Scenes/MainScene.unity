@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: District A
   color: {r: 0.9811321, g: 0.47427434, b: 0, a: 1}
-  Spaces:
+  spaces:
   - {fileID: 697148520}
   - {fileID: 1672708677}
   - {fileID: 1627254132}
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: District C
   color: {r: 0.07209267, g: 0.0059807706, b: 0.0754717, a: 0.8235294}
-  Spaces:
+  spaces:
   - {fileID: 1924961097}
   - {fileID: 706996797}
   - {fileID: 1994670590}
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: District D
   color: {r: 0.57063943, g: 0.6132076, b: 0.10065857, a: 1}
-  Spaces:
+  spaces:
   - {fileID: 98280325}
   - {fileID: 204084775}
   - {fileID: 203487026}
@@ -2384,7 +2384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: District B
   color: {r: 0, g: 1, b: 0.65159893, a: 1}
-  Spaces:
+  spaces:
   - {fileID: 1296725343}
   - {fileID: 1543168976}
   - {fileID: 1857928722}
@@ -3019,7 +3019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: District E
   color: {r: 0.9811321, g: 0.5127803, b: 0.65860295, a: 1}
-  Spaces:
+  spaces:
   - {fileID: 1960817905}
   - {fileID: 1234776701}
   - {fileID: 1855281919}

@@ -28,7 +28,9 @@ public class BoardManager : MonoBehaviour
 
     public static List<BuyableSpace> GetPlayerShops(Player player)
     {
-        return shops.Where(s => s.owner == player).ToList();
+        return shops.Where(shop => 
+               shop.owner == player)
+               .ToList();
     }
 
     public static void ClosePlayerShops(Player player)
