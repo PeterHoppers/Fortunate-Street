@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public BoardSection currentBoardSection;
     public bool isForward; //used for determining the direction they are going through a section
 
+    public float maxSpeed = 1f;
+    public float moveSpeed = 0;
+
     int indexInSection;
     int spacesToMove;
     float heightOffset = .6f; //half the player's height + the height of the spaces
@@ -47,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
 
-            //we might need to restructe this part of the code so that it returns a list of options to move to
+            //we might need to restructure this part of the code so that it returns a list of options to move to
             //then the user selects which one to go to
             //since while the player is normally walking around the board they have the option to go backwards?
             Intersection intersection = currentSpace.GetComponent<Intersection>();
@@ -131,10 +134,32 @@ public class PlayerMovement : MonoBehaviour
             space.GetComponent<Intersection>().EnterIntersection(player, currentSpace);
         }
 
+        // === OLD CODE === \\
         //this should probably be redone to lerp the player to the position to create a smoother transition
         //or use an animation that takes in a destination Vector 3
-        player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
+        //player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
+
+        // === NEW CODE === \\
+        StartCoroutine(LerpPosition(space.transform.position, 1));
+
         currentSpace = space;        
+    }
+
+    // === Lerp the player forward for smoother movement === \\
+    IEnumerator LerpPosition(Vector3 targetSpace, float duration)
+    {
+        Vector3 newSpace = new Vector3(targetSpace.x, heightOffset, targetSpace.z);
+        {
+            float time = 0;
+            Vector3 startPosition = transform.position;
+            while (time < duration)
+            {
+                transform.position = Vector3.Lerp(startPosition, newSpace, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = newSpace;
+        }
     }
 
     public void MoveNextSpace()
