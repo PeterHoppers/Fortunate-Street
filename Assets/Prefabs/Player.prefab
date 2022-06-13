@@ -133,3 +133,4 @@ MonoBehaviour:
   currentSpace: {fileID: 0}
   currentBoardSection: {fileID: 0}
   isForward: 0
+  moveSpeed: 3

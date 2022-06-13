@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public BoardSection currentBoardSection;
     public bool isForward; //used for determining the direction they are going through a section
 
-    public float maxSpeed = 1f;
-    public float moveSpeed = 0;
+    public float moveSpeed = 1f;
 
     int indexInSection;
     int spacesToMove;
@@ -140,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
         //player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
 
         // === NEW CODE === \\
-        StartCoroutine(LerpPosition(space.transform.position, 1));
+        StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));
 
         currentSpace = space;        
     }
