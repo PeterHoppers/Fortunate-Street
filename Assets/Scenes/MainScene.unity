@@ -533,8 +533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 1122474018}
 --- !u!1001 &388460983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -626,6 +624,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceName: Bank
+  connectedSpaces:
+  - {fileID: 1627254132}
+  - {fileID: 1672708677}
 --- !u!1001 &483056620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -861,10 +862,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 1672708677}
-  - {fileID: 1296725343}
-  - {fileID: 1213108608}
 --- !u!4 &697148525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1027318951637258618, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
@@ -1207,6 +1204,18 @@ PrefabInstance:
       propertyPath: shopValue
       value: 125
       objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[0]
+      value: 
+      objectReference: {fileID: 1213108608}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[1]
+      value: 
+      objectReference: {fileID: 1296725343}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Bakery
@@ -1877,10 +1886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 1627254132}
-  - {fileID: 1924961097}
-  - {fileID: 98280325}
 --- !u!1 &1149172732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,8 +2050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 697148520}
 --- !u!1001 &1218846315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2609,6 +2612,18 @@ PrefabInstance:
       propertyPath: spaceName
       value: Backsmith
       objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[0]
+      value: 
+      objectReference: {fileID: 1122474018}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[1]
+      value: 
+      objectReference: {fileID: 388460985}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Blacksmith
@@ -2851,8 +2866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 697148520}
 --- !u!1001 &1672708675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2868,6 +2881,18 @@ PrefabInstance:
       propertyPath: spaceName
       value: Apothecary
       objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[0]
+      value: 
+      objectReference: {fileID: 388460985}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[1]
+      value: 
+      objectReference: {fileID: 697148520}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Apothecary
@@ -3486,6 +3511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceName: 
+  connectedSpaces: []
 --- !u!1001 &1924961095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3575,8 +3601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a1e901d1abfc242bbbc477bf598116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSpaces:
-  - {fileID: 1122474018}
 --- !u!1001 &1960817903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4027,6 +4051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceName: 
+  connectedSpaces: []
 --- !u!1001 &1027318952683506020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4046,6 +4071,18 @@ PrefabInstance:
       propertyPath: spaceName
       value: Tailor
       objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[0]
+      value: 
+      objectReference: {fileID: 1924961097}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[1]
+      value: 
+      objectReference: {fileID: 98280325}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Tailor

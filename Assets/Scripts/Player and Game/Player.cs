@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
 {
     public string playerName;
     public Color32 color;
-    
-    TurnState turnState;
-
     public int id;
+
+    TurnState turnState;
+   
     public int level = 1;
     
     PlayerMovement movement;
@@ -42,6 +42,11 @@ public class Player : MonoBehaviour
     public void GetMoved(Space space)
     {
         movement.TeleportToSpace(space);
+    }
+
+    public int GetSpacesRemaining()
+    {
+        return movement.spacesToMove;
     }
 
     public TurnState GetTurnState()

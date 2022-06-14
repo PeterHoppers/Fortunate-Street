@@ -22,6 +22,7 @@ public class TurnUI : MonoBehaviour
         GameManager.OnPlayerActiveChange += PlayerChanged;
         PlayerMovement.OnPlayerRolled += DisplayDiceResults;
         Space.OnPlayerPass += ChangeDiceDisplay;
+        Space.OnPlayerReverse += ChangeDiceDisplay;
         Space.OnPlayerLand += HideDiceDisplay;
     }
 
@@ -30,6 +31,7 @@ public class TurnUI : MonoBehaviour
         GameManager.OnPlayerActiveChange -= PlayerChanged;
         PlayerMovement.OnPlayerRolled -= DisplayDiceResults;
         Space.OnPlayerPass -= ChangeDiceDisplay;
+        Space.OnPlayerReverse += ChangeDiceDisplay;
         Space.OnPlayerLand -= HideDiceDisplay;
     }
 
@@ -90,9 +92,7 @@ public class TurnUI : MonoBehaviour
     /// <param name="space"></param>
     void ChangeDiceDisplay(Player player, Space space = null)
     {
-        int diceAmount = int.Parse(diceText.text);
-        diceAmount--;
-        diceText.text = diceAmount.ToString();
+        diceText.text = player.GetSpacesRemaining().ToString();
     }
     /// <summary>
     /// When the turn ends, hide the dice display since they are not moving anywhere else
