@@ -18,4 +18,10 @@ public class SuiteSpace : Space
         //run chance time
     }
 
+    public override void PlayerReversed(Player player)
+    {
+        base.PlayerReversed(player);
+        SuiteManager.RemoveSuite(player, suite);
+    }
+
 }

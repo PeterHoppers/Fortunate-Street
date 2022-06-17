@@ -68,7 +68,7 @@ public class PlayerOverviewUI : MonoBehaviour
         SetPlayerMoney(newAmount);
     }
 
-    public void UpdateSuiteUI(Player player, Suite suite)
+    public void UpdateSuiteUI(Player player, Suite suite, bool isGained)
     {
         if (player != referredPlayer)
         {
@@ -79,7 +79,15 @@ public class PlayerOverviewUI : MonoBehaviour
         {
             if (suiteUI.representingSuite == suite)
             {
-                suiteUI.GotSuite();
+                if (isGained)
+                {
+                    suiteUI.GotSuite();
+                }
+                else
+                {
+                    suiteUI.SpentSuite();
+                }
+               
             }
         }
     }

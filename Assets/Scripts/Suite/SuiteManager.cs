@@ -10,8 +10,8 @@ public class SuiteManager
     public static Dictionary<Player, List<Suite>> suites = new Dictionary<Player, List<Suite>>();
     public const int suitMoneyValue = 100;
 
-    public delegate void PlayerGotSuite(Player player, Suite suite);
-    public static event PlayerGotSuite OnPlayerGotSuite;
+    public delegate void PlayerExchangeSuite(Player player, Suite suite, bool isGained);
+    public static event PlayerExchangeSuite OnPlayerGotSuite;
 
     public static void SetupSuites(List<Player> players)
     {
@@ -32,13 +32,27 @@ public class SuiteManager
         {
             suites[player].Add(suite);
             Debug.Log($"{player.name} got {suite}");
-            OnPlayerGotSuite?.Invoke(player, suite);
+            OnPlayerGotSuite?.Invoke(player, suite, true);
         }
         else 
         {
             //the player gains money according to suitMoneyValue
             MoneyManager.MoneyChanged(player, suitMoneyValue);
         }
+    }
+
+    public static void RemoveSuite(Player player, Suite suite)
+    {
+        if (suites[player].Contains(suite))
+        {
+            suites[player].Remove(suite);
+            OnPlayerGotSuite?.Invoke(player, suite, false);
+        }
+        else 
+        {
+            Debug.LogError($"Why did we try to remove suite {suite} from {player.playerName} when they didn't have it?");
+        }
+        
     }
 
     public static void ClearSuites(Player player)

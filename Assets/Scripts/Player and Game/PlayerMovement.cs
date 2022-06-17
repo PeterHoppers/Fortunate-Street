@@ -15,13 +15,41 @@ public class PlayerMovement : MonoBehaviour
     public int spacesToMove;
     float heightOffset = .6f; //half the player's height + the height of the spaces
 
+    //logic for matching keys to movement
+    public Dictionary<KeyCode, Space> keysSpaces = new Dictionary<KeyCode, Space>();
+    Dictionary<Vector3, KeyCode> keyDirections = new Dictionary<Vector3, KeyCode>()
+        {
+            {Vector3.forward, KeyCode.RightArrow},
+            {Vector3.back, KeyCode.LeftArrow},
+            {Vector3.left, KeyCode.UpArrow},
+            {Vector3.right, KeyCode.DownArrow}
+        };
+
     //going back logic
     Stack<Space> visitedSpaces = new Stack<Space>();
 
     Player player;
+    PlayerMovementUI ui;
+    TurnState playerTurnState;
 
     public delegate void PlayerRolled(Player player, int spaces);
     public static event PlayerRolled OnPlayerRolled;
+
+    //caled on Awake from Player
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+        ui = GetComponent<PlayerMovementUI>();
+    }
+
+    void OnEnable()
+    {
+        player.OnPlayerTurnStateChanged += UpdateTurnState;
+    }
+    void OnDisable()
+    {
+        player.OnPlayerTurnStateChanged -= UpdateTurnState;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +63,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //mocking up some controls
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (playerTurnState == TurnState.Rolling)
         {
-            if (player.GetTurnState() == TurnState.Rolling)
+            //mocking up some controls
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 PlayerRollDice();
+                visitedSpaces.Clear();
 
                 if (currentSpace.HasPlayerEntered(player))
                 {
@@ -53,20 +82,35 @@ public class PlayerMovement : MonoBehaviour
                     startingAnyDirection = true;
                 }
 
+                SetupMovementOptions();
+
                 Debug.Log($"At the start of this turn, we can move in any direction? {startingAnyDirection}");
 
                 return;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Backspace))
+        else if (playerTurnState == TurnState.Moving)
         {
-            ReverseMovement();
+            foreach (KeyCode key in keysSpaces.Keys)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    MoveToSelectedSpace(keysSpaces[key]);
+                    SetupMovementOptions();
+                    break;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                ReverseMovement();
+            }
         }
     }
 
-    public void SetPlayer(Player player)
+    public void UpdateTurnState(TurnState turnState)
     {
-        this.player = player;
+        playerTurnState = turnState;
     }
 
     public void PlayerRollDice(int maxNumber = 6)
@@ -122,6 +166,70 @@ public class PlayerMovement : MonoBehaviour
                 yield return null;
             }
             transform.position = newSpace;
+        }
+    }
+
+    void SetupMovementOptions()
+    {
+        //grab all the spaces we can move
+        List<Space> spacesToGo = GetPossibleMovementSpots();
+        //List<Space> spacesToGo = currentSpace.GetPossibleSpaces(player);
+        keysSpaces.Clear();
+
+        foreach (Space space in spacesToGo)
+        {
+            ui.SpawnArrowForSpace(currentSpace, space);            
+
+            //right now, forward is to the right
+            Vector3 directionToSpace = space.transform.position - currentSpace.transform.position;
+
+            if (keyDirections.ContainsKey(directionToSpace))
+            {
+                keysSpaces.Add(keyDirections[directionToSpace], space);
+            }
+            else
+            {                
+                //use the zOffset to figure out if we're going forwards or backwards
+                Vector3 offset = space.transform.position - currentSpace.transform.position;
+                float zOffset = offset.z;
+                float xOffset = offset.x;
+
+                //these x and z offsets give you the coordinates the next space is at
+                // z is up and down
+                // x is left and right
+                //if mutliple spaces want to try and do the same angle, for now,
+                //remove that key as a valid option to move so that the keys that are different remain
+                if (zOffset < 0)
+                {
+                    CheckThenAddSpace(Vector3.back, space);
+                }
+                else if (zOffset > 0)
+                {
+                    CheckThenAddSpace(Vector3.forward, space);
+                }
+
+                if (xOffset < 0)
+                {
+                    CheckThenAddSpace(Vector3.left, space);
+                }
+                else if (xOffset > 0)
+                {
+                    CheckThenAddSpace(Vector3.right, space);
+                }
+            }
+        }
+    }
+
+    void CheckThenAddSpace(Vector3 vectorCheck, Space space)
+    {
+        KeyCode attemptedButton = keyDirections[vectorCheck];
+        if (keysSpaces.ContainsKey(attemptedButton))
+        {
+            keysSpaces.Remove(attemptedButton);
+        }
+        else
+        {
+            keysSpaces.Add(attemptedButton, space);
         }
     }
 
@@ -190,7 +298,6 @@ public class PlayerMovement : MonoBehaviour
         //if we're back at the start
         if (visitedSpaces.Count == 0)
         {
-            returningSpace.LeaveSpace(player);
             canMoveAnyDirection = startingAnyDirection;
         }
     }
