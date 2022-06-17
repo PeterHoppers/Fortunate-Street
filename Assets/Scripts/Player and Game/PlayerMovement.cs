@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Space currentSpace;
     bool canMoveAnyDirection; //used for determining the direction they are going through a section
+    bool startingAnyDirection;
 
     public float moveSpeed = 1f;
 
@@ -44,37 +45,17 @@ public class PlayerMovement : MonoBehaviour
                 if (currentSpace.HasPlayerEntered(player))
                 {
                     canMoveAnyDirection = false;
+                    startingAnyDirection = false;
                 }
                 else
                 {
                     canMoveAnyDirection = true;
+                    startingAnyDirection = true;
                 }
 
+                Debug.Log($"At the start of this turn, we can move in any direction? {startingAnyDirection}");
+
                 return;
-            }
-
-            Debug.Log($"{player.playerName} wants to move {spacesToMove} spaces.");
-
-
-
-            //we might need to restructure this part of the code so that it returns a list of options to move to
-            //then the user selects which one to go to
-            //since while the player is normally walking around the board they have the option to go backwards?
-            visitedSpaces.Push(currentSpace);
-            MoveToNewSection(currentSpace);
-
-            spacesToMove--;
-            //now that we've moved, allow us to move back the way we came
-            canMoveAnyDirection = true;
-
-            if (spacesToMove == 0)
-            {
-                player.SetTurnState(TurnState.Landed);
-                currentSpace.PlayerLanded(player);
-            }
-            else
-            {
-                currentSpace.PlayerPassed(player);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Backspace))
@@ -144,57 +125,45 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MoveToNewSection(Space intersection)
+    public List<Space> GetPossibleMovementSpots()
     {
-        List<Space> possibleTargetSpaces = new List<Space>();
-        possibleTargetSpaces = intersection.GetPossibleSpaces(player);
-
-        /*if (canMoveAnyDirection)
+        Debug.Log($"We're getting the possible spaces for {currentSpace}");
+        if (canMoveAnyDirection)
         {
-            possibleTargetSpaces = intersection.connectedSpaces.ToList();
+            return currentSpace.connectedSpaces.ToList();
         }
-        else 
+        else
         {
-            possibleTargetSpaces = intersection.GetPossibleSpaces(player);
-        }*/
-            
-        Debug.Log("Possible options:");
-        foreach (Space possibleSpace in possibleTargetSpaces)
-        {
-            Debug.Log($"Space: {possibleSpace}");
+            return currentSpace.GetPossibleSpaces(player);
         }
+    }
 
-        //if removing the previous space removes all possible target spaces, treat this like a normal space
-        if (possibleTargetSpaces.Count == 0)
+    public void MoveToSelectedSpace(Space targetSpace)
+    {
+        //if we're trying to move to where we just were, we're moving backwards instead
+        if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
         {
-            Debug.LogError("Hey! Why can't I go anywhere!");                     
+            ReverseMovement();
+            return;
         }
-        //if there's only one possible section, move to it
-        else if (possibleTargetSpaces.Count == 1)
+        //remove player from the previous space
+        visitedSpaces.Push(currentSpace);
+        currentSpace.LeaveSpace(player);
+
+        MoveToSpace(targetSpace);
+        spacesToMove--;
+        //now that we've moved, allow us to move back the way we came
+        //canMoveAnyDirection = true;
+
+        if (spacesToMove == 0)
         {
-            MoveToSpace(possibleTargetSpaces[0]);
+            player.SetTurnState(TurnState.Landed);
+            currentSpace.PlayerLanded(player);
         }
-        else  
+        else
         {
-            int targetDirection = UnityEngine.Random.Range(0, possibleTargetSpaces.Count); //have the user choose which direction to go, rather than random
-            Space targetSpace = possibleTargetSpaces[targetDirection];
-
-            MoveToSpace(targetSpace);
-
-            //we've chosen the space we've already been to
-            /*if (visitedSpaces.Count != 0 && currentSpace == visitedSpaces.Peek())
-            {
-                Debug.Log("We chosen the space we've just been to!");
-                ReverseMovement();
-            }
-            else
-            {
-                MoveToSpace(targetSpace);
-            }*/
-
+            currentSpace.PlayerPassed(player);
         }
-
-        intersection.LeaveSpace(player);
     }
 
     public void ReverseMovement()
@@ -212,24 +181,16 @@ public class PlayerMovement : MonoBehaviour
 
         Space returningSpace = visitedSpaces.Pop();
         Debug.Log($"Returning space is {returningSpace.spaceName}");
-        //undo the logic for passing the space
-        returningSpace.PlayerReversed(player);
         //move the player to that space
         MoveToSpace(returningSpace);
+        //undo the logic for passing the space
+        returningSpace.PlayerReversed(player);
 
         //if we're back at the start
         if (visitedSpaces.Count == 0)
         {
             returningSpace.LeaveSpace(player);
-
-            /*if (currentSpace.HasPlayerEntered(player))
-            {
-                canMoveAnyDirection = false;
-            }
-            else
-            {
-                canMoveAnyDirection = true;
-            }*/
+            canMoveAnyDirection = startingAnyDirection;
         }
     }
 }

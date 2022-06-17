@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     
     PlayerMovement movement;
 
-    public delegate void PlayerTurnStateChanged(Player player, TurnState turnState);
+    public delegate void PlayerTurnStateChanged(TurnState turnState);
     public event PlayerTurnStateChanged OnPlayerTurnStateChanged;
 
     // Start is called before the first frame update
@@ -57,6 +57,6 @@ public class Player : MonoBehaviour
     public void SetTurnState(TurnState turnState)
     {
         this.turnState = turnState;
-        OnPlayerTurnStateChanged?.Invoke(this, turnState);
+        OnPlayerTurnStateChanged?.Invoke(turnState);
     }
 }

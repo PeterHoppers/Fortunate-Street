@@ -67,7 +67,7 @@ public class TurnUI : MonoBehaviour
         playerTurn.StartRolling();
     }
 
-    void DisplayRollingUI(Player player, TurnState turnState) 
+    void DisplayRollingUI(TurnState turnState) 
     {
         if (turnState == TurnState.Rolling)
         {            
