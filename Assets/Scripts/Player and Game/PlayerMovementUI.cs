@@ -121,20 +121,20 @@ public class PlayerMovementUI : MonoBehaviour
                 // x is left and right
                 //if mutliple spaces want to try and do the same angle, for now,
                 //remove that key as a valid option to move so that the keys that are different remain
-                if (zOffset == -1)
+                if (zOffset < 0)
                 {
                     CheckThenAddSpace(Vector3.back, space);
                 }
-                else if (zOffset == 1)
+                else if (zOffset > 0)
                 {
                     CheckThenAddSpace(Vector3.forward, space);
                 }
 
-                if (xOffset == -1)
+                if (xOffset < 0)
                 {
                     CheckThenAddSpace(Vector3.left, space);
                 }
-                else if (xOffset == 1)
+                else if (xOffset > 0)
                 {
                     CheckThenAddSpace(Vector3.right, space);
                 }

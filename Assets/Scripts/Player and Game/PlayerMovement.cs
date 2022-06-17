@@ -152,8 +152,9 @@ public class PlayerMovement : MonoBehaviour
 
         MoveToSpace(targetSpace);
         spacesToMove--;
+
         //now that we've moved, allow us to move back the way we came
-        //canMoveAnyDirection = true;
+        canMoveAnyDirection = true;
 
         if (spacesToMove == 0)
         {

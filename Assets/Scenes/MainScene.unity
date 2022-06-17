@@ -1184,7 +1184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: connectedSpaces.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: connectedSpaces.Array.data[0]
@@ -1194,6 +1194,10 @@ PrefabInstance:
       propertyPath: connectedSpaces.Array.data[1]
       value: 
       objectReference: {fileID: 1296725343}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[2]
+      value: 
+      objectReference: {fileID: 1672708677}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Bakery
@@ -3983,7 +3987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: connectedSpaces.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: connectedSpaces.Array.data[0]
@@ -3993,6 +3997,10 @@ PrefabInstance:
       propertyPath: connectedSpaces.Array.data[1]
       value: 
       objectReference: {fileID: 98280325}
+    - target: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
+      propertyPath: connectedSpaces.Array.data[2]
+      value: 
+      objectReference: {fileID: 1627254132}
     - target: {fileID: 1027318951637258617, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
       propertyPath: m_Name
       value: Tailor
