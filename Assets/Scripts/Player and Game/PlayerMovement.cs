@@ -175,13 +175,17 @@ public class PlayerMovement : MonoBehaviour
         List<Space> spacesToGo = GetPossibleMovementSpots();
         //List<Space> spacesToGo = currentSpace.GetPossibleSpaces(player);
         keysSpaces.Clear();
+        // == Clear old Arrow objects before making new ones == \\
+        ui.RemoveOldArrows();
 
         foreach (Space space in spacesToGo)
         {
-            ui.SpawnArrowForSpace(currentSpace, space);            
-
             //right now, forward is to the right
             Vector3 directionToSpace = space.transform.position - currentSpace.transform.position;
+
+            ui.SpawnArrowForSpace(currentSpace, space, directionToSpace);            
+
+            
 
             if (keyDirections.ContainsKey(directionToSpace))
             {
