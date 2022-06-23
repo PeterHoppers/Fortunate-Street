@@ -7,9 +7,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Space currentSpace;
-    Space previousEnteredFromSpace; //saves the information of where the player came from at the end of their last turn
-    bool canMoveAnyDirection; //used for determining the direction they are going through a section
-    bool startingAnyDirection;
+    Space spaceLastTurnCameFrom; //saves the information of where the player came from at the end of their last turn
 
     public float moveSpeed = 1f;
 
@@ -70,21 +68,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 PlayerRollDice();
-
-                if (currentSpace.HasPlayerEntered(player))
-                {
-                    canMoveAnyDirection = false;
-                    startingAnyDirection = false;
-                }
-                else
-                {
-                    canMoveAnyDirection = true;
-                    startingAnyDirection = true;
-                }
-
                 SetupMovementOptions();
-
-                Debug.Log($"At the start of this turn, we can move in any direction? {startingAnyDirection}");
 
                 return;
             }
@@ -95,15 +79,20 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (Input.GetKeyDown(key))
                 {
-                    MoveToSelectedSpace(keysSpaces[key]);
+                    Space targetSpace = keysSpaces[key];
+                    //if we're trying to move to where we just were, we're moving backwards instead
+                    if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
+                    {
+                        ReverseMovement(targetSpace);
+                    }
+                    else 
+                    {
+                        MoveToSelectedSpace(targetSpace);
+                    }
+                    
                     SetupMovementOptions();
                     break;
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                ReverseMovement();
             }
         }
     }
@@ -136,6 +125,14 @@ public class PlayerMovement : MonoBehaviour
         // == Clear old Arrow objects before making new ones == \\
         ui.RemoveOldArrows();
 
+        //I'm unsure if the space that the player counts as going backwards needs to be seperate
+        //for creating arrows and the like
+        //visitedSpaces.Peek() will allow you to know which space the player just came from
+        if (visitedSpaces.Count != 0)
+        {
+            //spacesToGo.Add(visitedSpaces.Peek());
+        }
+
         foreach (Space space in spacesToGo)
         {
             //right now, forward is to the right
@@ -147,7 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (keyDirections.ContainsKey(directionToSpace))
             {
-                keysSpaces.Add(keyDirections[directionToSpace], space);
+                KeyCode key = keyDirections[directionToSpace];
+                keysSpaces.Add(key, space);
             }
             else
             {                
@@ -197,35 +195,28 @@ public class PlayerMovement : MonoBehaviour
 
     public List<Space> GetPossibleMovementSpots()
     {
-        //Debug.Log($"We're getting the possible spaces for {currentSpace}");
-        if (canMoveAnyDirection)
+        // return currentSpace.GetPossibleSpaces(player); gets the spaces that are considered 'forward'
+        // return currentSpace.connectedSpaces.ToList(); gets all spaces that are connected to that space
+        // this logic here gets all the spaces, to allow the user to go back, but keeps them from being able
+        // to go backwards when they've moved from somewhere last turn
+        List<Space> possibleSpaces = currentSpace.connectedSpaces.ToList();
+
+        if (possibleSpaces.Contains(spaceLastTurnCameFrom))
         {
-            return currentSpace.connectedSpaces.ToList();
+            possibleSpaces.Remove(spaceLastTurnCameFrom);
         }
-        else
-        {
-            return currentSpace.GetPossibleSpaces(player);
-        }
+
+        return possibleSpaces;
     }
 
     public void MoveToSelectedSpace(Space targetSpace)
-    {
-        //if we're trying to move to where we just were, we're moving backwards instead
-        if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
-        {
-            ReverseMovement();
-            return;
-        }
-        
+    {               
         //remove player from the previous space
         visitedSpaces.Push(currentSpace);
         currentSpace.LeaveSpace(player);
 
         MoveToSpace(targetSpace);
         spacesToMove--;
-
-        //now that we've moved, allow us to move back the way we came
-        canMoveAnyDirection = true;
 
         if (spacesToMove == 0)
         {
@@ -240,36 +231,36 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void ReverseMovement()
+    public void ReverseMovement(Space targetSpace)
     {
-        Debug.Log($"Let's go back!");
-        //grab the previous space we just were
+        //if there isn't a previous space, don't go backwards
         if (visitedSpaces.Count == 0)
-        {
-            //if there isn't a previous space, don't go backwards
+        {            
             return;
         }
 
-        spacesToMove++;
-        currentSpace.LeaveSpace(player);
+        if (targetSpace != visitedSpaces.Pop())
+        {
+            Debug.LogWarning("Somehow, going back doesn't match up with our previous space");
+        }
 
-        Space returningSpace = visitedSpaces.Pop();
-        Debug.Log($"Returning space is {returningSpace.spaceName}");
-        //move the player to that space
-        MoveToSpace(returningSpace);
+        spacesToMove++;
+
         //undo the logic for passing the space
-        returningSpace.PlayerReversed(player);
+        currentSpace.LeaveSpace(player);
+        currentSpace.PlayerReversed(player);
+
+        //move the player to the target space
+        MoveToSpace(targetSpace);
 
         //if we're back at the start
         if (visitedSpaces.Count == 0)
         {
-            canMoveAnyDirection = startingAnyDirection;
-
             //reset movement logic back to where they were at the start of the turn
             //basically, forget that the player just came from the space they came from
             //and set it where they just came from the space they came from previously at the start of their turn
-            returningSpace.LeaveSpace(player);
-            returningSpace.EnterSpaceFrom(player, previousEnteredFromSpace);
+            targetSpace.LeaveSpace(player);
+            targetSpace.EnterSpaceFrom(player, spaceLastTurnCameFrom);
         }
     }
     /// <summary>
@@ -277,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void EndMovement()
     {
-        previousEnteredFromSpace = visitedSpaces.Pop();
+        spaceLastTurnCameFrom = visitedSpaces.Pop();
         visitedSpaces.Clear();
     }
 
@@ -320,6 +311,14 @@ public class PlayerMovement : MonoBehaviour
         currentSpace = space;
         space.PlayerLanded(player);
         player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
+        ClearSetDirection();
     }
 
+    /// <summary>
+    /// Allows the player to move either direction on their turn
+    /// </summary>
+    public void ClearSetDirection()
+    {
+        spaceLastTurnCameFrom = null;
+    }
 }
