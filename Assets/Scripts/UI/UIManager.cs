@@ -58,6 +58,6 @@ public class UIManager : MonoBehaviour
             name = space.name;
         }
 
-        Debug.Log($"{player.playerName} has passed {name}");
+        //Debug.Log($"{player.playerName} has passed {name}");
     }
 }

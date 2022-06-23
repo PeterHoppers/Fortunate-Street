@@ -33,7 +33,7 @@ public class PlayerMovementUI : MonoBehaviour
     {
         //GameObject newArrow = Instantiate(arrow, playerCanvas.transform);
         //RectTransform rectTransform = newArrow.GetComponent<RectTransform>();
-        Debug.Log("Dir to Next Space: " + directionToNextSpace);
+        //Debug.Log("Dir to Next Space: " + directionToNextSpace);
         // === Calculates the Midpoint coordinates for where the arrow should be placed === \\
         float xMidpoint = currentSpace.transform.position.x + (currentSpace.transform.position.x - targetSpace.transform.position.x) / 2;
         float yMidpoint = currentSpace.transform.position.y + (currentSpace.transform.position.y - targetSpace.transform.position.y) / 2; ;

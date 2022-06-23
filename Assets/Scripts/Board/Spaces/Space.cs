@@ -40,9 +40,11 @@ public class Space : MonoBehaviour
         //if on start, teleported, or option to go both ways is activated
         if (!spaceEnteredFrom.ContainsKey(player))
         {
+            Debug.Log($"No record of the player entering this space from anywhere.");
             return possibleSpaces;
         }
 
+        Debug.Log($"The player entered from {spaceEnteredFrom[player]}");
         Space enteredSpace = spaceEnteredFrom[player];
         possibleSpaces.Remove(enteredSpace);
         return possibleSpaces;

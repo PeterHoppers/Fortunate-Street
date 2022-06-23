@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Space currentSpace;
+    Space previousEnteredFromSpace; //saves the information of where the player came from at the end of their last turn
     bool canMoveAnyDirection; //used for determining the direction they are going through a section
     bool startingAnyDirection;
 
@@ -69,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 PlayerRollDice();
-                visitedSpaces.Clear();
 
                 if (currentSpace.HasPlayerEntered(player))
                 {
@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
     {
         spacesToMove = RollDice(maxNumber);
         player.SetTurnState(TurnState.Moving);
-        Debug.Log($"How many spaces we're moving {spacesToMove}");
+        //Debug.Log($"How many spaces we're moving {spacesToMove}");
     }
 
     int RollDice(int maxNumber = 6)
@@ -125,48 +125,6 @@ public class PlayerMovement : MonoBehaviour
         int rolled = UnityEngine.Random.Range(1, maxNumber + 1);
         OnPlayerRolled?.Invoke(player, rolled);
         return rolled;
-    }
-
-
-    /// <summary>
-    /// Needs a new name. Called when the player teleports or makes a decision at an intersection. Contains logic for moving and detecting if the 
-    /// player has switched board sections. Whenever the player might have switched sections, it is better to call this than MoveToSpace()
-    /// </summary>
-    /// <param name="space"></param>
-    /// <param name="hasTeleported"></param>
-    public void TeleportToSpace(Space space)
-    {
-        currentSpace = space;
-        space.PlayerLanded(player);
-        player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
-    }
-
-    public void MoveToSpace(Space space)
-    {
-        //save the previous space as the space entered from
-        space.EnterSpaceFrom(player, currentSpace);
-
-        // === NEW CODE === \\
-        StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));
-
-        currentSpace = space;        
-    }
-
-    // === Lerp the player forward for smoother movement === \\
-    IEnumerator LerpPosition(Vector3 targetSpace, float duration)
-    {
-        Vector3 newSpace = new Vector3(targetSpace.x, heightOffset, targetSpace.z);
-        {
-            float time = 0;
-            Vector3 startPosition = transform.position;
-            while (time < duration)
-            {
-                transform.position = Vector3.Lerp(startPosition, newSpace, time / duration);
-                time += Time.deltaTime;
-                yield return null;
-            }
-            transform.position = newSpace;
-        }
     }
 
     void SetupMovementOptions()
@@ -239,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
 
     public List<Space> GetPossibleMovementSpots()
     {
-        Debug.Log($"We're getting the possible spaces for {currentSpace}");
+        //Debug.Log($"We're getting the possible spaces for {currentSpace}");
         if (canMoveAnyDirection)
         {
             return currentSpace.connectedSpaces.ToList();
@@ -258,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
             ReverseMovement();
             return;
         }
+        
         //remove player from the previous space
         visitedSpaces.Push(currentSpace);
         currentSpace.LeaveSpace(player);
@@ -270,8 +229,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (spacesToMove == 0)
         {
+            //this might end up being moved to after the player confirms they've stopped moving
             player.SetTurnState(TurnState.Landed);
             currentSpace.PlayerLanded(player);
+            EndMovement(); 
         }
         else
         {
@@ -303,6 +264,62 @@ public class PlayerMovement : MonoBehaviour
         if (visitedSpaces.Count == 0)
         {
             canMoveAnyDirection = startingAnyDirection;
+
+            //reset movement logic back to where they were at the start of the turn
+            //basically, forget that the player just came from the space they came from
+            //and set it where they just came from the space they came from previously at the start of their turn
+            returningSpace.LeaveSpace(player);
+            returningSpace.EnterSpaceFrom(player, previousEnteredFromSpace);
         }
     }
+    /// <summary>
+    /// Modifiy any information here that needs to be finished up before the player's movements ends and before they move next turn
+    /// </summary>
+    public void EndMovement()
+    {
+        previousEnteredFromSpace = visitedSpaces.Pop();
+        visitedSpaces.Clear();
+    }
+
+    public void MoveToSpace(Space space)
+    {
+        //save the previous space as the space entered from
+        space.EnterSpaceFrom(player, currentSpace);
+
+        // === NEW CODE === \\
+        StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));
+
+        currentSpace = space;
+    }
+
+    // === Lerp the player forward for smoother movement === \\
+    IEnumerator LerpPosition(Vector3 targetSpace, float duration)
+    {
+        Vector3 newSpace = new Vector3(targetSpace.x, heightOffset, targetSpace.z);
+        {
+            float time = 0;
+            Vector3 startPosition = transform.position;
+            while (time < duration)
+            {
+                transform.position = Vector3.Lerp(startPosition, newSpace, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = newSpace;
+        }
+    }
+
+    /// <summary>
+    /// Needs a new name. Called when the player teleports or makes a decision at an intersection. Contains logic for moving and detecting if the 
+    /// player has switched board sections. Whenever the player might have switched sections, it is better to call this than MoveToSpace()
+    /// </summary>
+    /// <param name="space"></param>
+    /// <param name="hasTeleported"></param>
+    public void TeleportToSpace(Space space)
+    {
+        currentSpace = space;
+        space.PlayerLanded(player);
+        player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
+    }
+
 }
