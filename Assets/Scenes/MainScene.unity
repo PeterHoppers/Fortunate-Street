@@ -1848,6 +1848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 670062573}
+  - component: {fileID: 670062574}
   m_Layer: 5
   m_Name: Moving
   m_TagString: Untagged
@@ -1876,6 +1877,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &670062574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670062572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56a93f42b4738b4893235c2f29f4639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceText: {fileID: 1831131140}
 --- !u!114 &697148520 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
@@ -2693,6 +2707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1032666678}
+  - component: {fileID: 1032666679}
   m_Layer: 5
   m_Name: StartTurn
   m_TagString: Untagged
@@ -2722,6 +2737,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1032666679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032666677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abefec085290844bb5546be57725b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: {fileID: 2102667369}
 --- !u!1 &1033318105
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,7 +3942,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1626631986}
-  - component: {fileID: 1626631988}
   m_Layer: 5
   m_Name: TurnUI
   m_TagString: Untagged
@@ -3946,19 +3973,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1626631988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626631985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56a93f42b4738b4893235c2f29f4639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diceText: {fileID: 1831131140}
 --- !u!1001 &1627254130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4504,7 +4518,6 @@ MonoBehaviour:
     uiStateHolder: {fileID: 670062572}
   - state: 3
     uiStateHolder: {fileID: 12592336}
-  playerName: {fileID: 2102667369}
 --- !u!1 &1831131138
 GameObject:
   m_ObjectHideFlags: 0

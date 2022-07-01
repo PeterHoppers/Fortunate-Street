@@ -93,6 +93,12 @@ public class Player : MonoBehaviour
         movement.enabled = false;
     }
 
+    public int GetSpacesLeftToMove()
+    {
+        return movement.spacesToMove;
+    }
+
+
     public void GetMoved(Space space)
     {
         movement.TeleportToSpace(space);

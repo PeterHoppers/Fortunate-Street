@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
 
     public GameObject propertyBuyUI;
     public TurnUIState[] uiStates;
-    public TMP_Text playerName;
 
     Player playerTurn;
 
@@ -61,7 +60,6 @@ public class UIManager : MonoBehaviour
             playerTurn.OnPlayerTurnStateChanged -= DisplayStateUI;
         }
 
-        playerName.text = $"{player.playerName}'s turn";
         playerTurn = player;
         playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
         DisplayStateUI(TurnState.BeforeRoll);
@@ -104,7 +102,17 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        //set the active state ui to be true
         stateUIHolder.uiStateHolder.SetActive(true);
+
+        //if the state is complicated enough, there is a base class called 'TurnStateUI' that can be created for each turn state
+        //this then takes in the player and updates its UI with the info found in the player
+        TurnStateUI stateUILogic = stateUIHolder.uiStateHolder.GetComponent<TurnStateUI>();
+
+        if (stateUILogic != null)
+        {
+            stateUILogic.SetUpTurnState(playerTurn);
+        }        
     }
 }
 
