@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 /// <summary>
 /// To be honest, I'm not happy with this implementation of the dice UI. I feel like it'll break with ease when we allow players to undo their movement
@@ -10,9 +11,9 @@ using UnityEngine.UI;
 /// </summary>
 public class TurnUI : MonoBehaviour
 {
+    public TurnUIState[] uiStates;
     public TMP_Text playerName;
     public TMP_Text diceText;
-    GameObject diceTextHolder;
     public Button rollButton;
 
     Player playerTurn;
@@ -23,7 +24,6 @@ public class TurnUI : MonoBehaviour
         PlayerMovement.OnPlayerRolled += DisplayDiceResults;
         Space.OnPlayerPass += ChangeDiceDisplay;
         Space.OnPlayerReverse += ChangeDiceDisplay;
-        Space.OnPlayerLand += HideDiceDisplay;
     }
 
     void OnDisable()
@@ -32,7 +32,6 @@ public class TurnUI : MonoBehaviour
         PlayerMovement.OnPlayerRolled -= DisplayDiceResults;
         Space.OnPlayerPass -= ChangeDiceDisplay;
         Space.OnPlayerReverse += ChangeDiceDisplay;
-        Space.OnPlayerLand -= HideDiceDisplay;
     }
 
     /// <summary>
@@ -44,17 +43,13 @@ public class TurnUI : MonoBehaviour
         //remove the reference to previous player first
         if (playerTurn)
         {
-            playerTurn.OnPlayerTurnStateChanged -= DisplayRollingUI;
+            playerTurn.OnPlayerTurnStateChanged -= DisplayStateUI;
         }
 
-        playerName.gameObject.SetActive(true);
-        rollButton.gameObject.SetActive(true);
-        diceTextHolder = diceText.transform.parent.gameObject;
-        diceTextHolder.SetActive(false);
         playerName.text = $"{player.playerName}'s turn";
-
         playerTurn = player;
-        playerTurn.OnPlayerTurnStateChanged += DisplayRollingUI;
+        playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
+        DisplayStateUI(TurnState.BeforeRoll);
     }
 
     /// <summary>
@@ -67,17 +62,36 @@ public class TurnUI : MonoBehaviour
         playerTurn.StartRolling();
     }
 
-    void DisplayRollingUI(TurnState turnState) 
+    public void ContinueMoving()
     {
-        if (turnState == TurnState.Rolling)
-        {            
-            playerName.gameObject.SetActive(false);
-            rollButton.gameObject.SetActive(false);
-            diceTextHolder.SetActive(true);
+        playerTurn.ContinueMoving();
+    }
 
-            //start the rolling animation
-            diceText.text = "Rolling"; //yes, this is really lame for now
+    public void EndMoving()
+    {
+        playerTurn.EndMoving();
+    }
+
+    /// <summary>
+    /// Update the UI to display the content in said state
+    /// </summary>
+    /// <param name="turnState"></param>
+    void DisplayStateUI(TurnState turnState) 
+    {
+        //deactivate all other state UI
+        foreach (TurnUIState turnUIState in uiStates)
+        {
+            turnUIState.uiStateHolder.SetActive(false);
         }
+
+        TurnUIState stateUIHolder = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
+
+        if (stateUIHolder == null)
+        {
+            return;
+        }
+
+        stateUIHolder.uiStateHolder.SetActive(true);
     }
 
     void DisplayDiceResults(Player player, int amount)
@@ -94,14 +108,11 @@ public class TurnUI : MonoBehaviour
     {
         diceText.text = player.GetSpacesRemaining().ToString();
     }
-    /// <summary>
-    /// When the turn ends, hide the dice display since they are not moving anywhere else
-    /// If we have a prompt to end the turn, this is probably where it should be activated
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="space"></param>
-    void HideDiceDisplay(Player player, Space space)
-    {
-        diceTextHolder.SetActive(false);
-    }
+}
+
+[System.Serializable]
+public class TurnUIState
+{
+    public TurnState state;
+    public GameObject uiStateHolder;
 }

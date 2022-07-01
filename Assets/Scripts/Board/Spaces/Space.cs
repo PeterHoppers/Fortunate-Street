@@ -18,15 +18,27 @@ public class Space : MonoBehaviour
     public delegate void PlayerReverse(Player player, Space space);
     public static event PlayerReverse OnPlayerReverse;
 
+    /// <summary>
+    /// What happens when the player just happens to pass by a space
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void PlayerPassed(Player player)
     {
         OnPlayerPass?.Invoke(player, this);
     }
+    /// <summary>
+    /// What happens when the player decides to land on that space. If it also occurs when the player passes, only add it to player passes
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void PlayerLanded(Player player)
     {
         //short hand for if(OnPlayerLand != null) OnPlayerLand(player, space)
         OnPlayerLand?.Invoke(player, this);
     }
+    /// <summary>
+    /// Right now, the way we undo the logic that occurs in player passes
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void PlayerReversed(Player player)
     {
         OnPlayerReverse?.Invoke(player, this);

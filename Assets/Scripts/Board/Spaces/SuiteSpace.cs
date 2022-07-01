@@ -14,7 +14,6 @@ public class SuiteSpace : Space
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
-        SuiteManager.GetSuite(player, suite);
         //run chance time
     }
 

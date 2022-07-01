@@ -20,8 +20,6 @@ public class Bank : Space
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
-        gameManagerforBank.CheckPlayerLevelUp(player);
-        gameManagerforBank.CheckPlayerWon(player);
         //clear movement choice for the player
     }
 }

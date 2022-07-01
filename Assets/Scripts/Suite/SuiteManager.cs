@@ -31,7 +31,6 @@ public class SuiteManager
         if (!suites[player].Contains(suite))
         {
             suites[player].Add(suite);
-            Debug.Log($"{player.name} got {suite}");
             OnPlayerGotSuite?.Invoke(player, suite, true);
         }
         else 

@@ -39,6 +39,18 @@ public class Player : MonoBehaviour
     {
         SetTurnState(TurnState.Rolling);
     }
+
+    public void ContinueMoving()
+    {
+        movement.ReverseMovement();
+        movement.SetupMovementOptions();
+        SetTurnState(TurnState.Moving);
+    }
+
+    public void EndMoving()
+    {
+        movement.EndMovement();
+    }
     public void GetMoved(Space space)
     {
         movement.TeleportToSpace(space);

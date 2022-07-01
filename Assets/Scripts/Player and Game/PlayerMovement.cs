@@ -49,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
     {
         player.OnPlayerTurnStateChanged -= UpdateTurnState;
     }
+    public void UpdateTurnState(TurnState turnState)
+    {
+        playerTurnState = turnState;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
                     //if we're trying to move to where we just were, we're moving backwards instead
                     if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
                     {
-                        ReverseMovement(targetSpace);
+                        ReverseMovement(); //since we can only go back to one space, we don't need to pass it in here
                     }
                     else 
                     {
@@ -97,16 +101,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void UpdateTurnState(TurnState turnState)
-    {
-        playerTurnState = turnState;
-    }
-
     public void PlayerRollDice(int maxNumber = 6)
     {
         spacesToMove = RollDice(maxNumber);
         player.SetTurnState(TurnState.Moving);
-        //Debug.Log($"How many spaces we're moving {spacesToMove}");
     }
 
     int RollDice(int maxNumber = 6)
@@ -116,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         return rolled;
     }
 
-    void SetupMovementOptions()
+    public void SetupMovementOptions()
     {
         //grab all the spaces we can move
         List<Space> spacesToGo = GetPossibleMovementSpots();
@@ -209,29 +207,28 @@ public class PlayerMovement : MonoBehaviour
         return possibleSpaces;
     }
 
+    /// <summary>
+    /// Logic to detemine where the player is now going to, if moving forward
+    /// </summary>
+    /// <param name="targetSpace"></param>
     public void MoveToSelectedSpace(Space targetSpace)
     {               
         //remove player from the previous space
         visitedSpaces.Push(currentSpace);
         currentSpace.LeaveSpace(player);
 
-        MoveToSpace(targetSpace);
+        currentSpace = MoveToSpace(targetSpace);
+        currentSpace.PlayerPassed(player);
         spacesToMove--;
 
         if (spacesToMove == 0)
         {
             //this might end up being moved to after the player confirms they've stopped moving
             player.SetTurnState(TurnState.Landed);
-            currentSpace.PlayerLanded(player);
-            EndMovement(); 
-        }
-        else
-        {
-            currentSpace.PlayerPassed(player);
         }
     }
 
-    public void ReverseMovement(Space targetSpace)
+    public void ReverseMovement()
     {
         //if there isn't a previous space, don't go backwards
         if (visitedSpaces.Count == 0)
@@ -239,10 +236,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (targetSpace != visitedSpaces.Pop())
-        {
-            Debug.LogWarning("Somehow, going back doesn't match up with our previous space");
-        }
+        //let's grap the last space in visited spaces to go back to
+        Space targetSpace = visitedSpaces.Pop();
 
         spacesToMove++;
 
@@ -251,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
         currentSpace.PlayerReversed(player);
 
         //move the player to the target space
-        MoveToSpace(targetSpace);
+        currentSpace = MoveToSpace(targetSpace);
 
         //if we're back at the start
         if (visitedSpaces.Count == 0)
@@ -268,11 +263,12 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void EndMovement()
     {
+        currentSpace.PlayerLanded(player);
         spaceLastTurnCameFrom = visitedSpaces.Pop();
         visitedSpaces.Clear();
     }
 
-    public void MoveToSpace(Space space)
+    public Space MoveToSpace(Space space)
     {
         //save the previous space as the space entered from
         space.EnterSpaceFrom(player, currentSpace);
@@ -280,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
         // === NEW CODE === \\
         StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));
 
-        currentSpace = space;
+        return space;
     }
 
     // === Lerp the player forward for smoother movement === \\
