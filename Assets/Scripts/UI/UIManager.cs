@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public GameObject allPlayerStatsPanel;
     public GameObject statsPanel;
 
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        Space.OnPlayerPass += ReportMovement;
-    }
+    public GameObject propertyBuyUI;
+    public TurnUIState[] uiStates;
+    public TMP_Text playerName;
 
-    void OnDisable()
-    {
-        Space.OnPlayerPass -= ReportMovement;
-    }
+    Player playerTurn;
 
+    /// <summary>
+    /// Function for setting up any UI that gets set up once at the start of the game
+    /// </summary>
+    /// <param name="players"></param>
     public void SetupUI(List<Player> players)
     {
         foreach (Player player in players)
@@ -38,26 +39,78 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnEnable()
     {
-        
+        GameManager.OnPlayerActiveChange += PlayerChanged;
+    }
+
+    void OnDisable()
+    {
+        GameManager.OnPlayerActiveChange -= PlayerChanged;
     }
 
     /// <summary>
-    /// More or less an example method to test events
+    /// When the active player has changed, update the turn ui to match the information found on that player
     /// </summary>
     /// <param name="player"></param>
-    /// <param name="space"></param>
-    void ReportMovement(Player player, Space space)
+    void PlayerChanged(Player player)
     {
-        string name = space.spaceName;
-
-        if (name == "")
+        //remove the reference to previous player first
+        if (playerTurn)
         {
-            name = space.name;
+            playerTurn.OnPlayerTurnStateChanged -= DisplayStateUI;
         }
 
-        //Debug.Log($"{player.playerName} has passed {name}");
+        playerName.text = $"{player.playerName}'s turn";
+        playerTurn = player;
+        playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
+        DisplayStateUI(TurnState.BeforeRoll);
     }
+
+    /// <summary>
+    /// These methods here are calling methods found of the player so that the UI can control the player
+    /// </summary>
+    public void RollDice()
+    {
+        playerTurn.StartRolling();
+    }
+
+    public void ContinueMoving()
+    {
+        playerTurn.ContinueMoving();
+    }
+
+    public void EndMoving()
+    {
+        playerTurn.EndMoving();
+    }
+
+    /// <summary>
+    /// Update the UI to display the content in said state
+    /// </summary>
+    /// <param name="turnState"></param>
+    void DisplayStateUI(TurnState turnState)
+    {
+        //deactivate all other state UI
+        foreach (TurnUIState turnUIState in uiStates)
+        {
+            turnUIState.uiStateHolder.SetActive(false);
+        }
+
+        TurnUIState stateUIHolder = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
+
+        if (stateUIHolder == null)
+        {
+            return;
+        }
+
+        stateUIHolder.uiStateHolder.SetActive(true);
+    }
+}
+
+[System.Serializable]
+public class TurnUIState
+{
+    public TurnState state;
+    public GameObject uiStateHolder;
 }

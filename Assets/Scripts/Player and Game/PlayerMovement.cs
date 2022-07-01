@@ -29,29 +29,12 @@ public class PlayerMovement : MonoBehaviour
 
     Player player;
     PlayerMovementUI ui;
-    TurnState playerTurnState;
-
-    public delegate void PlayerRolled(Player player, int spaces);
-    public static event PlayerRolled OnPlayerRolled;
 
     //caled on Awake from Player
     public void SetPlayer(Player player)
     {
         this.player = player;
         ui = GetComponent<PlayerMovementUI>();
-    }
-
-    void OnEnable()
-    {
-        player.OnPlayerTurnStateChanged += UpdateTurnState;
-    }
-    void OnDisable()
-    {
-        player.OnPlayerTurnStateChanged -= UpdateTurnState;
-    }
-    public void UpdateTurnState(TurnState turnState)
-    {
-        playerTurnState = turnState;
     }
 
     // Start is called before the first frame update
@@ -66,52 +49,25 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTurnState == TurnState.Rolling)
+        foreach (KeyCode key in keysSpaces.Keys)
         {
-            //mocking up some controls
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(key))
             {
-                PlayerRollDice();
-                SetupMovementOptions();
-
-                return;
-            }
-        }
-        else if (playerTurnState == TurnState.Moving)
-        {
-            foreach (KeyCode key in keysSpaces.Keys)
-            {
-                if (Input.GetKeyDown(key))
+                Space targetSpace = keysSpaces[key];
+                //if we're trying to move to where we just were, we're moving backwards instead
+                if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
                 {
-                    Space targetSpace = keysSpaces[key];
-                    //if we're trying to move to where we just were, we're moving backwards instead
-                    if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
-                    {
-                        ReverseMovement(); //since we can only go back to one space, we don't need to pass it in here
-                    }
-                    else 
-                    {
-                        MoveToSelectedSpace(targetSpace);
-                    }
-                    
-                    SetupMovementOptions();
-                    break;
+                    ReverseMovement(); //since we can only go back to one space, we don't need to pass it in here
                 }
+                else 
+                {
+                    MoveToSelectedSpace(targetSpace);
+                }
+                    
+                SetupMovementOptions();
+                break;
             }
         }
-    }
-
-    public void PlayerRollDice(int maxNumber = 6)
-    {
-        spacesToMove = RollDice(maxNumber);
-        player.SetTurnState(TurnState.Moving);
-    }
-
-    int RollDice(int maxNumber = 6)
-    {
-        int rolled = UnityEngine.Random.Range(1, maxNumber + 1);
-        OnPlayerRolled?.Invoke(player, rolled);
-        return rolled;
     }
 
     public void SetupMovementOptions()
@@ -218,14 +174,15 @@ public class PlayerMovement : MonoBehaviour
         currentSpace.LeaveSpace(player);
 
         currentSpace = MoveToSpace(targetSpace);
-        currentSpace.PlayerPassed(player);
-        spacesToMove--;
+        spacesToMove--;      
 
         if (spacesToMove == 0)
         {
             //this might end up being moved to after the player confirms they've stopped moving
             player.SetTurnState(TurnState.Landed);
         }
+
+        currentSpace.PlayerPassed(player);
     }
 
     public void ReverseMovement()

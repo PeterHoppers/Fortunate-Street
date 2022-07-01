@@ -41,9 +41,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //players = FindObjectsOfType<Player>();
-        //Debug.Log($"Found {players.Length} players");
-
         for (int playerIndex = 0; playerIndex < playerNames.Length; playerIndex++)
         {
             GameObject newPlayer = Instantiate(playerObject);
@@ -70,33 +67,25 @@ public class GameManager : MonoBehaviour
         SuiteManager.SetupSuites(players);
         StockManager.SetupStocks();
 
-        uiManager = GetComponent<UIManager>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (uiManager == null)
         {
-            Debug.LogError("The UI Manager is not on the same game object as the game manager.");
+            Debug.LogError("The UI Manager is not on a gameobject called 'Canvas'");
             return;
         }
 
         uiManager.SetupUI(players);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void CheckPlayerLevelUp(Player player)
     {
         int suiteCount = SuiteManager.suites[player].Count;
-        Debug.Log($"Sutie count is: {suiteCount}");
         //we also need to check for suite yourself cards
 
         if (suiteCount >= 4)
         {
             LevelUpPlayer(player);
-            Debug.Log("Leveled up!");
         }
     }
 
@@ -140,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     public void DisablePlayer(Player player)
     {
-        player.StopPlayerActive();
+        //player.StopPlayerActive();
     }
 
     public void SetActivePlayer(Player player)
