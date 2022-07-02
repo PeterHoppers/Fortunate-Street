@@ -184,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
         if (spacesToMove == 0)
         {
             //this might end up being moved to after the player confirms they've stopped moving
-            player.SetTurnState(TurnState.Landed);
+            player.SetTurnState(TurnState.Stopped);
         }
 
         currentSpace.PlayerPassed(player);
@@ -225,9 +225,14 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void EndMovement()
     {
+        //it is in this order due to LandedUI
         currentSpace.PlayerLanded(player);
+
+        //setup visited spaces for the next turn
         spaceLastTurnCameFrom = visitedSpaces.Pop();
         visitedSpaces.Clear();
+
+        player.SetTurnState(TurnState.Landed);
     }
 
     public Space MoveToSpace(Space space)

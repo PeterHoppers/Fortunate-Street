@@ -49,20 +49,37 @@ public class Property : BuyableSpace
         //offer to the player if they want to buy this space
         if (owner == null)
         {
-            //temporary logic to prevent players from buying with money they don't have
-            if (MoneyManager.GetPlayerMoneyValue(player) < shopValue)
-            {
-                Debug.Log("No wait! You're too poor!");
-                return;
-            }
-
-            MoneyManager.MoneyChanged(player, shopValue * -1);
-            SpaceBought(player);
+            //BuySpace();
         }
         else if (owner != player)
         {
             MoneyManager.PlayerTransaction(player, owner, shopPrice);
         }
+    }
+
+    public void BuySpace(Player buyer)
+    {
+        if (owner == buyer)
+        {
+            Debug.Log("You already own it!");
+            return;
+        }
+
+        if (owner != null)
+        {
+            Debug.Log("No wait! Someone owns it!");
+            return;
+        }
+
+        //temporary logic to prevent players from buying with money they don't have
+        if (MoneyManager.GetPlayerMoneyValue(buyer) < shopValue)
+        {
+            Debug.Log("No wait! You're too poor!");
+            return;
+        }
+
+        MoneyManager.MoneyChanged(buyer, shopValue * -1);
+        SpaceBought(buyer);
     }
 
     public override void PlayerPassed(Player player)

@@ -98,6 +98,10 @@ public class Player : MonoBehaviour
         return movement.spacesToMove;
     }
 
+    public Space GetCurrentSpace()
+    {
+        return movement.currentSpace;
+    }
 
     public void GetMoved(Space space)
     {
@@ -113,5 +117,6 @@ public class Player : MonoBehaviour
     {
         this.turnState = turnState;
         OnPlayerTurnStateChanged?.Invoke(turnState);
+        Debug.Log($"{playerName} is now in the {turnState}.");
     }
 }

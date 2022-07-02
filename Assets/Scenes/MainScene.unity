@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 12592337}
   m_Layer: 5
-  m_Name: Landed
+  m_Name: Stopped
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,10 +729,10 @@ RectTransform:
   m_Father: {fileID: 454968777}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 892.3125, y: -50}
-  m_SizeDelta: {x: 394.875, y: 85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211245715
 MonoBehaviour:
@@ -777,7 +777,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 211245716}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064968213}
+        m_TargetAssemblyTypeName: PropertyBuyUI, Assembly-CSharp
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &211245716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,7 +1314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &454968777
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1617,10 +1629,10 @@ RectTransform:
   m_Father: {fileID: 454968777}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 347.4375, y: -50}
-  m_SizeDelta: {x: 394.875, y: 85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &585945599
 MonoBehaviour:
@@ -1665,7 +1677,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 585945600}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064968213}
+        m_TargetAssemblyTypeName: PropertyBuyUI, Assembly-CSharp
+        m_MethodName: BuySpace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &585945600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,7 +1913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56a93f42b4738b4893235c2f29f4639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceText: {fileID: 1831131140}
+  spacesLeftText: {fileID: 1831131140}
 --- !u!114 &697148520 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1027318951637258566, guid: 31eb30f5ebb43e549922d8d32b24f1b2, type: 3}
@@ -3965,8 +3989,9 @@ RectTransform:
   - {fileID: 1276984302}
   - {fileID: 670062573}
   - {fileID: 12592337}
+  - {fileID: 1808822658}
   m_Father: {fileID: 1807475486}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4484,7 +4509,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1630169407}
-  - {fileID: 2064968212}
   - {fileID: 1626631986}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -4518,6 +4542,61 @@ MonoBehaviour:
     uiStateHolder: {fileID: 670062572}
   - state: 3
     uiStateHolder: {fileID: 12592336}
+  - state: 4
+    uiStateHolder: {fileID: 1808822657}
+--- !u!1 &1808822657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808822658}
+  - component: {fileID: 1808822659}
+  m_Layer: 5
+  m_Name: Landed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1808822658
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808822657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2064968212}
+  m_Father: {fileID: 1626631986}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1808822659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808822657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1b39aaccadc174f978a65d8e98bb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landedUIToSpaces:
+  - uiParent: {fileID: 2064968211}
+    spaceType: Property
 --- !u!1 &1831131138
 GameObject:
   m_ObjectHideFlags: 0
@@ -5464,6 +5543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2064968212}
+  - component: {fileID: 2064968213}
   m_Layer: 5
   m_Name: PropertyBuyUI
   m_TagString: Untagged
@@ -5484,14 +5564,26 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 454968777}
-  m_Father: {fileID: 1807475486}
-  m_RootOrder: 1
+  m_Father: {fileID: 1808822658}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2064968213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064968211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e061de5e36fcfa49aa52349beba7bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2102667367
 GameObject:
   m_ObjectHideFlags: 0

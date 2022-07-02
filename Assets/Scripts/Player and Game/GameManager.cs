@@ -28,16 +28,6 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerActiveChange(Player player);
     public static event PlayerActiveChange OnPlayerActiveChange;
 
-    void OnEnable()
-    {
-        Space.OnPlayerLand += AdvanceTurn;
-    }
-
-    void OnDisable()
-    {
-        Space.OnPlayerLand -= AdvanceTurn;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -112,7 +102,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AdvanceTurn(Player player, Space space)
+    public void AdvanceTurn(Player player)
     {
         DisablePlayer(player);
 
@@ -129,13 +119,21 @@ public class GameManager : MonoBehaviour
 
     public void DisablePlayer(Player player)
     {
-        //player.StopPlayerActive();
+        player.OnPlayerTurnStateChanged -= FinishedTurn;
     }
 
     public void SetActivePlayer(Player player)
     {
         player.MakePlayerActive();
+        player.OnPlayerTurnStateChanged += FinishedTurn;
         activePlayer = player;
         OnPlayerActiveChange?.Invoke(player);
+    }
+    void FinishedTurn(TurnState turnState)
+    {
+        if (turnState == TurnState.Finished)
+        {
+            AdvanceTurn(activePlayer);
+        }
     }
 }

@@ -4,5 +4,7 @@ public enum TurnState
     BeforeRoll,
     Rolling,
     Moving,
-    Landed
+    Stopped,
+    Landed,
+    Finished
 }

@@ -89,6 +89,11 @@ public class UIManager : MonoBehaviour
     /// <param name="turnState"></param>
     void DisplayStateUI(TurnState turnState)
     {
+        //right now, there's a bug with finished where it gets called after the next player's before roll is called
+        if (turnState == TurnState.Finished)
+        {
+            return;
+        }
         //deactivate all other state UI
         foreach (TurnUIState turnUIState in uiStates)
         {
@@ -112,7 +117,7 @@ public class UIManager : MonoBehaviour
         if (stateUILogic != null)
         {
             stateUILogic.SetUpTurnState(playerTurn);
-        }        
+        }
     }
 }
 
