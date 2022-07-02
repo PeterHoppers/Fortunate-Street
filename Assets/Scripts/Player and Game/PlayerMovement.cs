@@ -231,8 +231,6 @@ public class PlayerMovement : MonoBehaviour
         //setup visited spaces for the next turn
         spaceLastTurnCameFrom = visitedSpaces.Pop();
         visitedSpaces.Clear();
-
-        player.SetTurnState(TurnState.Landed);
     }
 
     public Space MoveToSpace(Space space)

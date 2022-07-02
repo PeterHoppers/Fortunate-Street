@@ -7,6 +7,10 @@ public class LandedUI : TurnStateUI
 {
     public LandedUIToSpace[] landedUIToSpaces;
 
+    /// <summary>
+    /// Displays different UI depending on the type of space that you landed on
+    /// </summary>
+    /// <param name="player"></param>
     public override void SetUpTurnState(Player player)
     {
         foreach (LandedUIToSpace uis in landedUIToSpaces)
@@ -33,7 +37,12 @@ public class LandedUI : TurnStateUI
         else 
         {
             Debug.LogWarning($"Could not find a UI associated with the space type: {spaceType}.");
-            player.SetTurnState(TurnState.Finished);
+
+            //right now, there's a bug with the Roll Again space not working without the UI for it, since the turn doesn't finish when they land on it
+            if (spaceType != "RollAgain")
+            {
+                player.SetTurnState(TurnState.Finished);
+            }
         }
     }
 }

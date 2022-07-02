@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
    
     public int level = 1;
     
-    PlayerMovement movement;
-    Dice dice;
+    protected PlayerMovement movement;
+    protected Dice dice;
 
     public delegate void PlayerTurnStateChanged(TurnState turnState);
     public event PlayerTurnStateChanged OnPlayerTurnStateChanged;
@@ -35,6 +35,21 @@ public class Player : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         movement.SetPlayer(this);
         dice = Camera.main.GetComponent<Dice>();
+    }
+
+    public void SetPlayerName(string playerName)
+    {
+        this.playerName = playerName;
+    }
+
+    public void SetPlayerColor(Color color)
+    {
+        this.color = color;
+    }
+
+    public void SetPlayerIndex(int id)
+    {
+        this.id = id;
     }
 
     /// <summary>
@@ -61,7 +76,7 @@ public class Player : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="spaces"></param>
-    void StartMoving(Player player, int spaces)
+    protected void StartMoving(Player player, int spaces)
     {
         if (player != this)
         {

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     //these two will most likely be later pulled from a different scene where player creation/selection is done
     public string[] playerNames;
     public Color32[] playerColors;
+    public bool[] isAI;
+    public float decisionDelay;
 
     List<Player> players = new List<Player>();
     Player activePlayer;
@@ -34,20 +36,32 @@ public class GameManager : MonoBehaviour
         for (int playerIndex = 0; playerIndex < playerNames.Length; playerIndex++)
         {
             GameObject newPlayer = Instantiate(playerObject);
-            Player newPlayerScript = newPlayer.GetComponent<Player>();
-            
-            newPlayerScript.playerName = playerNames[playerIndex];
-            newPlayerScript.color = playerColors[playerIndex];
-            newPlayerScript.id = playerIndex;
+            Player playerScript;
+
+            if (isAI[playerIndex])
+            {
+                PlayerAI ai = newPlayer.AddComponent<PlayerAI>();
+                ai.decisionDelay = decisionDelay;
+
+                playerScript = ai;
+            }
+            else
+            {
+                playerScript = newPlayer.AddComponent<Player>();
+            }
+
+            playerScript.playerName = playerNames[playerIndex];
+            playerScript.color = playerColors[playerIndex];
+            playerScript.id = playerIndex;
 
             //a test line to color each player their color
             Renderer playerRender = newPlayer.GetComponent<Renderer>();
             playerRender.material.SetColor("_Color", playerColors[playerIndex]);
 
             //disable each of the players on start
-            DisablePlayer(newPlayerScript);
+            DisablePlayer(playerScript);
 
-            players.Add(newPlayerScript);
+            players.Add(playerScript);
         }
 
         SetActivePlayer(players[0]);
@@ -120,6 +134,7 @@ public class GameManager : MonoBehaviour
     public void DisablePlayer(Player player)
     {
         player.OnPlayerTurnStateChanged -= FinishedTurn;
+        //player.DisablePlayer();
     }
 
     public void SetActivePlayer(Player player)

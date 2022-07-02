@@ -34,6 +34,7 @@ public class Space : MonoBehaviour
     {
         //short hand for if(OnPlayerLand != null) OnPlayerLand(player, space)
         OnPlayerLand?.Invoke(player, this);
+        player.SetTurnState(TurnState.Landed);
     }
     /// <summary>
     /// Right now, the way we undo the logic that occurs in player passes
@@ -56,7 +57,7 @@ public class Space : MonoBehaviour
             return possibleSpaces;
         }
 
-        Debug.Log($"The player entered from {spaceEnteredFrom[player]}");
+        //Debug.Log($"The player entered from {spaceEnteredFrom[player]}");
         Space enteredSpace = spaceEnteredFrom[player];
         possibleSpaces.Remove(enteredSpace);
         return possibleSpaces;

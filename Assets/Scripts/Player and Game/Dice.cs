@@ -16,6 +16,27 @@ public class Dice : MonoBehaviour
         this.maxNumber = maxNumber;
     }
 
+    public int RollDice()
+    {
+        int rolled = Random.Range(1, maxNumber + 1);
+        OnPlayerRolled?.Invoke(rollingPlayer, rolled);
+        rollingPlayer = null;
+        return rolled;
+    }
+
+    /// <summary>
+    /// Used for debugging at the moment, or maybe for when a chance thing makes you roll a specific number
+    /// </summary>
+    /// <param name="rolledAmt"></param>
+    /// <returns></returns>
+    int CheatDice(int rolledAmt)
+    {
+        int rolled = rolledAmt;
+        OnPlayerRolled?.Invoke(rollingPlayer, rolled);
+        rollingPlayer = null;
+        return rolled;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -28,9 +49,22 @@ public class Dice : MonoBehaviour
         //mocking up some controls
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            int rolled = Random.Range(1, maxNumber + 1);
-            OnPlayerRolled?.Invoke(rollingPlayer, rolled);
-            rollingPlayer = null;
+            RollDice();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            CheatDice(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            CheatDice(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            CheatDice(3);
         }
     }
 }
