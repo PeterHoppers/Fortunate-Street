@@ -8,11 +8,12 @@ public class PropertyLandUI : LandedUIBaseSpace
     public GameObject investUI;
     //public GameObject buyOutUI;
 
+    //info here saved so that UI can reference them
     Property space;
     Player player;
 
     //TODO: Different UI for buying a space vs. landing on someone else's space
-    public override void SetUpBaseSpace(Player player, Space space)
+    public override void SetUpUI(Player player, Space space)
     {
         this.player = player;
         this.space = space.GetComponent<Property>();
@@ -38,8 +39,7 @@ public class PropertyLandUI : LandedUIBaseSpace
             player.SetTurnState(TurnState.Finished);
         }
 
-        Debug.Log($"The {player.playerName} has landed on the property {space.name}");
-        //player.SetTurnState(TurnState.Finished);
+        Debug.Log($"{player.playerName} has landed on the property {space.name}");
     }
 
     public void BuySpace()
@@ -62,5 +62,10 @@ public class PropertyLandUI : LandedUIBaseSpace
         {
             uiToTurnOn.SetActive(true);
         }
+    }
+
+    public override void TurnOffUI()
+    {
+        throw new System.NotImplementedException();
     }
 }

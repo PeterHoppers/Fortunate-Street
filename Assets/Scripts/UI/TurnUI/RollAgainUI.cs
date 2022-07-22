@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class RollAgainUI : LandedUIBaseSpace
 {
-    Player player;
-    public override void SetUpBaseSpace(Player player, Space space)
+    public override void SetUpUI(Player player, Space space)
     {
-        this.player = player;
+        UIManager.DisplayMessage("Roll again!");
+    }
+
+    public override void TurnOffUI()
+    {
+        UIManager.HideGenericMessage();
     }
 }

@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     public GameObject propertyBuyUI;
     public TurnUIState[] uiStates;
 
+    //this is done as static so that other UI elements can call it without having the worrying about what the UI Manager is or where it is
+    public static TMP_Text genericPromptUI;
+
     Player playerTurn;
 
     /// <summary>
@@ -19,7 +22,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="players"></param>
     public void SetupUI(List<Player> players)
-    {
+    {        
         foreach (Player player in players)
         {
             if (player != null)
@@ -36,6 +39,11 @@ public class UIManager : MonoBehaviour
                 overview.SetPlayer(player);
             }
         }
+    }
+
+    void Awake()
+    {
+        genericPromptUI = GameObject.FindGameObjectWithTag("GenericPrompt").GetComponent<TMP_Text>(); //can't add a reference through the UI for static objects
     }
 
     void OnEnable()
@@ -98,6 +106,7 @@ public class UIManager : MonoBehaviour
         foreach (TurnUIState turnUIState in uiStates)
         {
             turnUIState.uiStateHolder.SetActive(false);
+            HideGenericMessage();
         }
 
         TurnUIState stateUIHolder = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
@@ -118,6 +127,24 @@ public class UIManager : MonoBehaviour
         {
             stateUILogic.SetUpTurnState(playerTurn);
         }
+    }
+
+    /// <summary>
+    /// Use to display a message to the UI
+    /// </summary>
+    /// <param name="messageToDisplay"></param>
+    public static void DisplayMessage(string messageToDisplay) 
+    {
+        genericPromptUI.transform.parent.gameObject.SetActive(true);
+        genericPromptUI.text = messageToDisplay;
+    }
+
+    /// <summary>
+    /// Hide the generic message that appears in 'Display Message'
+    /// </summary>
+    public static void HideGenericMessage()
+    {
+        genericPromptUI.transform.parent.gameObject.SetActive(false);
     }
 }
 
