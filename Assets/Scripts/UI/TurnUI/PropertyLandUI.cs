@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PropertyLandUI : LandedUIBaseSpace
 {
+    public UIManager manager;
     public GameObject purchaseUI;
     public GameObject investUI;
     //public GameObject buyOutUI;
@@ -17,6 +18,9 @@ public class PropertyLandUI : LandedUIBaseSpace
     {
         this.player = player;
         this.space = space.GetComponent<Property>();
+
+        //TODO: Find a way so that the manager doesn't need to be brought in here. Or, find a better way to toggle this panel
+        manager.ToggleMoneyDisplay(player);
 
         if (this.space == null)
         {

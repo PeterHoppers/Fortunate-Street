@@ -7,6 +7,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public GameObject allPlayerStatsPanel;
+    public GameObject playerMoneyStatsPanel;
     public GameObject statsPanel;
 
     public GameObject propertyBuyUI;
@@ -39,6 +40,10 @@ public class UIManager : MonoBehaviour
                 overview.SetPlayer(player);
             }
         }
+
+        // TODO: If we actually change the visibility of the all player stats panel, it can't update the money value when it is hidden
+        //allPlayerStatsPanel.SetActive(true);
+        playerMoneyStatsPanel.SetActive(false);
     }
 
     void Awake()
@@ -70,7 +75,12 @@ public class UIManager : MonoBehaviour
 
         playerTurn = player;
         playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
+
         DisplayStateUI(TurnState.BeforeRoll);
+
+        //reset any UI that needs to be someway at the start of the turn
+        //allPlayerStatsPanel.SetActive(true);
+        playerMoneyStatsPanel.SetActive(false);
     }
 
     /// <summary>
@@ -89,6 +99,13 @@ public class UIManager : MonoBehaviour
     public void EndMoving()
     {
         playerTurn.EndMoving();
+    }
+
+    public void ToggleMoneyDisplay(Player player)
+    {
+        //allPlayerStatsPanel.SetActive(false); 
+        playerMoneyStatsPanel.SetActive(true);
+        playerMoneyStatsPanel.GetComponent<PlayerMoneyOverviewUI>().DisplayPlayer(player);
     }
 
     /// <summary>

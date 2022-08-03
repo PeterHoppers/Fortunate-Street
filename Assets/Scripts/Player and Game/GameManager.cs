@@ -105,15 +105,20 @@ public class GameManager : MonoBehaviour
 
     public void CheckPlayerWon(Player player)
     {
-        int playerTotalValue = MoneyManager.GetPlayerMoneyValue(player)
-            + StockManager.GetPlayerStockWorth(player)
-            + BoardManager.GetPlayerBoardValue(player);
+        int playerTotalValue = GetPlayerTotalWorth(player);
         Debug.Log($"{player.playerName} value is {playerTotalValue}");
         //calcuate the total value of the player
         if (playerTotalValue > totalValueToWin)
         {
             Debug.Log($"{player.playerName} has won!");
         }
+    }
+
+    public int GetPlayerTotalWorth(Player player)
+    {
+        return MoneyManager.GetPlayerMoneyValue(player)
+            + StockManager.GetPlayerStockWorth(player)
+            + BoardManager.GetPlayerBoardValue(player);
     }
 
     public void AdvanceTurn(Player player)
