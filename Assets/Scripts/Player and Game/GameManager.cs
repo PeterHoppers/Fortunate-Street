@@ -50,9 +50,9 @@ public class GameManager : MonoBehaviour
                 playerScript = newPlayer.AddComponent<Player>();
             }
 
-            playerScript.playerName = playerNames[playerIndex];
-            playerScript.color = playerColors[playerIndex];
-            playerScript.id = playerIndex;
+            playerScript.SetPlayerName(playerNames[playerIndex]);
+            playerScript.SetPlayerColor(playerColors[playerIndex]);
+            playerScript.SetPlayerIndex(playerIndex);
 
             //a test line to color each player their color
             Renderer playerRender = newPlayer.GetComponent<Renderer>();
