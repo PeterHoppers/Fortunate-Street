@@ -64,8 +64,6 @@ public class GameManager : MonoBehaviour
             players.Add(playerScript);
         }
 
-        SetActivePlayer(players[0]);
-
         BoardManager.SetupBoard();
         MoneyManager.SetupMoney(players, startingMoney);
         SuiteManager.SetupSuites(players);
@@ -80,6 +78,7 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.SetupUI(players);
+        SetActivePlayer(players[0]);
     }
 
     public void CheckPlayerLevelUp(Player player)
@@ -144,10 +143,11 @@ public class GameManager : MonoBehaviour
 
     public void SetActivePlayer(Player player)
     {
-        player.MakePlayerActive();
-        player.OnPlayerTurnStateChanged += FinishedTurn;
-        activePlayer = player;
         OnPlayerActiveChange?.Invoke(player);
+        player.OnPlayerTurnStateChanged += FinishedTurn;
+
+        player.MakePlayerActive();
+        activePlayer = player;
     }
     void FinishedTurn(TurnState turnState)
     {

@@ -14,7 +14,8 @@ public class SuiteSpace : Space
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
-        //run chance time
+        //run chance time. For now, just end the turn
+        player.SetTurnState(TurnState.Finished);
     }
 
     public override void PlayerReversed(Player player)

@@ -20,6 +20,7 @@ public class Bank : Space
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
+        player.SetTurnState(TurnState.Finished);
         //clear movement choice for the player
     }
 }

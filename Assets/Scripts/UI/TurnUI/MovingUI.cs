@@ -21,9 +21,14 @@ public class MovingUI : TurnStateUI
         Space.OnPlayerReverse -= SpacesToMoveUpdate;
     }
 
-    public override void SetUpTurnState(Player player)
+    public override void SetupUI(Player player)
     {
+        spacesLeftText.transform.parent.gameObject.SetActive(true);
         UpdateSpaceDisplay(player.GetSpacesLeftToMove());
+    }
+    public override void HideUI()
+    {
+        spacesLeftText.transform.parent.gameObject.SetActive(false);
     }
 
     public void SpacesToMoveUpdate(Player player, Space space)
@@ -35,4 +40,6 @@ public class MovingUI : TurnStateUI
     {
         spacesLeftText.text = spaceAmount.ToString();
     }
+
+    
 }

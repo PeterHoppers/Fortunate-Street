@@ -8,5 +8,7 @@ using UnityEngine;
 /// </summary>
 public abstract class TurnStateUI : MonoBehaviour
 {
-    public abstract void SetUpTurnState(Player player);
+    public TurnState state;
+    public abstract void SetupUI(Player player);
+    public abstract void HideUI();
 }

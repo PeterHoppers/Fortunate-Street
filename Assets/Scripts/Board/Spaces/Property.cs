@@ -47,9 +47,24 @@ public class Property : BuyableSpace
         //this prompts the UI for landing on a space
         base.PlayerLanded(player);
 
-        if (owner != player && owner != null)
+        //TODO: Find a way so that the manager doesn't need to be brought in here. Or, find a better way to toggle this panel
+        UIManager.Instance.ToggleMoneyDisplay(player);
+
+        //if the space has not been bought, give the player the prompt to buy it
+        //else, if the player owns the space, give them the option to invest in it
+        //if neither true, skip for now
+        if (owner == null)
+        {
+            UIManager.Instance.TogglePropertyPurchaseDisplay(player, this);
+        }
+        else if (owner == player)
+        {
+            //ActiveUI(investUI);
+        }
+        else //TODO: buyout logic
         {
             MoneyManager.PlayerTransaction(player, owner, shopPrice);
+            player.SetTurnState(TurnState.Finished);
         }
     }
 
@@ -75,6 +90,11 @@ public class Property : BuyableSpace
         MoneyManager.MoneyChanged(buyer, shopValue * -1);
         SpaceBought(buyer);
         buyer.SetTurnState(TurnState.Finished);
+    }
+
+    public void DeclineBuySpace(Player player)
+    {
+        player.SetTurnState(TurnState.Finished);
     }
 
     public override void PlayerPassed(Player player)

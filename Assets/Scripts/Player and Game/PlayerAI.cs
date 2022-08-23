@@ -12,7 +12,6 @@ public class PlayerAI : Player
         this.OnPlayerTurnStateChanged += AdvanceTurnState;
     }
 
-    // Update is called once per frame
     void OnDisable()
     {
         Dice.OnPlayerRolled -= StartMoving;
@@ -91,20 +90,18 @@ public class PlayerAI : Player
             }
             else
             {
-                SetTurnState(TurnState.Finished);
+                landed.DeclineBuySpace(this);
             }
+
+            UIManager.Instance.HidePropertyPurchaseDisplay();
+        }
+        else if (movement.currentSpace.GetType().Name == "RollAgain")
+        {
+            StartCoroutine(RollAI());
         }
         else
         {
-            //right now, there's a bug with the Roll Again space not working without the UI for it, since the turn doesn't finish when they land on it
-            if (movement.currentSpace.GetType().Name != "RollAgain")
-            {
-                SetTurnState(TurnState.Finished);
-            }
-            else 
-            {
-                StartCoroutine(RollAI());
-            }
+            SetTurnState(TurnState.Finished);
         }
     }
 }

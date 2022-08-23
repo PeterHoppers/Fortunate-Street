@@ -3,20 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    /// <summary>
+    /// Setting up an Singleton instance for the UIManager to allow spaces and other UI to request what should appear
+    /// </summary>
+    public static UIManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
+
     public GameObject allPlayerStatsPanel;
     public GameObject playerMoneyStatsPanel;
     public GameObject statsPanel;
 
-    public GameObject propertyBuyUI;
-    public TurnUIState[] uiStates;
+    public GenericPromptUI genericPromptUI;
 
-    //this is done as static so that other UI elements can call it without having the worrying about what the UI Manager is or where it is
-    public static TMP_Text genericPromptUI;
+    public PurchasePropertyUI propertyBuyUI;
+    public TurnStateUI[] uiStates;
 
     Player playerTurn;
+    TurnState currentTurnState;
 
     /// <summary>
     /// Function for setting up any UI that gets set up once at the start of the game
@@ -44,11 +60,12 @@ public class UIManager : MonoBehaviour
         // TODO: If we actually change the visibility of the all player stats panel, it can't update the money value when it is hidden
         //allPlayerStatsPanel.SetActive(true);
         playerMoneyStatsPanel.SetActive(false);
-    }
+        propertyBuyUI.gameObject.SetActive(false);
 
-    void Awake()
-    {
-        genericPromptUI = GameObject.FindGameObjectWithTag("GenericPrompt").GetComponent<TMP_Text>(); //can't add a reference through the UI for static objects
+        foreach (TurnStateUI turnUIState in uiStates)
+        {
+            turnUIState.HideUI();
+        }
     }
 
     void OnEnable()
@@ -75,8 +92,6 @@ public class UIManager : MonoBehaviour
 
         playerTurn = player;
         playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
-
-        DisplayStateUI(TurnState.BeforeRoll);
 
         //reset any UI that needs to be someway at the start of the turn
         //allPlayerStatsPanel.SetActive(true);
@@ -109,65 +124,53 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the UI to display the content in said state
-    /// </summary>
-    /// <param name="turnState"></param>
-    void DisplayStateUI(TurnState turnState)
-    {
-        //right now, there's a bug with finished where it gets called after the next player's before roll is called
-        if (turnState == TurnState.Finished)
-        {
-            return;
-        }
-        //deactivate all other state UI
-        foreach (TurnUIState turnUIState in uiStates)
-        {
-            turnUIState.uiStateHolder.SetActive(false);
-            HideGenericMessage();
-        }
-
-        TurnUIState stateUIHolder = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
-
-        if (stateUIHolder == null)
-        {
-            return;
-        }
-
-        //set the active state ui to be true
-        stateUIHolder.uiStateHolder.SetActive(true);
-
-        //if the state is complicated enough, there is a base class called 'TurnStateUI' that can be created for each turn state
-        //this then takes in the player and updates its UI with the info found in the player
-        TurnStateUI stateUILogic = stateUIHolder.uiStateHolder.GetComponent<TurnStateUI>();
-
-        if (stateUILogic != null)
-        {
-            stateUILogic.SetUpTurnState(playerTurn);
-        }
-    }
-
-    /// <summary>
     /// Use to display a message to the UI
     /// </summary>
     /// <param name="messageToDisplay"></param>
-    public static void DisplayMessage(string messageToDisplay) 
+    public void DisplayMessage(string messageToDisplay, UnityAction calledFunction)
     {
-        genericPromptUI.transform.parent.gameObject.SetActive(true);
-        genericPromptUI.text = messageToDisplay;
+        genericPromptUI.DisplayPrompt(messageToDisplay, calledFunction);
+    }
+
+    public void DisplayMessage(string messageToDisplay)
+    {
+        genericPromptUI.DisplayPrompt(messageToDisplay);
     }
 
     /// <summary>
     /// Hide the generic message that appears in 'Display Message'
     /// </summary>
-    public static void HideGenericMessage()
+    public void HideGenericMessage()
     {
-        genericPromptUI.transform.parent.gameObject.SetActive(false);
+        genericPromptUI.ClosePrompt();
     }
-}
 
-[System.Serializable]
-public class TurnUIState
-{
-    public TurnState state;
-    public GameObject uiStateHolder;
+    public void TogglePropertyPurchaseDisplay(Player player, Property property)
+    {
+        propertyBuyUI.SetupUI(player, property);
+    }
+
+    public void HidePropertyPurchaseDisplay()
+    {
+        propertyBuyUI.HideUI();
+    }
+
+    /// <summary>
+    /// Update the UI to display the content in said state
+    /// </summary>
+    /// <param name="turnState"></param>
+    void DisplayStateUI(TurnState turnState)
+    {
+        TurnStateUI previousState = uiStates.Where(ui => ui.state == currentTurnState).FirstOrDefault();
+        previousState?.HideUI();
+        TurnStateUI nextState = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
+
+        if (nextState != null)
+        {
+            //set the active state ui to be true
+            nextState.SetupUI(playerTurn);
+        }
+       
+        currentTurnState = turnState;
+    }
 }

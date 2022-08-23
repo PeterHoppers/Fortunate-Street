@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// UI that appears when the player is rolling the dice
+/// </summary>
 public class RollTurnUI : TurnStateUI
-{    public override void SetUpTurnState(Player player)
+{
+    public override void SetupUI(Player player)
     {
-        UIManager.DisplayMessage($"Press Space to Confirm Roll!");
+        UIManager.Instance.DisplayMessage($"Press Space to Roll the Dice!");
     }
+
+    public override void HideUI()
+    {
+        UIManager.Instance.HideGenericMessage();
+    }
+
 }

@@ -6,8 +6,9 @@ public class RollAgain : Space
 {
     public override void PlayerLanded(Player player)
     {
+        player.SetTurnState(TurnState.Rolling);
         //roll again
-        player.StartRolling();
+        UIManager.Instance.DisplayMessage("Roll again!", player.StartRolling);
     }
 
     public override void PlayerPassed(Player player)
