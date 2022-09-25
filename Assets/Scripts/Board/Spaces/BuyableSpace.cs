@@ -1,6 +1,7 @@
 public abstract class BuyableSpace : Space
 {
     public Player owner;
+    public District district;
 
     public int shopValue;
 

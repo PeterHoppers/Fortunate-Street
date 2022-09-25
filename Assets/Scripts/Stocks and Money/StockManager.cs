@@ -139,6 +139,31 @@ public class StockManager
 
         return stockWorth;
     }
+
+    /// <summary>
+    /// Whoever owns stock in the district the transaction happened in need to get money for it
+    /// </summary>
+    /// <param name="space"></param>
+    /// <param name="amountSpent"></param>
+    public static void DetermineDividends(BuyableSpace space, int amountSpent)
+    {
+        //TODO: More fancy logic to determine how much money each owner of stock should get, right now all get 10% of the amount spent
+        //TODO: What happens when a transaction happens on pass? How do we undo this dividend?
+        List<Player> playersOwningStock = new List<Player>();
+
+        foreach (KeyValuePair<Player, int> stocks in space.district.stocksBought)
+        {
+            if (stocks.Value > 0)
+            {
+                playersOwningStock.Add(stocks.Key);
+            }
+        }
+
+        foreach (Player player in playersOwningStock)
+        {
+            MoneyManager.MoneyChanged(player, (int)(amountSpent * .1));
+        }
+    }
 }
 
 public class StockPurchase

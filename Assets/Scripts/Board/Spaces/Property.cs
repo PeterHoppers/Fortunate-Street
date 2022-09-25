@@ -47,7 +47,6 @@ public class Property : BuyableSpace
         //this prompts the UI for landing on a space
         base.PlayerLanded(player);
 
-        //TODO: Find a way so that the manager doesn't need to be brought in here. Or, find a better way to toggle this panel
         UIManager.Instance.ToggleMoneyDisplay(player);
 
         //if the space has not been bought, give the player the prompt to buy it
@@ -64,6 +63,7 @@ public class Property : BuyableSpace
         else //TODO: buyout logic
         {
             MoneyManager.PlayerTransaction(player, owner, shopPrice);
+            StockManager.DetermineDividends(this, shopPrice);
             player.SetTurnState(TurnState.Finished);
         }
     }

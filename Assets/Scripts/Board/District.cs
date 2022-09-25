@@ -15,6 +15,7 @@ public class District: MonoBehaviour
         foreach (BuyableSpace space in spaces) 
         {
             space.OnSpaceBought += DistrictShopBought;
+            space.district = this;
         }
     }
 
