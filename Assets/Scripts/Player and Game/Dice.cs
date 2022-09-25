@@ -66,5 +66,35 @@ public class Dice : MonoBehaviour
         {
             CheatDice(3);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            CheatDice(4);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            CheatDice(5);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            CheatDice(6);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            CheatDice(7);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            CheatDice(8);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            CheatDice(20);
+        }
     }
 }

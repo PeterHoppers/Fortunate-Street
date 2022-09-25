@@ -6,9 +6,17 @@ public class DialReader : MonoBehaviour
 {
     public NumberDial[] numberDials;
 
-    void Start()
+    public delegate void DialValueChange(int newValue);
+    public event DialValueChange OnDialValueChange;
+
+    void OnEnable()
     {
-        //SetValue(27);
+        NumberDial.OnNumberValueChange += CalcDial;
+    }
+
+    void OnDisable()
+    {
+        NumberDial.OnNumberValueChange -= CalcDial;
     }
 
     /// <summary>
@@ -51,8 +59,15 @@ public class DialReader : MonoBehaviour
         return int.Parse(numberString);
     }
 
-    public void PrintValue()
+    public void CalcDial(int number)
     {
-        print($"The value is {GetValue()}");
+        string numberString = "";
+
+        foreach (NumberDial dial in numberDials)
+        {
+            numberString += dial.GetValue().ToString();
+        }
+
+        OnDialValueChange?.Invoke(int.Parse(numberString));
     }
 }

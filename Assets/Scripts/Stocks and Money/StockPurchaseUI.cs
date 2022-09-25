@@ -1,23 +1,35 @@
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class StockPurchaseUI : MonoBehaviour
 {    
     public GameObject stockSelect;
     public StockDistrictUI stockDistrict;
     public DialReader dialReader;
+    public TMP_Text spendingText;
 
     Player stockPurchaser;
     District selectedStock;
+
+    void OnEnable()
+    {
+        dialReader.OnDialValueChange += DisplaySpending;
+    }
+
+    void OnDisable()
+    {
+        dialReader.OnDialValueChange -= DisplaySpending;
+    }
 
     public void SetupUI(Player player)
     {
         stockPurchaser = player;
         gameObject.SetActive(true);
+        stockPurchaser.PauseMoving();
 
         District[] districts = BoardManager.districts;
 
@@ -60,9 +72,25 @@ public class StockPurchaseUI : MonoBehaviour
         if (clickedUI != null)
         {
             selectedStock = clickedUI.referencedDistrict;
+            DisplaySpending();
+        }
+    }
+
+    public void DisplaySpending()
+    {
+        DisplaySpending(dialReader.GetValue());
+    }
+
+    public void DisplaySpending(int dialValue)
+    {
+        if (selectedStock == null)
+        {
+            return;
         }
 
-        
+        int possibleSpending = dialValue * selectedStock.StockPrice;
+
+        spendingText.text = possibleSpending.ToString();
     }
 
     public void PurchaseStocks()
@@ -83,5 +111,6 @@ public class StockPurchaseUI : MonoBehaviour
 
         StockManager.BuyStock(stockPurchaser, selectedStock, stocksChosen);
         gameObject.SetActive(false);
+        stockPurchaser.UnPauseMoving();
     }
 }

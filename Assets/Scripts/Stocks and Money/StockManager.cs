@@ -9,7 +9,10 @@ using System.Linq;
 public class StockManager
 {
     static District[] districts;
-    static StockPurchase lastPurchase; 
+    static StockPurchase lastPurchase;
+
+    const int STOCK_CHANGE_CUTOFF = 10;
+    const int STOCK_PRICE_CHANGE_AMOUNT = 1;
 
     public static void SetupStocks(List<Player> players)
     {
@@ -25,16 +28,27 @@ public class StockManager
         }        
     }
 
+    /// <summary>
+    /// Called whenever a player buys a stock. Also performs the money transaction for the stock. Presumes that the player can afford the stock.
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="district"></param>
+    /// <param name="amount"></param>
     public static void BuyStock(Player player, District district, int amount) 
     {
         district.stocksBought[player] += amount;
-        MoneyManager.MoneyChanged(player, -district.StockPrice * amount);
-        Debug.Log($"{player} bought {amount} of {district}'s stock.");
+        MoneyManager.MoneyChanged(player, -(district.StockPrice * amount));
         lastPurchase = new StockPurchase(player, district, amount);
+
+        if (amount >= STOCK_CHANGE_CUTOFF)
+        {
+            ChangeStockValue(district, STOCK_PRICE_CHANGE_AMOUNT);
+        }
     }
 
     /// <summary>
-    /// Logic to detemine if a player can attempt to buy the stocks they're trying to buy
+    /// Logic to detemine if a player can attempt to buy the stocks they're trying to buy. Doesn't perform buying the stock even if it can.
+    /// Call 'Buy Stock' to confirm the purchase.
     /// </summary>
     /// <param name="player"></param>
     /// <param name="district"></param>
@@ -47,9 +61,21 @@ public class StockManager
         return district.StockPrice * amount <= playerFunds;        
     }
 
+    /// <summary>
+    /// Method that allows the player to see stocks in order to get gold
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="district"></param>
+    /// <param name="amount"></param>
     public static void SellStock(Player player, District district, int amount)
     {
         district.stocksBought[player] -= amount;
+        MoneyManager.MoneyChanged(player, district.StockPrice * amount);
+
+        if (amount >= STOCK_CHANGE_CUTOFF)
+        {
+            ChangeStockValue(district, -STOCK_PRICE_CHANGE_AMOUNT);
+        }
     }
 
     /// <summary>
@@ -58,10 +84,9 @@ public class StockManager
     /// <param name="player"></param>
     public static void UndoPurchase(Player player)
     {
-        if (lastPurchase.player == player)
+        if (lastPurchase != null && lastPurchase.player == player)
         {
-            SellStock(lastPurchase.player, lastPurchase.district, lastPurchase.amount);
-            MoneyManager.MoneyChanged(player, lastPurchase.district.StockPrice * lastPurchase.amount);
+            SellStock(lastPurchase.player, lastPurchase.district, lastPurchase.amount);            
         }
     }
 
@@ -70,14 +95,23 @@ public class StockManager
         return district.StockPrice;
     }
 
+    /// <summary>
+    /// Changes the price of the stock for a district by a fixed number.
+    /// </summary>
+    /// <param name="district"></param>
+    /// <param name="amtChange"></param>
     public static void ChangeStockValue(District district, int amtChange) 
     {
         district.StockPrice += amtChange;
     }
 
+    /// <summary>
+    /// Changes the price of a district's stock by a percentage. 100% is 1.
+    /// </summary>
+    /// <param name="district"></param>
+    /// <param name="percentChange"></param>
     public static void ChangeStockValue(District district, double percentChange)
     {
-        //percent change to the stockPrice
         district.StockPrice += (int) ((percentChange + 1) * district.StockPrice);
     }
 
@@ -86,7 +120,11 @@ public class StockManager
         return district.stocksBought[player];
     }
 
-
+    /// <summary>
+    /// Calcaulates the total value of a player's stocks and returns that value.
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     public static int GetPlayerStockWorth(Player player)
     {
         int stockWorth = 0;

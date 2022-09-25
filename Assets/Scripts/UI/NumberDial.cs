@@ -10,6 +10,9 @@ public class NumberDial : MonoBehaviour
     public Button downArrow;
     public TMP_Text numberDisplay;
 
+    public delegate void NumberValueChange(int newValue);
+    public static event NumberValueChange OnNumberValueChange;
+
     int number;
 
     void Start()
@@ -56,5 +59,6 @@ public class NumberDial : MonoBehaviour
     void UpdateDisplay()
     {
         numberDisplay.text = number.ToString();
+        OnNumberValueChange?.Invoke(number);
     }
 }

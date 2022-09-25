@@ -108,6 +108,19 @@ public class Player : MonoBehaviour
         movement.enabled = false;
     }
 
+    /// <summary>
+    /// The following two methods are called to prevent the player from moving while there is a pop-up on screen
+    /// </summary>
+    public void PauseMoving()
+    {
+        movement.enabled = false;
+    }
+
+    public void UnPauseMoving()
+    {
+        movement.enabled = true;
+    }
+
     public int GetSpacesLeftToMove()
     {
         return movement.spacesToMove;
