@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         BoardManager.SetupBoard();
         MoneyManager.SetupMoney(players, startingMoney);
         SuiteManager.SetupSuites(players);
-        StockManager.SetupStocks();
+        StockManager.SetupStocks(players);
 
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         player.level++;
     }
 
-    public void CheckPlayerWon(Player player)
+    public bool CheckPlayerWon(Player player)
     {
         int playerTotalValue = GetPlayerTotalWorth(player);
         Debug.Log($"{player.playerName} value is {playerTotalValue}");
@@ -111,6 +111,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"{player.playerName} has won!");
         }
+
+        return playerTotalValue > totalValueToWin;
     }
 
     public int GetPlayerTotalWorth(Player player)

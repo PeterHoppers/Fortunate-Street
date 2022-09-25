@@ -65,6 +65,12 @@ public class PlayerAI : Player
         int index = Random.Range(0, spaces.Count);
         movement.MoveToSelectedSpace(spaces[index]);
 
+        //work around for now. Will need to develop code to figure out how much stock AI should buy
+        if (movement.currentSpace.GetType().Name == "Bank")
+        {
+            UIManager.Instance.HideStockPurchaseDisplay();
+        }
+
         if (movement.spacesToMove > 0)
         {
             StartCoroutine(MoveAI());

@@ -13,8 +13,13 @@ public class Bank : Space
     public override void PlayerPassed(Player player)
     {
         base.PlayerPassed(player);
+        //we will need to do something to wait for the level up animation to end before checking
         gameManagerforBank.CheckPlayerLevelUp(player);
-        gameManagerforBank.CheckPlayerWon(player);
+        
+        if (!gameManagerforBank.CheckPlayerWon(player)) 
+        {
+            UIManager.Instance.ToggleStockPurchaseDisplay(player);
+        }
     }
 
     public override void PlayerLanded(Player player)
@@ -22,5 +27,11 @@ public class Bank : Space
         base.PlayerLanded(player);
         player.SetTurnState(TurnState.Finished);
         //clear movement choice for the player
+    }
+
+    public override void PlayerReversed(Player player)
+    {
+        base.PlayerLanded(player);
+        StockManager.UndoPurchase(player);
     }
 }

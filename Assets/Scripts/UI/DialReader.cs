@@ -8,7 +8,7 @@ public class DialReader : MonoBehaviour
 
     void Start()
     {
-        SetValue(27);
+        //SetValue(27);
     }
 
     /// <summary>

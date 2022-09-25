@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Modal that appears that contains the information about the property allowing a player to purchase it.
 /// </summary>
-public class PurchasePropertyUI : MonoBehaviour
+public class PropertyPurchaseUI : MonoBehaviour
 {
     Player playerPurchaser;
     Property targetProperty;

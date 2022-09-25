@@ -27,8 +27,9 @@ public class UIManager : MonoBehaviour
     public GameObject statsPanel;
 
     public GenericPromptUI genericPromptUI;
+    public PropertyPurchaseUI propertyBuyUI;
+    public StockPurchaseUI stockPurchaseUI;
 
-    public PurchasePropertyUI propertyBuyUI;
     public TurnStateUI[] uiStates;
 
     Player playerTurn;
@@ -60,7 +61,8 @@ public class UIManager : MonoBehaviour
         // TODO: If we actually change the visibility of the all player stats panel, it can't update the money value when it is hidden
         //allPlayerStatsPanel.SetActive(true);
         playerMoneyStatsPanel.SetActive(false);
-        propertyBuyUI.gameObject.SetActive(false);
+        HidePropertyPurchaseDisplay();
+        HideStockPurchaseDisplay();
 
         foreach (TurnStateUI turnUIState in uiStates)
         {
@@ -150,9 +152,22 @@ public class UIManager : MonoBehaviour
         propertyBuyUI.SetupUI(player, property);
     }
 
+    /// <summary>
+    /// Normally, the player will simply close out the UI with clicking a button, however, we need the AI to be able to close out the menus as well
+    /// </summary>
     public void HidePropertyPurchaseDisplay()
     {
         propertyBuyUI.HideUI();
+    }
+
+    public void ToggleStockPurchaseDisplay(Player player)
+    {
+        stockPurchaseUI.SetupUI(player);
+    }
+
+    public void HideStockPurchaseDisplay()
+    {
+        stockPurchaseUI.gameObject.SetActive(false);
     }
 
     /// <summary>
