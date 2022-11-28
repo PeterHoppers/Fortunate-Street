@@ -14,8 +14,13 @@ public class Bank : Space
     {
         base.PlayerPassed(player);
         //we will need to do something to wait for the level up animation to end before checking
-        gameManagerforBank.CheckPlayerLevelUp(player);
-        
+        int suiteCount = SuitManager.suits[player].Count;
+
+        if (suiteCount >= 4)
+        {
+            gameManagerforBank.LevelUpPlayer(player);
+        }
+
         if (!gameManagerforBank.CheckPlayerWon(player)) 
         {
             UIManager.Instance.ToggleStockPurchaseDisplay(player);

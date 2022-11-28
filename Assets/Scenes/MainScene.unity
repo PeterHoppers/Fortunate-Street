@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 24279572}
   - component: {fileID: 24279574}
   m_Layer: 5
-  m_Name: StockPurchaseMenu
+  m_Name: Stock Purchase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,6 +304,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1032666678}
     m_Modifications:
     - target: {fileID: 5464815875068252261, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
+      propertyPath: m_text
+      value: Start Turn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464815875068252261, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
       propertyPath: m_fontColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -409,11 +413,11 @@ PrefabInstance:
       objectReference: {fileID: 1807475487}
     - target: {fileID: 5464815875957179759, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RollDice
+      value: PrepareRolling
       objectReference: {fileID: 0}
     - target: {fileID: 5464815875957179761, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
       propertyPath: m_Name
-      value: RollButton
+      value: Confirm Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
@@ -856,7 +860,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1338905918}
     m_Modifications:
     - target: {fileID: 626988940945123866, guid: a0b27b4e7ce39654c9e7cb1abb745d29, type: 3}
       propertyPath: m_RootOrder
@@ -876,7 +880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258618, guid: a0b27b4e7ce39654c9e7cb1abb745d29, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1027318951637258618, guid: a0b27b4e7ce39654c9e7cb1abb745d29, type: 3}
       propertyPath: m_LocalPosition.x
@@ -945,6 +949,11 @@ MonoBehaviour:
   connectedSpaces:
   - {fileID: 1627254132}
   - {fileID: 1672708677}
+--- !u!4 &388460986 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1027318951637258618, guid: a0b27b4e7ce39654c9e7cb1abb745d29, type: 3}
+  m_PrefabInstance: {fileID: 388460983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &483056620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1018,7 +1027,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 4bc0092041c198b44864a5fca74fa336, type: 2}
     - target: {fileID: 1915572230380259670, guid: 59e88229549420345ac1749847a3668b, type: 3}
       propertyPath: m_Name
-      value: EarthSuitSpace
+      value: Earth Space
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59e88229549420345ac1749847a3668b, type: 3}
@@ -1100,7 +1109,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f1d60d1768791814bae38126ff60402e, type: 2}
     - target: {fileID: 1915572230380259670, guid: 59e88229549420345ac1749847a3668b, type: 3}
       propertyPath: m_Name
-      value: AirSuiteSpace
+      value: Air Space
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59e88229549420345ac1749847a3668b, type: 3}
@@ -1653,7 +1662,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793681032
 GameObject:
@@ -1802,7 +1811,7 @@ GameObject:
   - component: {fileID: 929760892}
   - component: {fileID: 929760894}
   m_Layer: 5
-  m_Name: DiceResult
+  m_Name: Spaces to Move
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2200,7 +2209,7 @@ GameObject:
   - component: {fileID: 1032666678}
   - component: {fileID: 1032666679}
   m_Layer: 5
-  m_Name: StartTurn
+  m_Name: Start Turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2317,7 +2326,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ab024a3b338e4184fa0e5dc69aafffbd, type: 2}
     - target: {fileID: 1915572230380259670, guid: 59e88229549420345ac1749847a3668b, type: 3}
       propertyPath: m_Name
-      value: WaterSuitSpace
+      value: Water Space
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59e88229549420345ac1749847a3668b, type: 3}
@@ -2363,7 +2372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1149172733}
   m_Layer: 0
-  m_Name: Board
+  m_Name: Board Sections (Unused)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2385,7 +2394,7 @@ Transform:
   - {fileID: 1633791626}
   - {fileID: 1611093887}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1193135400
 GameObject:
@@ -2410,7 +2419,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193135400}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2420,8 +2429,8 @@ Transform:
   - {fileID: 221899908}
   - {fileID: 578177937}
   - {fileID: 1741667932}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1338905918}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1213108606
 PrefabInstance:
@@ -2741,7 +2750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2619174877375203969, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_Name
-      value: Land
+      value: Decline
       objectReference: {fileID: 0}
     - target: {fileID: 2619174877375203998, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2865,7 +2874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2894796065993144138, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_Name
-      value: InvestMenu
+      value: Invest Space
       objectReference: {fileID: 0}
     - target: {fileID: 2894796065993144138, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_IsActive
@@ -3044,15 +3053,50 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316037765}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2117893241}
   - {fileID: 1906673988}
+  m_Father: {fileID: 1338905918}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1338905917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1338905918}
+  m_Layer: 0
+  m_Name: Board
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1338905918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338905917}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 388460986}
+  - {fileID: 1193135401}
+  - {fileID: 1522056839}
+  - {fileID: 1316037766}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1389500366
 PrefabInstance:
@@ -3179,7 +3223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5464815875957179761, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
       propertyPath: m_Name
-      value: RollButton
+      value: Close Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb503c05755cbdc4eb7c627588acbc34, type: 3}
@@ -3267,7 +3311,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522056838}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3276,8 +3320,8 @@ Transform:
   - {fileID: 1059273150}
   - {fileID: 521139627}
   - {fileID: 483056621}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1338905918}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1543168974
 PrefabInstance:
@@ -3434,7 +3478,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1626631986}
   m_Layer: 5
-  m_Name: TurnUI
+  m_Name: Turn UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3570,7 +3614,7 @@ GameObject:
   - component: {fileID: 1630169408}
   - component: {fileID: 1630169410}
   m_Layer: 5
-  m_Name: AllPlayerStats
+  m_Name: All Player Stats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4441,7 +4485,7 @@ GameObject:
   - component: {fileID: 1831131141}
   - component: {fileID: 1831131140}
   m_Layer: 5
-  m_Name: DiceAmount
+  m_Name: Spaces Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4641,7 +4685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2619174877375203969, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_Name
-      value: Land
+      value: Decline
       objectReference: {fileID: 0}
     - target: {fileID: 2619174877375203998, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4793,7 +4837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2894796065993144138, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_Name
-      value: PurchaseMenu
+      value: Purchase Space
       objectReference: {fileID: 0}
     - target: {fileID: 2894796065993144138, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
       propertyPath: m_IsActive
@@ -5177,6 +5221,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fb11737961e4b42b4965af8d27d043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1934986495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2894796065993144138, guid: 6fe0da7d08e7a1846b72a26145832dd1, type: 3}
+  m_PrefabInstance: {fileID: 1245351159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1934986497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934986495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf2c2371784dbe44b212d65e24bdaad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1958753979
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,7 +5248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1958753980}
   m_Layer: 5
-  m_Name: BottomRightPanels
+  m_Name: Info Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5316,7 +5377,7 @@ GameObject:
   - component: {fileID: 1981175655}
   - component: {fileID: 1981175654}
   m_Layer: 5
-  m_Name: Prompt
+  m_Name: Message
   m_TagString: GenericPrompt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5549,7 +5610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2086788847}
   m_Layer: 5
-  m_Name: SpaceMenus
+  m_Name: Space Menus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5754,7 +5815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a7eecf3404da648a0ea9f75b20777e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceName: 
+  spaceName: Roll Again
   connectedSpaces:
   - {fileID: 973267727}
   - {fileID: 2104926231}
@@ -5878,7 +5939,7 @@ GameObject:
   - component: {fileID: 2132412796}
   - component: {fileID: 2132412797}
   m_Layer: 5
-  m_Name: GenericMessage
+  m_Name: Generic Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6131,7 +6192,7 @@ PrefabInstance:
       objectReference: {fileID: 973267727}
     - target: {fileID: 1915572230380259670, guid: 59e88229549420345ac1749847a3668b, type: 3}
       propertyPath: m_Name
-      value: FireSuitSpace
+      value: Fire Space
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59e88229549420345ac1749847a3668b, type: 3}
@@ -6731,7 +6792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2768721437117711511, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_Name
-      value: PlayerMoneyPanel
+      value: Player Money
       objectReference: {fileID: 0}
     - target: {fileID: 2768721437873095867, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_AnchorMax.y

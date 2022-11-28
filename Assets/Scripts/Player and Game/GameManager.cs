@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
         BoardManager.SetupBoard();
         MoneyManager.SetupMoney(players, startingMoney);
-        SuiteManager.SetupSuites(players);
+        SuitManager.SetupSuits(players);
         StockManager.SetupStocks(players);
 
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -81,23 +81,12 @@ public class GameManager : MonoBehaviour
         SetActivePlayer(players[0]);
     }
 
-    public void CheckPlayerLevelUp(Player player)
-    {
-        int suiteCount = SuiteManager.suites[player].Count;
-        //we also need to check for suite yourself cards
-
-        if (suiteCount >= 4)
-        {
-            LevelUpPlayer(player);
-        }
-    }
-
     public void LevelUpPlayer(Player player)
     {
         //the following logic is pulled from the game, although unsure what base salary is
         int moneyGained = baseSalary + (100 * player.level) + (BoardManager.GetPlayerBoardValue(player) / 10);
         MoneyManager.MoneyChanged(player, moneyGained);
-        SuiteManager.ClearSuites(player);
+        SuitManager.ClearSuits(player);
         OnPlayerLevelUp?.Invoke(player);
         player.level++;
     }

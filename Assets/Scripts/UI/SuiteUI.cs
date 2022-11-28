@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SuiteUI : MonoBehaviour
 {
-    public Suite representingSuite;
+    public Suit representingSuite;
     public Color gatheredSuiteColor; //TODO: Have a single spot that both the suite space and the UI know what color they are
 
     Image suiteImage;

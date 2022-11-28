@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuiteSpace : Space
+public class SuitSpace : Space
 {
-    public Suite suite;
+    public Suit suit;
     public override void PlayerPassed(Player player)
     {
         base.PlayerPassed(player);
-        SuiteManager.GetSuite(player, suite);
+        SuitManager.GetSuit(player, suit);
     }
 
     public override void PlayerLanded(Player player)
@@ -21,7 +21,7 @@ public class SuiteSpace : Space
     public override void PlayerReversed(Player player)
     {
         base.PlayerReversed(player);
-        SuiteManager.RemoveSuite(player, suite);
+        SuitManager.RemoveSuit(player, suit);
     }
 
 }

@@ -1,4 +1,4 @@
-public enum Suite 
+public enum Suit 
 {
     Air,
     Earth,

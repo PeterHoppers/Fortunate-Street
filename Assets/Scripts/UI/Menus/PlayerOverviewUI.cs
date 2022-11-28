@@ -21,14 +21,14 @@ public class PlayerOverviewUI : MonoBehaviour
     void OnEnable()
     {
         MoneyManager.OnPlayerMoneyChanged += UpdatePlayerMoney;
-        SuiteManager.OnPlayerGotSuite += UpdateSuiteUI;
+        SuitManager.OnPlayerGotSuit += UpdateSuiteUI;
         GameManager.OnPlayerLevelUp += ClearSuiteUI;
     }
 
     void OnDisable()
     {
         MoneyManager.OnPlayerMoneyChanged -= UpdatePlayerMoney;
-        SuiteManager.OnPlayerGotSuite -= UpdateSuiteUI;
+        SuitManager.OnPlayerGotSuit -= UpdateSuiteUI;
         GameManager.OnPlayerLevelUp -= ClearSuiteUI;
     }
 
@@ -68,7 +68,7 @@ public class PlayerOverviewUI : MonoBehaviour
         SetPlayerMoney(newAmount);
     }
 
-    public void UpdateSuiteUI(Player player, Suite suite, bool isGained)
+    public void UpdateSuiteUI(Player player, Suit suite, bool isGained)
     {
         if (player != referredPlayer)
         {

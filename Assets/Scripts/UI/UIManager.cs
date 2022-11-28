@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// These methods here are calling methods found of the player so that the UI can control the player
     /// </summary>
-    public void RollDice()
+    public void PrepareRolling()
     {
         playerTurn.StartRolling();
     }
