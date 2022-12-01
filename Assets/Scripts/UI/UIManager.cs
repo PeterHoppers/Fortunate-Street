@@ -103,20 +103,6 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// These methods here are calling methods found of the player so that the UI can control the player
     /// </summary>
-    public void PrepareRolling()
-    {
-        playerTurn.StartRolling();
-    }
-
-    public void ContinueMoving()
-    {
-        playerTurn.ContinueMoving();
-    }
-
-    public void EndMoving()
-    {
-        playerTurn.EndMoving();
-    }
 
     public void ToggleMoneyDisplay(Player player)
     {
@@ -179,12 +165,7 @@ public class UIManager : MonoBehaviour
         TurnStateUI previousState = uiStates.Where(ui => ui.state == currentTurnState).FirstOrDefault();
         previousState?.HideUI();
         TurnStateUI nextState = uiStates.Where(ui => ui.state == turnState).FirstOrDefault();
-
-        if (nextState != null)
-        {
-            //set the active state ui to be true
-            nextState.SetupUI(playerTurn);
-        }
+        nextState?.SetupUI();
        
         currentTurnState = turnState;
     }

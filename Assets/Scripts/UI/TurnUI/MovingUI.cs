@@ -7,33 +7,42 @@ using UnityEngine.UI;
 public class MovingUI : TurnStateUI
 {
     public TMP_Text spacesLeftText;
+    int spacesLeft;
 
     // Start is called before the first frame update
     void OnEnable()
     {
-        Space.OnPlayerPass += SpacesToMoveUpdate;
-        Space.OnPlayerReverse += SpacesToMoveUpdate;
+        Space.OnPlayerPass += MovedForward;
+        Space.OnPlayerReverse += MovedBackward;
     }
 
     void OnDisable()
     {
-        Space.OnPlayerPass -= SpacesToMoveUpdate;
-        Space.OnPlayerReverse -= SpacesToMoveUpdate;
+        Space.OnPlayerPass -= MovedForward;
+        Space.OnPlayerReverse -= MovedBackward;
     }
 
-    public override void SetupUI(Player player)
+    public override void SetupUI()
     {
         spacesLeftText.transform.parent.gameObject.SetActive(true);
-        UpdateSpaceDisplay(player.GetSpacesLeftToMove());
+        spacesLeft = GameManager.Instance.GetSpacesRemaining();
+        UpdateSpaceDisplay(spacesLeft);
     }
     public override void HideUI()
     {
         spacesLeftText.transform.parent.gameObject.SetActive(false);
     }
 
-    public void SpacesToMoveUpdate(Player player, Space space)
+    void MovedForward(Player player, Space space)
     {
-        UpdateSpaceDisplay(player.GetSpacesLeftToMove());
+        spacesLeft--;
+        UpdateSpaceDisplay(spacesLeft);
+    }
+
+    void MovedBackward(Player player, Space space)
+    {
+        spacesLeft++;
+        UpdateSpaceDisplay(spacesLeft);
     }
 
     void UpdateSpaceDisplay(int spaceAmount)

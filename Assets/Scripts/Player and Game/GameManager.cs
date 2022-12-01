@@ -7,6 +7,20 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Setting up an Singleton instance for the GameManager to allow spaces and other UI to request what should appear
+    /// </summary>
+    public static GameManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
+
     public GameObject playerObject;
 
     //these two will most likely be later pulled from a different scene where player creation/selection is done
@@ -81,6 +95,75 @@ public class GameManager : MonoBehaviour
         SetActivePlayer(players[0]);
     }
 
+    /// <summary>
+    /// Controlling the states of the player
+    /// </summary>
+    /// <param name="player"></param>
+    public void PrepareRolling()
+    {
+        //logic to determine what amount the player should roll
+        int rollAmt = 6;
+        StartCoroutine(activePlayer.StartRolling(rollAmt));
+    }
+
+    public void StartMoving(Player player, int spaces)
+    {
+        if (player == activePlayer)
+        {
+            activePlayer.StartMoving(spaces);
+        }
+    }
+
+    public void ContinueMoving()
+    {
+        activePlayer.ContinueMoving();
+    }
+
+    public void EndMoving()
+    {
+        activePlayer.EndMoving();
+    }
+
+    public int GetSpacesRemaining()
+    {
+        return activePlayer.GetSpacesLeftToMove();
+    }
+
+    public void AdvanceTurn()
+    {
+        DisablePlayer(activePlayer);
+
+        int activePlayerId = activePlayer.id;
+        activePlayerId++;
+
+        if (activePlayerId >= players.Count)
+        {
+            activePlayerId = 0;
+        }
+
+        SetActivePlayer(players[activePlayerId]);
+    }
+
+    public void DisablePlayer(Player player)
+    {
+        player.OnPlayerRolled -= StartMoving;
+        //player.DisablePlayer();
+    }
+
+    public void SetActivePlayer(Player player)
+    {
+        activePlayer = player;
+        OnPlayerActiveChange?.Invoke(player);
+        player.OnPlayerRolled += StartMoving;
+
+        player.MakePlayerActive();
+    }
+
+    public string GetActivePlayerName()
+    {
+        return activePlayer.playerName;
+    }
+
     public void LevelUpPlayer(Player player)
     {
         //the following logic is pulled from the game, although unsure what base salary is
@@ -109,42 +192,5 @@ public class GameManager : MonoBehaviour
         return MoneyManager.GetPlayerMoneyValue(player)
             + StockManager.GetPlayerStockWorth(player)
             + BoardManager.GetPlayerBoardValue(player);
-    }
-
-    public void AdvanceTurn(Player player)
-    {
-        DisablePlayer(player);
-
-        int activePlayerId = activePlayer.id;
-        activePlayerId++;
-
-        if (activePlayerId >= players.Count)
-        {
-            activePlayerId = 0;
-        }
-
-        SetActivePlayer(players[activePlayerId]);
-    }
-
-    public void DisablePlayer(Player player)
-    {
-        player.OnPlayerTurnStateChanged -= FinishedTurn;
-        //player.DisablePlayer();
-    }
-
-    public void SetActivePlayer(Player player)
-    {
-        OnPlayerActiveChange?.Invoke(player);
-        player.OnPlayerTurnStateChanged += FinishedTurn;
-
-        player.MakePlayerActive();
-        activePlayer = player;
-    }
-    void FinishedTurn(TurnState turnState)
-    {
-        if (turnState == TurnState.Finished)
-        {
-            AdvanceTurn(activePlayer);
-        }
     }
 }

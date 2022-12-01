@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 public class StartTurnUI : TurnStateUI
 {
-    public override void SetupUI(Player player)
+    public override void SetupUI()
     {
         gameObject.SetActive(true);
-        UIManager.Instance.DisplayMessage($"{player.playerName}'s turn");
+        string playerName = GameManager.Instance.GetActivePlayerName();
+        UIManager.Instance.DisplayMessage($"{playerName}'s turn");
     }
 
     public override void HideUI()

@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Bank : Space
 {
-    GameManager gameManagerforBank;
-
-    void Start()
-    {
-        gameManagerforBank = Camera.main.GetComponent<GameManager>();
-    }
     public override void PlayerPassed(Player player)
     {
         base.PlayerPassed(player);
@@ -18,10 +12,10 @@ public class Bank : Space
 
         if (suiteCount >= 4)
         {
-            gameManagerforBank.LevelUpPlayer(player);
+            GameManager.Instance.LevelUpPlayer(player);
         }
 
-        if (!gameManagerforBank.CheckPlayerWon(player)) 
+        if (!GameManager.Instance.CheckPlayerWon(player)) 
         {
             UIManager.Instance.ToggleStockPurchaseDisplay(player);
         }
@@ -30,7 +24,7 @@ public class Bank : Space
     public override void PlayerLanded(Player player)
     {
         base.PlayerLanded(player);
-        player.SetTurnState(TurnState.Finished);
+        GameManager.Instance.AdvanceTurn();
         //clear movement choice for the player
     }
 

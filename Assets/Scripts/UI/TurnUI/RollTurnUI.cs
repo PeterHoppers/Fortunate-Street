@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class RollTurnUI : TurnStateUI
 {
-    public override void SetupUI(Player player)
+    public override void SetupUI()
     {
         UIManager.Instance.DisplayMessage($"Press Space to Roll the Dice!");
     }

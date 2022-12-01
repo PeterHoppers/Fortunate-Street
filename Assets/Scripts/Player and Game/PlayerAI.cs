@@ -8,31 +8,23 @@ public class PlayerAI : Player
 
     void OnEnable()
     {
-        Dice.OnPlayerRolled += StartMoving;
         this.OnPlayerTurnStateChanged += AdvanceTurnState;
     }
 
     void OnDisable()
     {
-        Dice.OnPlayerRolled -= StartMoving;
         this.OnPlayerTurnStateChanged -= AdvanceTurnState;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        dice = Camera.main.GetComponent<Dice>();
     }
 
     void AdvanceTurnState(TurnState turnState)
     {
         if (turnState == TurnState.BeforeRoll)
         {
-            SetTurnState(TurnState.Rolling);
+            StartCoroutine(StartRolling());
         }
         else if (turnState == TurnState.Rolling)
         {
-            StartCoroutine(RollAI());
+            //nothing for now, since Start Rolling moves to moving right away
         }
         else if (turnState == TurnState.Moving)
         {
@@ -45,16 +37,14 @@ public class PlayerAI : Player
         else if (turnState == TurnState.Landed)
         {
             StartCoroutine(LandAI());
-
         }
     }
 
-    IEnumerator RollAI()
+    public override IEnumerator StartRolling(int amountToRoll = 6)
     {
+        SetTurnState(TurnState.Rolling);
         yield return new WaitForSeconds(decisionDelay);
-        dice.SetupRoll(this, 6);
-        yield return new WaitForSeconds(decisionDelay);
-        dice.RollDice();
+        AlertRoll(Random.Range(1, amountToRoll + 1));
     }
 
     IEnumerator MoveAI()
@@ -88,26 +78,25 @@ public class PlayerAI : Player
         yield return new WaitForSeconds(decisionDelay);
         if (movement.currentSpace.GetType().Name == "Property")
         {
-            Property landed = movement.currentSpace.GetComponent<Property>();
+            Property property = movement.currentSpace.GetComponent<Property>();
 
-            if (landed.CanBuyProperty(this))
+            if (BoardManager.CanBuySpace(this, property))
             {
-                landed.BuySpace(this);
+                UIManager.Instance.HidePropertyPurchaseDisplay();
+                BoardManager.BuySpace(this, property);
             }
             else
             {
-                landed.DeclineBuySpace(this);
+                GameManager.Instance.AdvanceTurn();
             }
-
-            UIManager.Instance.HidePropertyPurchaseDisplay();
         }
         else if (movement.currentSpace.GetType().Name == "RollAgain")
         {
-            StartCoroutine(RollAI());
+            GameManager.Instance.PrepareRolling();
         }
         else
         {
-            SetTurnState(TurnState.Finished);
+            GameManager.Instance.AdvanceTurn();
         }
     }
 }

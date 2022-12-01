@@ -34,7 +34,6 @@ public class Space : MonoBehaviour
     {
         //short hand for if(OnPlayerLand != null) OnPlayerLand(player, space)
         OnPlayerLand?.Invoke(player, this);
-        player.SetTurnState(TurnState.Landed);
     }
     /// <summary>
     /// Right now, the way we undo the logic that occurs in player passes

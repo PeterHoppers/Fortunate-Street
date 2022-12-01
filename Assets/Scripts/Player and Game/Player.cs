@@ -13,28 +13,17 @@ public class Player : MonoBehaviour
     public int level = 1;
     
     protected PlayerMovement movement;
-    protected Dice dice;
 
     public delegate void PlayerTurnStateChanged(TurnState turnState);
     public event PlayerTurnStateChanged OnPlayerTurnStateChanged;
-
-    void OnEnable()
-    {
-        Dice.OnPlayerRolled += StartMoving;
-    }
-
-    // Update is called once per frame
-    void OnDisable()
-    {
-        Dice.OnPlayerRolled -= StartMoving;
-    }
+    public delegate void PlayerRolled(Player player, int spaces);
+    public event PlayerRolled OnPlayerRolled;
 
     // Start is called before the first frame update
     void Awake()
     {
         movement = GetComponent<PlayerMovement>();
         movement.SetPlayer(this);
-        dice = Camera.main.GetComponent<Dice>();
     }
 
     public void SetPlayerName(string playerName)
@@ -64,11 +53,20 @@ public class Player : MonoBehaviour
     /// Called currently through the "Roll Dice" button from the UI Mananger
     /// This is a call here, since there are other places that might allow the player to start rolling, like chance spaces or the roll again space
     /// </summary>
-    public void StartRolling()
+    public virtual IEnumerator StartRolling(int amountToRoll = 6)
     {
         SetTurnState(TurnState.Rolling);
-        //possibly change logic here depending on items used
-        dice.SetupRoll(this, 6);
+        yield return new WaitUntil(() =>
+        {
+            return Input.GetKeyDown(KeyCode.Space);
+        });
+
+        AlertRoll(Random.Range(1, amountToRoll + 1));
+    }
+
+    public void AlertRoll(int amountRolled)
+    {
+        OnPlayerRolled?.Invoke(this, amountRolled);
     }
 
     /// <summary>
@@ -76,17 +74,18 @@ public class Player : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="spaces"></param>
-    protected void StartMoving(Player player, int spaces)
+    public void StartMoving(int spaces)
     {
-        if (player != this)
-        {
-            return;
-        }
-
         movement.enabled = true;
         movement.spacesToMove = spaces;
         movement.SetupMovementOptions();
         SetTurnState(TurnState.Moving);
+    }
+
+    public void StoppedMoving()
+    {
+        //this might end up being moved to after the player confirms they've stopped moving
+        SetTurnState(TurnState.Stopped);
     }
 
     /// <summary>
@@ -106,6 +105,7 @@ public class Player : MonoBehaviour
     {
         movement.EndMovement();
         movement.enabled = false;
+        SetTurnState(TurnState.Landed);
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
         return turnState;
     }
 
-    public void SetTurnState(TurnState turnState)
+    protected void SetTurnState(TurnState turnState)
     {
         this.turnState = turnState;
         OnPlayerTurnStateChanged?.Invoke(turnState);

@@ -49,12 +49,22 @@ public class Property : BuyableSpace
 
         UIManager.Instance.ToggleMoneyDisplay(player);
 
+        bool canBuySpace = BoardManager.CanBuySpace(player, this);
+
         //if the space has not been bought, give the player the prompt to buy it
         //else, if the player owns the space, give them the option to invest in it
         //if neither true, skip for now
         if (owner == null)
         {
-            UIManager.Instance.TogglePropertyPurchaseDisplay(player, this);
+            if (canBuySpace)
+            {
+                UIManager.Instance.TogglePropertyPurchaseDisplay(player, this);
+            }
+            else
+            {
+                GameManager.Instance.AdvanceTurn();
+            }
+            
         }
         else if (owner == player)
         {
@@ -64,37 +74,13 @@ public class Property : BuyableSpace
         {
             MoneyManager.PlayerTransaction(player, owner, shopPrice);
             StockManager.DetermineDividends(this, shopPrice);
-            player.SetTurnState(TurnState.Finished);
+            GameManager.Instance.AdvanceTurn();
         }
     }
 
     public bool CheckOwner(Player possibleOwner)
     {
         return (owner == possibleOwner);
-    }
-
-    public bool CanBuyProperty(Player possibleBuyer)
-    {
-        return (MoneyManager.GetPlayerMoneyValue(possibleBuyer) >= shopValue) && (owner == null);
-    }
-
-    public void BuySpace(Player buyer)
-    {
-        //temporary logic to prevent players from buying with money they don't have
-        if (!CanBuyProperty(buyer))
-        {
-            Debug.Log("No wait! You're too poor!");
-            return;
-        }
-
-        MoneyManager.MoneyChanged(buyer, shopValue * -1);
-        SpaceBought(buyer);
-        buyer.SetTurnState(TurnState.Finished);
-    }
-
-    public void DeclineBuySpace(Player player)
-    {
-        player.SetTurnState(TurnState.Finished);
     }
 
     public override void PlayerPassed(Player player)

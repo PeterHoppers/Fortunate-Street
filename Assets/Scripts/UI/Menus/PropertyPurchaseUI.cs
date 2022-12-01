@@ -34,12 +34,6 @@ public class PropertyPurchaseUI : MonoBehaviour
 
     public void BuySpace()
     {
-        targetProperty.BuySpace(playerPurchaser);
+        BoardManager.BuySpace(playerPurchaser, targetProperty);
     }
-
-    public void DeclineSpace()
-    {
-        targetProperty.DeclineBuySpace(playerPurchaser);
-    }
-
 }

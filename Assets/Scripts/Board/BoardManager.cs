@@ -26,6 +26,18 @@ public class BoardManager : MonoBehaviour
         player.GetMoved(space);
     }
 
+    public static bool CanBuySpace(Player possibleBuyer, BuyableSpace buyableSpace)
+    {
+        return (MoneyManager.GetPlayerMoneyValue(possibleBuyer) >= buyableSpace.shopValue);
+    }
+
+    public static void BuySpace(Player buyer, BuyableSpace buyableSpace)
+    {
+        MoneyManager.MoneyChanged(buyer, buyableSpace.shopValue * -1);
+        buyableSpace.SpaceBought(buyer);
+        GameManager.Instance.AdvanceTurn();
+    }
+
     public static List<BuyableSpace> GetPlayerShops(Player player)
     {
         return shops.Where(shop => 

@@ -15,7 +15,7 @@ public class SuitSpace : Space
     {
         base.PlayerLanded(player);
         //run chance time. For now, just end the turn
-        player.SetTurnState(TurnState.Finished);
+        GameManager.Instance.AdvanceTurn();
     }
 
     public override void PlayerReversed(Player player)

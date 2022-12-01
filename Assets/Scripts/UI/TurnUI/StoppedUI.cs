@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoppedUI : TurnStateUI
 {
-    public override void SetupUI(Player player)
+    public override void SetupUI()
     {
         gameObject.SetActive(true);
     }

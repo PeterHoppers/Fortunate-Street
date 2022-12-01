@@ -183,8 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (spacesToMove == 0)
         {
-            //this might end up being moved to after the player confirms they've stopped moving
-            player.SetTurnState(TurnState.Stopped);
+            player.StoppedMoving();
         }
 
         currentSpace.PlayerPassed(player);
