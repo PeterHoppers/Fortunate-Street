@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bank
   - GenericPrompt
+  - EventSystem
   layers:
   - Default
   - TransparentFX

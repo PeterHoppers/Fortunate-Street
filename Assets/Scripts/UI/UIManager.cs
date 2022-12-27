@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {

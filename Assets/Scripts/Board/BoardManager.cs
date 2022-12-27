@@ -21,14 +21,20 @@ public class BoardManager : MonoBehaviour
         districts = FindObjectsOfType<District>();
     }
 
-    public static void MovePlayerToSpace(Player player, Space space) 
+    /// <summary>
+    /// Moves the player to the specificied spot. HasLanded allows the player to trigger the landed condition for the space or not
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="space"></param>
+    /// <param name="hasLanded"></param>
+    public static void MovePlayerToSpace(Player player, Space space, bool hasLanded) 
     {
-        player.GetMoved(space);
+        player.GetMoved(space, hasLanded);
     }
 
     public static bool CanBuySpace(Player possibleBuyer, BuyableSpace buyableSpace)
     {
-        return (MoneyManager.GetPlayerMoneyValue(possibleBuyer) >= buyableSpace.shopValue);
+        return (buyableSpace.owner == null && MoneyManager.GetPlayerMoneyValue(possibleBuyer) >= buyableSpace.shopValue);
     }
 
     public static void BuySpace(Player buyer, BuyableSpace buyableSpace)

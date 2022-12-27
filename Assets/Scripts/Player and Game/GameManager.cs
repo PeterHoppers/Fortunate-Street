@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 /// <summary>
 /// Pulls in information from outside the scene, plus info set by developers to set up and run the game
@@ -50,19 +52,23 @@ public class GameManager : MonoBehaviour
         for (int playerIndex = 0; playerIndex < playerNames.Length; playerIndex++)
         {
             GameObject newPlayer = Instantiate(playerObject);
-            Player playerScript;
+            newPlayer.SetActive(true);
+            Player playerScript = newPlayer.AddComponent<Player>();
 
             if (isAI[playerIndex])
             {
-                PlayerAI ai = newPlayer.AddComponent<PlayerAI>();
-                ai.decisionDelay = decisionDelay;
-
-                playerScript = ai;
+                AIController aiController = newPlayer.AddComponent<AIController>();
+                aiController.decisionDelay = decisionDelay;
+                playerScript.controller = aiController;
+               
             }
             else
             {
-                playerScript = newPlayer.AddComponent<Player>();
+                Controller control = newPlayer.AddComponent<HumanController>();
+                playerScript.controller = control;
             }
+
+            playerScript.input = newPlayer.GetComponent<PlayerInput>();
 
             playerScript.SetPlayerName(playerNames[playerIndex]);
             playerScript.SetPlayerColor(playerColors[playerIndex]);
@@ -71,6 +77,10 @@ public class GameManager : MonoBehaviour
             //a test line to color each player their color
             Renderer playerRender = newPlayer.GetComponent<Renderer>();
             playerRender.material.SetColor("_Color", playerColors[playerIndex]);
+
+            //player should start at the bank
+            Space bankSpace = GameObject.FindGameObjectWithTag("Bank").GetComponent<Space>();
+            BoardManager.MovePlayerToSpace(playerScript, bankSpace, false);
 
             //disable each of the players on start
             DisablePlayer(playerScript);
@@ -103,7 +113,7 @@ public class GameManager : MonoBehaviour
     {
         //logic to determine what amount the player should roll
         int rollAmt = 6;
-        StartCoroutine(activePlayer.StartRolling(rollAmt));
+        activePlayer.StartRolling(rollAmt);
     }
 
     public void StartMoving(Player player, int spaces)
@@ -147,16 +157,23 @@ public class GameManager : MonoBehaviour
     public void DisablePlayer(Player player)
     {
         player.OnPlayerRolled -= StartMoving;
-        //player.DisablePlayer();
+        player.DisablePlayer();
     }
 
     public void SetActivePlayer(Player player)
     {
         activePlayer = player;
         OnPlayerActiveChange?.Invoke(player);
+        EventsSystemManager.Instance.UpdateActionAssetToFocusedPlayer();
+
         player.OnPlayerRolled += StartMoving;
 
         player.MakePlayerActive();
+    }
+
+    public Player GetActivePlayer()
+    {
+        return activePlayer;
     }
 
     public string GetActivePlayerName()

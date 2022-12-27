@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class Player : MonoBehaviour
     TurnState turnState;
    
     public int level = 1;
+    int amountToRoll = 0;
     
     protected PlayerMovement movement;
+    public PlayerInput input;
+    public Controller controller;
 
     public delegate void PlayerTurnStateChanged(TurnState turnState);
     public event PlayerTurnStateChanged OnPlayerTurnStateChanged;
@@ -47,20 +51,30 @@ public class Player : MonoBehaviour
     public void MakePlayerActive()
     {       
         SetTurnState(TurnState.BeforeRoll);
+        input.ActivateInput();
+    }
+
+    public void DisablePlayer()
+    {
+        if (input == null)
+        {
+            input = gameObject.GetComponent<PlayerInput>();
+        }
+        input.DeactivateInput();
     }
 
     /// <summary>
     /// Called currently through the "Roll Dice" button from the UI Mananger
     /// This is a call here, since there are other places that might allow the player to start rolling, like chance spaces or the roll again space
     /// </summary>
-    public virtual IEnumerator StartRolling(int amountToRoll = 6)
+    public void StartRolling(int amountToRoll = 6)
     {
         SetTurnState(TurnState.Rolling);
-        yield return new WaitUntil(() =>
-        {
-            return Input.GetKeyDown(KeyCode.Space);
-        });
+        this.amountToRoll = amountToRoll;
+    }
 
+    public void PerformRoll()
+    {
         AlertRoll(Random.Range(1, amountToRoll + 1));
     }
 
@@ -131,9 +145,9 @@ public class Player : MonoBehaviour
         return movement.currentSpace;
     }
 
-    public void GetMoved(Space space)
+    public void GetMoved(Space space, bool hasLanded = true)
     {
-        movement.TeleportToSpace(space);
+        movement.TeleportToSpace(space, hasLanded);
     }
 
     public TurnState GetTurnState()

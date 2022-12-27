@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Modal that appears that contains the information about the property allowing a player to purchase it.
 /// </summary>
 public class PropertyPurchaseUI : MonoBehaviour
 {
+    public Button selectedButton;
     Player playerPurchaser;
     Property targetProperty;
 
@@ -20,6 +22,7 @@ public class PropertyPurchaseUI : MonoBehaviour
         playerPurchaser = player;
         targetProperty = property;
         gameObject.SetActive(true);
+        selectedButton.Select();
     }
 
     /// <summary>

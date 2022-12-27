@@ -15,13 +15,13 @@ public class PlayerMovement : MonoBehaviour
     float heightOffset = .6f; //half the player's height + the height of the spaces
 
     //logic for matching keys to movement
-    public Dictionary<KeyCode, Space> keysSpaces = new Dictionary<KeyCode, Space>();
-    Dictionary<Vector3, KeyCode> keyDirections = new Dictionary<Vector3, KeyCode>()
+    public Dictionary<SpaceDirection, Space> keysSpaces = new Dictionary<SpaceDirection, Space>();
+    Dictionary<Vector3, SpaceDirection> keyDirections = new Dictionary<Vector3, SpaceDirection>()
         {
-            {Vector3.forward, KeyCode.RightArrow},
-            {Vector3.back, KeyCode.LeftArrow},
-            {Vector3.left, KeyCode.UpArrow},
-            {Vector3.right, KeyCode.DownArrow}
+            {Vector3.forward, SpaceDirection.Right},
+            {Vector3.back, SpaceDirection.Left},
+            {Vector3.left, SpaceDirection.Up},
+            {Vector3.right, SpaceDirection.Down}
         };
 
     //going back logic
@@ -37,42 +37,29 @@ public class PlayerMovement : MonoBehaviour
         ui = GetComponent<PlayerMovementUI>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //player should start at the bank
-        Space bankSpace = GameObject.FindGameObjectWithTag("Bank").GetComponent<Space>();
-        currentSpace = bankSpace;
-        player.transform.position = new Vector3(bankSpace.transform.position.x, heightOffset, bankSpace.transform.position.z);
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void SelectSpace(SpaceDirection direction)
     {
         if (spacesToMove == 0)
         {
             return;
         }
 
-        foreach (KeyCode key in keysSpaces.Keys)
+        if (!keysSpaces.ContainsKey(direction))
         {
-            if (Input.GetKeyDown(key))
-            {
-                Space targetSpace = keysSpaces[key];
-                //if we're trying to move to where we just were, we're moving backwards instead
-                if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
-                {
-                    ReverseMovement(); //since we can only go back to one space, we don't need to pass it in here
-                }
-                else 
-                {
-                    MoveToSelectedSpace(targetSpace);
-                }
-                    
-                SetupMovementOptions();
-                break;
-            }
+            return;
         }
+
+        Space targetSpace = keysSpaces[direction];
+        if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
+        {
+            ReverseMovement(); //since we can only go back to one space, we don't need to pass it in here
+        }
+        else
+        {
+            MoveToSelectedSpace(targetSpace);
+        }
+
+        SetupMovementOptions();
     }
 
     public void SetupMovementOptions()
@@ -97,14 +84,12 @@ public class PlayerMovement : MonoBehaviour
             //right now, forward is to the right
             Vector3 directionToSpace = space.transform.position - currentSpace.transform.position;
 
-            ui.SpawnArrowForSpace(currentSpace, space, directionToSpace);            
-
-            
+            //ui.SpawnArrowForSpace(currentSpace, space, directionToSpace);
 
             if (keyDirections.ContainsKey(directionToSpace))
             {
-                KeyCode key = keyDirections[directionToSpace];
-                keysSpaces.Add(key, space);
+                SpaceDirection direction = keyDirections[directionToSpace];
+                keysSpaces.Add(direction, space);
             }
             else
             {                
@@ -141,14 +126,14 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckThenAddSpace(Vector3 vectorCheck, Space space)
     {
-        KeyCode attemptedButton = keyDirections[vectorCheck];
-        if (keysSpaces.ContainsKey(attemptedButton))
+        SpaceDirection direction = keyDirections[vectorCheck];
+        if (keysSpaces.ContainsKey(direction))
         {
-            keysSpaces.Remove(attemptedButton);
+            keysSpaces.Remove(direction);
         }
         else
         {
-            keysSpaces.Add(attemptedButton, space);
+            keysSpaces.Add(direction, space);
         }
     }
 
@@ -266,10 +251,15 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     /// <param name="space"></param>
     /// <param name="hasTeleported"></param>
-    public void TeleportToSpace(Space space)
+    public void TeleportToSpace(Space space, bool hasLanded)
     {
         currentSpace = space;
-        space.PlayerLanded(player);
+
+        if (hasLanded)
+        {
+            space.PlayerLanded(player);
+        }
+
         player.transform.position = new Vector3(space.transform.position.x, heightOffset, space.transform.position.z);
         ClearSetDirection();
     }
@@ -282,3 +272,12 @@ public class PlayerMovement : MonoBehaviour
         spaceLastTurnCameFrom = null;
     }
 }
+
+public enum SpaceDirection
+{
+    Right,
+    Left,
+    Up,
+    Down,
+}
+

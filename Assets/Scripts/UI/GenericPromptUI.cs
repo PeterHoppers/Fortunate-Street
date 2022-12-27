@@ -28,6 +28,7 @@ public class GenericPromptUI : MonoBehaviour
         closeUIBtn.onClick.AddListener(ClosePrompt);
         closeUIBtn.onClick.AddListener(calledFunction);
         closeUIBtn.gameObject.SetActive(true);
+        closeUIBtn.Select();
     }
 
     public void DisplayPrompt(string messageToDisplay)
