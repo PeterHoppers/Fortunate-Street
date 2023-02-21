@@ -2165,7 +2165,7 @@ MonoBehaviour:
     rgba: 4289331106
   - serializedVersion: 2
     rgba: 4278227199
-  isAI: 01010101
+  isAI: 00010101
   decisionDelay: 0.5
   startingMoney: 1000
   totalValueToWin: 5000
@@ -6864,7 +6864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2768721437117711510, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2768721437117711510, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6941,6 +6941,10 @@ PrefabInstance:
     - target: {fileID: 2768721437117711511, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_Name
       value: Player Money
+      objectReference: {fileID: 0}
+    - target: {fileID: 2768721437117711511, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2768721437873095867, guid: 8aba4852391a58f46b2ee34578ab2fdc, type: 3}
       propertyPath: m_AnchorMax.y

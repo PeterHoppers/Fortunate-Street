@@ -9,7 +9,7 @@ public class RollTurnUI : TurnStateUI
 {
     public override void SetupUI()
     {
-        UIManager.Instance.DisplayMessage($"Press Space to Roll the Dice!");
+        UIManager.Instance.DisplayMessage($"Press Enter to Roll the Dice!");
     }
 
     public override void HideUI()
