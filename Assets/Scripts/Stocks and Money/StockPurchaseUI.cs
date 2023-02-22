@@ -11,6 +11,7 @@ public class StockPurchaseUI : MonoBehaviour
     public StockDistrictUI stockDistrict;
     public DialReader dialReader;
     public TMP_Text spendingText;
+    public Button purchaseBtn;
 
     Player stockPurchaser;
     District selectedStock;
@@ -30,6 +31,7 @@ public class StockPurchaseUI : MonoBehaviour
         stockPurchaser = player;
         gameObject.SetActive(true);
         stockPurchaser.PauseMoving();
+        purchaseBtn.Select();
 
         District[] districts = BoardManager.districts;
 
