@@ -29,29 +29,48 @@ public class PlayerMovementUI : MonoBehaviour
     /// Activate this UI when the player starts to move
     /// </summary>
     /// <param name="state"></param>
-    public void SpawnArrowForSpace(Space currentSpace, Space targetSpace, Vector3 directionToNextSpace) 
+    public void SpawnArrowForSpace(Space currentSpace, Space targetSpace) 
     {
+        float xMidpoint;
+        float zMidpoint;
         //GameObject newArrow = Instantiate(arrow, playerCanvas.transform);
         //RectTransform rectTransform = newArrow.GetComponent<RectTransform>();
-        //Debug.Log("Dir to Next Space: " + directionToNextSpace);
         // === Calculates the Midpoint coordinates for where the arrow should be placed === \\
-        float xMidpoint = currentSpace.transform.position.x + (currentSpace.transform.position.x - targetSpace.transform.position.x) / 2;
-        float yMidpoint = currentSpace.transform.position.y + (currentSpace.transform.position.y - targetSpace.transform.position.y) / 2; ;
-        float zMidpoint = currentSpace.transform.position.z + (currentSpace.transform.position.z - targetSpace.transform.position.z) / 2; ;
 
-        Quaternion rotation = Quaternion.Euler(0, 90, 0);
+        Debug.Log("Current Space-" + currentSpace.name + ": " + currentSpace.transform.position + " --- TargetSpace -" + targetSpace.name + ": " + targetSpace.transform.position);
+        if(currentSpace.transform.position.x != targetSpace.transform.position.x)
+        {
+            xMidpoint = (currentSpace.transform.position.x + targetSpace.transform.position.x) / 2;
+            //Debug.Log("X Mid: " + xMidpoint);
+        }
+        else
+        {
+            xMidpoint = currentSpace.transform.position.x;
+            //Debug.Log("Same X Point: " + xMidpoint);
+        }
+
+        if(currentSpace.transform.position.z != targetSpace.transform.position.z)
+        {
+            zMidpoint = (currentSpace.transform.position.z + targetSpace.transform.position.z) / 2;
+            //Debug.Log("Z Mid: " + zMidpoint);
+        }
+        else
+        {
+            zMidpoint = currentSpace.transform.position.z;
+            //Debug.Log("Same Z Point: " + zMidpoint);
+        }
+
+        // === Sets angle for arrow to be flat and point to an available space === \\
+        Vector3 tarDir = targetSpace.transform.position - currentSpace.transform.position;
+        Vector3 forward = currentSpace.transform.forward;
+        float angle = Vector3.SignedAngle(tarDir, forward, Vector3.up);
+        Debug.Log("Angle Calculation: " + angle);
+        Quaternion rotation = Quaternion.Euler(0, angle+45, 90); // +45 required for model offset
+
         // === Creates the Arrow GameObject at the midpoint between spaces, and points it toward the targetspace === \\
-        GameObject newArrow = Instantiate(arrow, new Vector3(xMidpoint, 1, zMidpoint), rotation, this.transform);
-        newArrow.transform.LookAt(targetSpace.transform);
+        GameObject newArrow = Instantiate(arrow, new Vector3(xMidpoint, 0.5f, zMidpoint), rotation);
 
         arrowList.Add(newArrow);
-        //if it isn't a 90 degree angle from the other postion
-        float angle = Vector3.Angle(currentSpace.transform.position, targetSpace.transform.position);
-
-        //Debug.Log($"Angle {angle}");
-        //Debug.Log(targetSpace.transform.position - currentSpace.transform.position);
-
-        //rectTransform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
     // === Removes old arrows before creating the new ones === \\

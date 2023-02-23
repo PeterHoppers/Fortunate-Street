@@ -120,7 +120,9 @@ public class PlayerMovement : MonoBehaviour
                 {
                     CheckThenAddSpace(Vector3.right, space);
                 }
+                
             }
+            ui.SpawnArrowForSpace(currentSpace, space);
         }
     }
 
