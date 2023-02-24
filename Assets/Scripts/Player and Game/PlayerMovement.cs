@@ -122,7 +122,13 @@ public class PlayerMovement : MonoBehaviour
                 }
                 
             }
-            ui.SpawnArrowForSpace(currentSpace, space);
+
+            if(spacesToMove != 0)
+            {
+                ui.SpawnArrowForSpace(currentSpace, space);
+            }
+            
+            
         }
     }
 
@@ -170,6 +176,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (spacesToMove == 0)
         {
+            Debug.Log("No Spaces left. Removing Arrows.");
+            ui.RemoveOldArrows();
             player.StoppedMoving();
         }
 
