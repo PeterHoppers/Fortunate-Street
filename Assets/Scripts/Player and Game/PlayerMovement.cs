@@ -39,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void SelectSpace(SpaceDirection direction)
     {
+        if (enabled == false) 
+        {
+            return;
+        }
+
         if (spacesToMove == 0)
         {
             return;

@@ -13,7 +13,6 @@ public class StartTurnUI : TurnStateUI
     {
         gameObject.SetActive(true);
         selectedUI.Select();
-        print(EventSystem.current.currentSelectedGameObject);
         string playerName = GameManager.Instance.GetActivePlayerName();
         UIManager.Instance.DisplayMessage($"{playerName}'s turn");
     }
