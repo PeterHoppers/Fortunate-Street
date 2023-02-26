@@ -19,7 +19,6 @@ public class AIController : Controller
         player = GetComponent<Player>();
         movement = GetComponent<PlayerMovement>();
         InitController();
-        //GetPlayerInput().SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
     }
 
     void OnEnable()

@@ -37,6 +37,12 @@ public class PlayerMovement : MonoBehaviour
         ui = GetComponent<PlayerMovementUI>();
     }
 
+    public void SetupTurnMovement()
+    {
+        SetupMovementOptions();
+        ui.SpawnArrowsForSpace(currentSpace, GetPossibleMovementSpots());
+    }
+
     public void SelectSpace(SpaceDirection direction)
     {
         if (enabled == false) 
@@ -54,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // == Clear old Arrow objects before making new ones == \\
+        //ui.RemoveOldArrows();
         Space targetSpace = keysSpaces[direction];
         if (visitedSpaces.Count > 0 && targetSpace == visitedSpaces.Peek())
         {
@@ -65,31 +73,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
         SetupMovementOptions();
+        //ui.SpawnArrowsForSpace(currentSpace, GetPossibleMovementSpots());
     }
 
     public void SetupMovementOptions()
     {
         //grab all the spaces we can move
         List<Space> spacesToGo = GetPossibleMovementSpots();
-        //List<Space> spacesToGo = currentSpace.GetPossibleSpaces(player);
         keysSpaces.Clear();
-        // == Clear old Arrow objects before making new ones == \\
-        ui.RemoveOldArrows();
-
-        //I'm unsure if the space that the player counts as going backwards needs to be seperate
-        //for creating arrows and the like
-        //visitedSpaces.Peek() will allow you to know which space the player just came from
-        if (visitedSpaces.Count != 0)
-        {
-            //spacesToGo.Add(visitedSpaces.Peek());
-        }
 
         foreach (Space space in spacesToGo)
         {
             //right now, forward is to the right
             Vector3 directionToSpace = space.transform.position - currentSpace.transform.position;
-
-            //ui.SpawnArrowForSpace(currentSpace, space, directionToSpace);
 
             if (keyDirections.ContainsKey(directionToSpace))
             {
@@ -125,15 +121,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     CheckThenAddSpace(Vector3.right, space);
                 }
-                
-            }
-
-            if(spacesToMove != 0)
-            {
-                ui.SpawnArrowForSpace(currentSpace, space);
-            }
-            
-            
+            }            
         }
     }
 
@@ -171,19 +159,23 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     /// <param name="targetSpace"></param>
     public void MoveToSelectedSpace(Space targetSpace)
-    {               
-        //remove player from the previous space
+    {
         visitedSpaces.Push(currentSpace);
         currentSpace.LeaveSpace(player);
 
-        currentSpace = MoveToSpace(targetSpace);
-        spacesToMove--;      
+        ui.RemoveOldArrows();
+        currentSpace = MoveToSpace(targetSpace);        
+
+        spacesToMove--;
 
         if (spacesToMove == 0)
         {
-            Debug.Log("No Spaces left. Removing Arrows.");
-            ui.RemoveOldArrows();
             player.StoppedMoving();
+        }
+        else
+        {
+            //TODO: Spawn the arrows after the player makes it to the space
+            ui.SpawnArrowsForSpace(currentSpace, GetPossibleMovementSpots());
         }
 
         currentSpace.PlayerPassed(player);
@@ -206,8 +198,10 @@ public class PlayerMovement : MonoBehaviour
         currentSpace.LeaveSpace(player);
         currentSpace.PlayerReversed(player);
 
-        //move the player to the target space
+        //TODO: Spawn the arrows after the player makes it to the space
+        ui.RemoveOldArrows();
         currentSpace = MoveToSpace(targetSpace);
+        ui.SpawnArrowsForSpace(currentSpace, GetPossibleMovementSpots());
 
         //if we're back at the start
         if (visitedSpaces.Count == 0)
@@ -237,8 +231,7 @@ public class PlayerMovement : MonoBehaviour
         //save the previous space as the space entered from
         space.EnterSpaceFrom(player, currentSpace);
 
-        // === NEW CODE === \\
-        StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));
+        StartCoroutine(LerpPosition(space.transform.position, (1 / moveSpeed)));        
 
         return space;
     }

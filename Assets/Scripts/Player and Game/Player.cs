@@ -92,13 +92,15 @@ public class Player : MonoBehaviour
     {
         movement.enabled = true;
         movement.spacesToMove = spaces;
-        movement.SetupMovementOptions();
+        movement.SetupTurnMovement();
         SetTurnState(TurnState.Moving);
     }
 
+    /// <summary>
+    /// Called whenever the player runs out of spaces to move
+    /// </summary>
     public void StoppedMoving()
     {
-        //this might end up being moved to after the player confirms they've stopped moving
         SetTurnState(TurnState.Stopped);
     }
 
