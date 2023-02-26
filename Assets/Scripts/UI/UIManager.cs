@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    public GameObject allPlayerStatsPanel;
+    public PlayerStatsView allPlayerStatsPanel;
     public GameObject playerMoneyStatsPanel;
     public GameObject statsPanel;
 
@@ -41,7 +41,9 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="players"></param>
     public void SetupUI(List<Player> players)
-    {        
+    {
+        allPlayerStatsPanel.CreatePlayerStats(players);
+        /*
         foreach (Player player in players)
         {
             if (player != null)
@@ -57,7 +59,7 @@ public class UIManager : MonoBehaviour
 
                 overview.SetPlayer(player);
             }
-        }
+        }*/
 
         // TODO: If we actually change the visibility of the all player stats panel, it can't update the money value when it is hidden
         //allPlayerStatsPanel.SetActive(true);
