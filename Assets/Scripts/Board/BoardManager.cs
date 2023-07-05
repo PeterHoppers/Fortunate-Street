@@ -39,8 +39,8 @@ public class BoardManager : MonoBehaviour
 
     public static void BuySpace(Player buyer, BuyableSpace buyableSpace)
     {
-        MoneyManager.MoneyChanged(buyer, buyableSpace.shopValue * -1);
         buyableSpace.SpaceBought(buyer);
+        MoneyManager.MoneyChanged(buyer, buyableSpace.shopValue * -1);
         GameManager.Instance.AdvanceTurn();
     }
 
@@ -76,7 +76,8 @@ public class BoardManager : MonoBehaviour
     public static int GetPlayerBoardValue(Player player)
     {
         List<BuyableSpace> ownedProperties = GetPlayerShops(player);
+        int totalValue = ownedProperties.Sum(p => p.shopValue);
 
-        return ownedProperties.Sum(p => p.shopValue);
+        return totalValue;
     }
 }

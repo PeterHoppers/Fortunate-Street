@@ -47,12 +47,14 @@
     width: 100%;
     margin: 6px 0 0;
     padding: 0;
-    height: 50px;
+    height: 20px;
+    margin-top: 45px;
+    margin-bottom: 5px;
 }
 
 .suit-display {
     margin: 0 var(--outer-spacing);
-    height: 100%;
+    height: 20px;
     flex-grow: 1;
     background-color: rgb(99, 99, 99);
 }

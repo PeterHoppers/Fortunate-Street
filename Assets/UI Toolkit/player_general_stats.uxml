@@ -3,7 +3,7 @@
     <ui:VisualElement name="StatHolder" class="stat-holder" style="flex-direction: row; flex-grow: 1; flex-shrink: 0; height: 100%; max-width: none;">
         <ui:GroupBox name="LeftColumn" class="larger-column">
             <ui:Label text="Player Name" display-tooltip-when-elided="true" name="PlayerName" class="stat-holder__title" style="width: 100%;" />
-            <ui:GroupBox class="suit-holder" style="flex-direction: row;">
+            <ui:GroupBox class="suit-holder">
                 <ui:VisualElement name="AirSuit" class="suit-display" />
                 <ui:VisualElement name="EarthSuit" class="suit-display" />
                 <ui:VisualElement name="FireSuit" class="suit-display" />

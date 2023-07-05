@@ -45,6 +45,7 @@ public class PlayerStatsListController
         Debug.Log($"{player.playerName}'s money has gone from {oldAmount} to {newAmount}");
 
         playerEntryLogic.SetMoney(newAmount);
+        playerEntryLogic.SetWorth(GameManager.Instance.GetPlayerTotalWorth(player));
     }
 
     void UpdateSuiteUI(Player player, Suit suit, bool isGained)
