@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     }
 
     public PlayerStatsView allPlayerStatsPanel;
+    public PropertySummaryView propertySummaryPanel;
     public GameObject playerMoneyStatsPanel;
     public GameObject statsPanel;
 
@@ -66,6 +67,7 @@ public class UIManager : MonoBehaviour
         playerMoneyStatsPanel.SetActive(false);
         HidePropertyPurchaseDisplay();
         HideStockPurchaseDisplay();
+        propertySummaryPanel.CreatePropetySummary();
 
         foreach (TurnStateUI turnUIState in uiStates)
         {
@@ -139,6 +141,7 @@ public class UIManager : MonoBehaviour
     public void TogglePropertyPurchaseDisplay(Player player, Property property)
     {
         propertyBuyUI.SetupUI(player, property);
+        propertySummaryPanel.UpdatePropertySummary(property);
     }
 
     /// <summary>
@@ -147,6 +150,7 @@ public class UIManager : MonoBehaviour
     public void HidePropertyPurchaseDisplay()
     {
         propertyBuyUI.HideUI();
+        propertySummaryPanel.HidePropertySummary();
     }
 
     public void ToggleStockPurchaseDisplay(Player player)

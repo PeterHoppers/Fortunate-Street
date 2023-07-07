@@ -13,6 +13,10 @@ public class Property : BuyableSpace
         originalValue = shopValue;
         shopPrice = CalcShopPrice(shopValue);
         maxInvestment = CalcMaxInvestiment(shopValue);
+
+        if (spaceName.Length == 0) {
+            spaceName = name;
+        }
     }
 
     /// <summary>
@@ -40,6 +44,10 @@ public class Property : BuyableSpace
     public int CalcMaxInvestiment(int shopValue)
     {
         return shopValue * 2;
+    }
+
+    public int GetMaxInvestment() {
+        return maxInvestment;
     }
 
     public override void PlayerLanded(Player player)
