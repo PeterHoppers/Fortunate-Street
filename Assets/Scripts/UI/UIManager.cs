@@ -25,12 +25,11 @@ public class UIManager : MonoBehaviour
 
     public PlayerStatsView allPlayerStatsPanel;
     public PropertySummaryView propertySummaryPanel;
-    public GameObject playerMoneyStatsPanel;
     public GameObject statsPanel;
 
     public GenericPromptUI genericPromptUI;
     public PropertyPurchaseUI propertyBuyUI;
-    public StockPurchaseUI stockPurchaseUI;
+    //public StockPurchaseUI stockPurchaseUI;
 
     public TurnStateUI[] uiStates;
 
@@ -62,11 +61,8 @@ public class UIManager : MonoBehaviour
             }
         }*/
 
-        // TODO: If we actually change the visibility of the all player stats panel, it can't update the money value when it is hidden
-        //allPlayerStatsPanel.SetActive(true);
-        playerMoneyStatsPanel.SetActive(false);
         HidePropertyPurchaseDisplay();
-        HideStockPurchaseDisplay();
+        //HideStockPurchaseDisplay();
         propertySummaryPanel.CreatePropetySummary();
 
         foreach (TurnStateUI turnUIState in uiStates)
@@ -99,21 +95,6 @@ public class UIManager : MonoBehaviour
 
         playerTurn = player;
         playerTurn.OnPlayerTurnStateChanged += DisplayStateUI;
-
-        //reset any UI that needs to be someway at the start of the turn
-        //allPlayerStatsPanel.SetActive(true);
-        playerMoneyStatsPanel.SetActive(false);
-    }
-
-    /// <summary>
-    /// These methods here are calling methods found of the player so that the UI can control the player
-    /// </summary>
-
-    public void ToggleMoneyDisplay(Player player)
-    {
-        //allPlayerStatsPanel.SetActive(false); 
-        playerMoneyStatsPanel.SetActive(true);
-        playerMoneyStatsPanel.GetComponent<PlayerMoneyOverviewUI>().DisplayPlayer(player);
     }
 
     /// <summary>
@@ -153,7 +134,8 @@ public class UIManager : MonoBehaviour
         propertySummaryPanel.HidePropertySummary();
     }
 
-    public void ToggleStockPurchaseDisplay(Player player)
+    /* Focusing on getting minium viable product done, which doesn't include stocks
+     * public void ToggleStockPurchaseDisplay(Player player)
     {
         stockPurchaseUI.SetupUI(player);
     }
@@ -161,7 +143,7 @@ public class UIManager : MonoBehaviour
     public void HideStockPurchaseDisplay()
     {
         stockPurchaseUI.gameObject.SetActive(false);
-    }
+    }*/
 
     /// <summary>
     /// Update the UI to display the content in said state

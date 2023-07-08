@@ -55,8 +55,6 @@ public class Property : BuyableSpace
         //this prompts the UI for landing on a space
         base.PlayerLanded(player);
 
-        UIManager.Instance.ToggleMoneyDisplay(player);
-
         bool canBuySpace = BoardManager.CanBuySpace(player, this);
 
         //if the space has not been bought, give the player the prompt to buy it

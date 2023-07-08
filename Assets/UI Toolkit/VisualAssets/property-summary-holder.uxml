@@ -1,4 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/player_ui.uss?fileID=7433441132597879392&amp;guid=ae0649f2eb5e6754a86e80391b523450&amp;type=3#player_ui" />
-    <ui:VisualElement name="PropertySummaryHolder" style="right: 10%; top: 10%; position: absolute;" />
+    <ui:VisualElement name="PropertySummaryHolder" style="right: 25px; top: 120px; position: absolute;" />
 </ui:UXML>

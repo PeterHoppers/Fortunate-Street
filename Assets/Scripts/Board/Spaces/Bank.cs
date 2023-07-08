@@ -17,7 +17,7 @@ public class Bank : Space
 
         if (!GameManager.Instance.CheckPlayerWon(player)) 
         {
-            UIManager.Instance.ToggleStockPurchaseDisplay(player);
+            //UIManager.Instance.ToggleStockPurchaseDisplay(player);
         }
     }
 
