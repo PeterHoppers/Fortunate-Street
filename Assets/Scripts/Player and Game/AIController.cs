@@ -78,6 +78,7 @@ public class AIController : Controller
     {
         yield return new WaitForSeconds(decisionDelay);
         List<Space> spaces = movement.currentSpace.GetPossibleSpaces(player);
+        
         //for now, our AI is so smart that it does this randomly
         int index = Random.Range(0, spaces.Count);
         movement.MoveToSelectedSpace(spaces[index]);
@@ -85,7 +86,7 @@ public class AIController : Controller
         //work around for now. Will need to develop code to figure out how much stock AI should buy
         if (movement.currentSpace.GetType().Name == "Bank")
         {
-            UIManager.Instance.HideStockPurchaseDisplay();
+            //UIManager.Instance.HideStockPurchaseDisplay();
         }
 
         if (movement.spacesToMove > 0)

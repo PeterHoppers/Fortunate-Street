@@ -39,8 +39,9 @@ public class BoardManager : MonoBehaviour
 
     public static void BuySpace(Player buyer, BuyableSpace buyableSpace)
     {
+        int moneySpent = buyableSpace.shopValue;
         buyableSpace.SpaceBought(buyer);
-        MoneyManager.MoneyChanged(buyer, buyableSpace.shopValue * -1);
+        MoneyManager.MoneyChanged(buyer, moneySpent * -1);
         GameManager.Instance.AdvanceTurn();
     }
 

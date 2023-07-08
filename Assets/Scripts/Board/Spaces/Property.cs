@@ -13,6 +13,10 @@ public class Property : BuyableSpace
         originalValue = shopValue;
         shopPrice = CalcShopPrice(shopValue);
         maxInvestment = CalcMaxInvestiment(shopValue);
+
+        if (spaceName.Length == 0) {
+            spaceName = name;
+        }
     }
 
     /// <summary>
@@ -42,12 +46,14 @@ public class Property : BuyableSpace
         return shopValue * 2;
     }
 
+    public int GetMaxInvestment() {
+        return maxInvestment;
+    }
+
     public override void PlayerLanded(Player player)
     {
         //this prompts the UI for landing on a space
         base.PlayerLanded(player);
-
-        UIManager.Instance.ToggleMoneyDisplay(player);
 
         bool canBuySpace = BoardManager.CanBuySpace(player, this);
 

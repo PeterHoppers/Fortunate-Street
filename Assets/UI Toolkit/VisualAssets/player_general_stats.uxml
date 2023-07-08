@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/player_ui.uss?fileID=7433441132597879392&amp;guid=ae0649f2eb5e6754a86e80391b523450&amp;type=3#player_ui" />
-    <ui:VisualElement name="StatHolder" class="stat-holder" style="flex-direction: row; flex-grow: 1; flex-shrink: 0; height: 100%; max-width: none;">
-        <ui:GroupBox name="LeftColumn" class="larger-column">
+    <ui:VisualElement name="StatHolder" class="stat-holder" style="flex-direction: row; flex-grow: 1; flex-shrink: 0; height: 80px; max-width: none;">
+        <ui:GroupBox name="LeftColumn" class="larger-column" style="margin-top: 0;">
             <ui:Label text="Player Name" display-tooltip-when-elided="true" name="PlayerName" class="stat-holder__title" style="width: 100%;" />
-            <ui:GroupBox class="suit-holder">
+            <ui:GroupBox class="suit-holder" style="margin-top: auto; margin-bottom: auto;">
                 <ui:VisualElement name="AirSuit" class="suit-display" />
                 <ui:VisualElement name="EarthSuit" class="suit-display" />
                 <ui:VisualElement name="FireSuit" class="suit-display" />
@@ -11,7 +11,7 @@
             </ui:GroupBox>
         </ui:GroupBox>
         <ui:GroupBox name="RightColumn" class="smaller-column" style="-unity-text-align: middle-left;">
-            <ui:Label text="Money" display-tooltip-when-elided="true" name="Money" class="stat-holder__money" style="-unity-text-align: middle-center;" />
+            <ui:Label text="$ 0000" display-tooltip-when-elided="true" name="Money" class="stat-holder__money" style="-unity-text-align: middle-center;" />
             <ui:Label text="1000" display-tooltip-when-elided="true" name="TotalWealth" class="stat-holder__total_amount" />
         </ui:GroupBox>
     </ui:VisualElement>
